@@ -12,19 +12,19 @@ public class PlayerState_Walk : PlayerState
     {
         if (input.AxisX < 0)
         {
-            animator.Play(player.currentControlCharacterNames + "_SL_Walk");
+            animator.Play(playerCharacterSwitch.currentControlCharacterNamesSB.ToString() + "_SL_Walk");
         }
         else if (input.AxisX > 0)
         {
-            animator.Play(player.currentControlCharacterNames + "_SR_Walk");
+            animator.Play(playerCharacterSwitch.currentControlCharacterNamesSB.ToString() + "_SR_Walk");
         }
         else if ( input.AxisY > 0)
         {
-            animator.Play(player.currentControlCharacterNames + "_B_Walk");
+            animator.Play(playerCharacterSwitch.currentControlCharacterNamesSB.ToString() + "_B_Walk");
         }
         else if ( input.AxisY < 0)
         {
-            animator.Play(player.currentControlCharacterNames + "_F_Walk");
+            animator.Play(playerCharacterSwitch.currentControlCharacterNamesSB.ToString() + "_F_Walk");
         }
         currentSpeedx = Mathf.MoveTowards(currentSpeedx,walkSpeed, acceleration * Time.deltaTime);
         currentSpeedy = Mathf.MoveTowards(currentSpeedy, walkSpeed, acceleration * Time.deltaTime);

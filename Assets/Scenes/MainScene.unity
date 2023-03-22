@@ -222,6 +222,7 @@ GameObject:
   - component: {fileID: 76462426}
   - component: {fileID: 76462425}
   - component: {fileID: 76462424}
+  - component: {fileID: 76462428}
   - component: {fileID: 76462423}
   - component: {fileID: 76462427}
   m_Layer: 0
@@ -265,6 +266,8 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 14466cf7b5196d84da2dc54b8b0e3194, type: 2}
   - {fileID: 11400000, guid: 1f0d47dd68d908441965fc051ef46584, type: 2}
   - {fileID: 11400000, guid: cd2917157b242604c8de2b2177e03ed7, type: 2}
+  - {fileID: 11400000, guid: 24715c515a011574894aa7d082c8c573, type: 2}
+  - {fileID: 11400000, guid: f9d6724fe7823c1469668bc00f5d80df, type: 2}
 --- !u!114 &76462424
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -277,13 +280,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a3c6078ab84d71848846e5742211078a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  currentControlCharacterNames: 
-  characterNames:
-  - Niru
-  - Mo
-  characterObjs:
-  - {fileID: 575078315}
-  - {fileID: 802317071}
 --- !u!50 &76462425
 Rigidbody2D:
   serializedVersion: 4
@@ -333,6 +329,26 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2911832ab548eaa4ba49305cf58d4ef2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  currentDirection: 0
+--- !u!114 &76462428
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 76462421}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ec0d399b07c3a6d4cb693bb461c6729c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  currentControlCharacterNames: 
+  characterNames:
+  - Niru
+  - Mo
+  characterObjs:
+  - {fileID: 575078315}
+  - {fileID: 802317071}
 --- !u!1 &266278238
 GameObject:
   m_ObjectHideFlags: 0
@@ -1240,7 +1256,7 @@ SpriteRenderer:
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
-  m_Size: {x: 1, y: 1}
+  m_Size: {x: 0.5, y: 0.5}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
@@ -1681,7 +1697,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c857f705e3ec4624d9eab04e55cd27be, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerController: {fileID: 76462424}
+  stateMachine: {fileID: 76462423}
+  playerCharacterSwitch: {fileID: 76462428}
 --- !u!61 &1891458020
 BoxCollider2D:
   m_ObjectHideFlags: 0

@@ -11,6 +11,8 @@ public class PlayerStateMachine : StateMachine
 
     PlayerController player;
 
+    PlayerCharacterSwitch characterSwitch;
+
     PlayerInput input;
 
     Animator animator;
@@ -19,13 +21,14 @@ public class PlayerStateMachine : StateMachine
         animator = GetComponentInChildren<Animator>();
 
         player = GetComponent<PlayerController>();
+        characterSwitch = GetComponent<PlayerCharacterSwitch>();
         input = GetComponent<PlayerInput>();
 
         stateDic = new Dictionary<System.Type, IState>(states.Length);
 
         foreach (PlayerState state in states)
         {
-            state.Initialize(player,animator, this , input);
+            state.Initialize(player, characterSwitch, animator, this , input);
             stateDic.Add(state.GetType(), state);
         }
 
@@ -40,7 +43,7 @@ public class PlayerStateMachine : StateMachine
         stateDic.Clear();
         foreach (PlayerState state in states)
         {
-            state.Initialize(player, animator, this, input);
+            state.Initialize(player, characterSwitch, animator, this, input);
             stateDic.Add(state.GetType(), state);
         }
     }

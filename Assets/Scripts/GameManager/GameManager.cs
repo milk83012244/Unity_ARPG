@@ -10,7 +10,8 @@ public class GameManager : MonoBehaviour
     // 定義遊戲的狀態，例如遊戲進行中、暫停、結束等
     public enum GameState
     {
-        Playing,
+        Normel,
+        Battle,
         Paused,
         GameOver
     }
@@ -21,6 +22,7 @@ public class GameManager : MonoBehaviour
 
     private void Awake()
     {
+        SwitchNormelMode();
         if (instance == null)
         {
             instance = this;
@@ -34,13 +36,25 @@ public class GameManager : MonoBehaviour
     {
         if (instance == null)
         {
-            Debug.LogError("沒有UIManager實例");
+            Debug.LogError("沒有GameManager實例");
             return instance;
         }
         else
         {
             return instance;
         }
+    }
+    public void SwitchNormelMode()
+    {
+        CurrentGameState = GameState.Normel;
+    }
+    public void SwitchBattleMode()
+    {
+        CurrentGameState = GameState.Battle;
+    }
+    public int GetCurrentState()
+    {
+        return (int)CurrentGameState;
     }
     public void PauseGame()
     {
@@ -56,6 +70,6 @@ public class GameManager : MonoBehaviour
         // ...
 
         // 設置遊戲狀態為遊戲進行中
-        CurrentGameState = GameState.Playing;
+        CurrentGameState = GameState.Normel;
     }
 }

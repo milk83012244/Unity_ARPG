@@ -13,4 +13,4 @@ MonoBehaviour:
   m_Name: PlayerState_Run
   m_EditorClassIdentifier: 
   runSpeed: 1.8
-  acceration: 5
+  acceration: 2

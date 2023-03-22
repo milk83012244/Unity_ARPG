@@ -12,19 +12,21 @@ public class PlayerState_Run : PlayerState
     {
         if (input.AxisX < 0)
         {
-            animator.Play(player.currentControlCharacterNames + "_SL_Run");
+            animator.Play(playerCharacterSwitch.currentControlCharacterNamesSB.ToString() + "_SL_Run");
+            
+            //animator.Play(player.currentControlCharacterNames + "_SL_Run");
         }
         else if (input.AxisX > 0)
         {
-            animator.Play(player.currentControlCharacterNames + "_SR_Run");
+            animator.Play(playerCharacterSwitch.currentControlCharacterNamesSB.ToString() + "_SR_Run");
         }
         else if (input.AxisY > 0)
         {
-            animator.Play(player.currentControlCharacterNames + "_B_Run");
+            animator.Play(playerCharacterSwitch.currentControlCharacterNamesSB.ToString() + "_B_Run");
         }
         else if (input.AxisY < 0)
         {
-            animator.Play(player.currentControlCharacterNames + "_F_Run");
+            animator.Play(playerCharacterSwitch.currentControlCharacterNamesSB.ToString() + "_F_Run");
         }
 
         //currentSpeedx = Mathf.MoveTowards(currentSpeedx, walkSpeed, acceration * Time.deltaTime);

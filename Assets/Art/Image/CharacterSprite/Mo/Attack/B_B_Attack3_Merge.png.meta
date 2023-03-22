@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 324c0eebd38769c4a8b71b97330c899b
+guid: 3a92ec3447cd61b4dba139dc67b4585b
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -116,169 +116,127 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: B_64x64_F_Walk_Merge_0
+      name: B_B_Attack3_Merge_0
       rect:
         serializedVersion: 2
         x: 0
         y: 0
-        width: 64
-        height: 64
-      alignment: 7
-      pivot: {x: 0.5, y: 0}
+        width: 80
+        height: 96
+      alignment: 9
+      pivot: {x: 0.56, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 857f8785c7bee0445be8a79869e1b371
-      internalID: -1692793189
+      spriteID: c12e3e3c0d22ec94bb4483a0435432d8
+      internalID: -593755521
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: B_64x64_F_Walk_Merge_1
+      name: B_B_Attack3_Merge_1
       rect:
         serializedVersion: 2
-        x: 64
+        x: 80
         y: 0
-        width: 64
-        height: 64
-      alignment: 7
-      pivot: {x: 0.5, y: 0}
+        width: 80
+        height: 96
+      alignment: 9
+      pivot: {x: 0.56, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: e68d5eb79fd8d874e82c15ccd700f601
-      internalID: -1725926092
+      spriteID: 274beb19d68f22249bc5b0b4e93ade3a
+      internalID: -383597628
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: B_64x64_F_Walk_Merge_2
+      name: B_B_Attack3_Merge_2
       rect:
         serializedVersion: 2
-        x: 128
+        x: 160
         y: 0
-        width: 64
-        height: 64
-      alignment: 7
-      pivot: {x: 0.5, y: 0}
+        width: 80
+        height: 96
+      alignment: 9
+      pivot: {x: 0.56, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 640a07fb9c99d1843b6146195fafc5c2
-      internalID: -1975016579
+      spriteID: 50947c20a5881714f8a2274ae631c0d3
+      internalID: -897287170
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: B_64x64_F_Walk_Merge_3
+      name: B_B_Attack3_Merge_3
       rect:
         serializedVersion: 2
-        x: 192
+        x: 240
         y: 0
-        width: 64
-        height: 64
-      alignment: 7
-      pivot: {x: 0.5, y: 0}
+        width: 80
+        height: 96
+      alignment: 9
+      pivot: {x: 0.56, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 03986440d492d214ba8fce1d3a77b9ce
-      internalID: -1074072023
+      spriteID: 3c972be8177d7444c930f9b20e068956
+      internalID: -818349446
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: B_64x64_F_Walk_Merge_4
-      rect:
-        serializedVersion: 2
-        x: 256
-        y: 0
-        width: 64
-        height: 64
-      alignment: 7
-      pivot: {x: 0.5, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 766b3bce58b342340aa3f157328cd8d9
-      internalID: 1319877613
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: B_64x64_F_Walk_Merge_5
+      name: B_B_Attack3_Merge_4
       rect:
         serializedVersion: 2
         x: 320
         y: 0
-        width: 64
-        height: 64
-      alignment: 7
-      pivot: {x: 0.5, y: 0}
+        width: 80
+        height: 96
+      alignment: 9
+      pivot: {x: 0.56, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 685f5c8087bde174e8be84ac1e3aaef0
-      internalID: -47490799
+      spriteID: c4ba9a7f8639bd14ba8b54442290dbce
+      internalID: 1929504481
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: B_64x64_F_Walk_Merge_6
+      name: B_B_Attack3_Merge_5
       rect:
         serializedVersion: 2
-        x: 384
+        x: 400
         y: 0
-        width: 64
-        height: 64
-      alignment: 7
-      pivot: {x: 0.5, y: 0}
+        width: 80
+        height: 96
+      alignment: 9
+      pivot: {x: 0.56, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: fab37642ac353fb4f80bc2edffbc8221
-      internalID: 295434797
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: B_64x64_F_Walk_Merge_7
-      rect:
-        serializedVersion: 2
-        x: 448
-        y: 0
-        width: 64
-        height: 64
-      alignment: 7
-      pivot: {x: 0.5, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 9c4c504c300663e43a7453bfdda658d7
-      internalID: -1502534748
+      spriteID: b70077cc885209b41845df7fad04106c
+      internalID: -1763190376
       vertices: []
       indices: 
       edges: []
@@ -294,14 +252,12 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      B_64x64_F_Walk_Merge_7: -1502534748
-      B_64x64_F_Walk_Merge_1: -1725926092
-      B_64x64_F_Walk_Merge_5: -47490799
-      B_64x64_F_Walk_Merge_2: -1975016579
-      B_64x64_F_Walk_Merge_4: 1319877613
-      B_64x64_F_Walk_Merge_6: 295434797
-      B_64x64_F_Walk_Merge_3: -1074072023
-      B_64x64_F_Walk_Merge_0: -1692793189
+      B_B_Attack3_Merge_5: -1763190376
+      B_B_Attack3_Merge_3: -818349446
+      B_B_Attack3_Merge_0: -593755521
+      B_B_Attack3_Merge_2: -897287170
+      B_B_Attack3_Merge_4: 1929504481
+      B_B_Attack3_Merge_1: -383597628
   spritePackingTag: 
   pSDRemoveMatte: 0
   pSDShowRemoveMatteOption: 0

@@ -4,18 +4,21 @@ using UnityEngine;
 
 public class TestTemp : MonoBehaviour
 {
-    public PlayerController playerController;
+    public PlayerStateMachine stateMachine;
+    public PlayerCharacterSwitch playerCharacterSwitch;
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (!GameManager.GetInstance().isBattleMode)
+        if (GameManager.GetInstance().CurrentGameState == GameManager.GameState.Normel)
         {
-            GameManager.GetInstance().isBattleMode = true;
-            playerController.BattleModeStartSwitchCharacter();
+            GameManager.GetInstance().SwitchBattleMode();
+            playerCharacterSwitch.BattleModeStartSwitchCharacter();
+            stateMachine.SwitchState(typeof(PlayerState_Idle));
         }
-        else if (GameManager.GetInstance().isBattleMode)
+        else if (GameManager.GetInstance().CurrentGameState == GameManager.GameState.Battle)
         {
-            GameManager.GetInstance().isBattleMode = false;
-            playerController.SwitchMainCharacter();
+            GameManager.GetInstance().SwitchNormelMode();
+            playerCharacterSwitch.SwitchMainCharacterInNormal();
+            stateMachine.SwitchState(typeof(PlayerState_Idle));
         }
     }
 }

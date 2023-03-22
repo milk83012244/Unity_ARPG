@@ -6,9 +6,36 @@ using UnityEngine;
 public class PlayerState_Idle : PlayerState
 {
     [SerializeField] float deacceration = 5f; //停止移動時減速度
+
     public override void Enter()
     {
-        animator.Play(player.currentControlCharacterNames + "_FrontIdle");
+        if (isInitial)
+        {
+            animator.Play(playerCharacterSwitch.currentControlCharacterNamesSB.ToString() + "_FrontIdle");
+            base.isInitial = false;
+        }
+        else
+        {
+            if (GameManager.GetInstance().GetCurrentState() == (int)GameManager.GameState.Normel) //一般待機
+            {
+                animator.Play(playerCharacterSwitch.currentControlCharacterNamesSB.ToString() + "_FrontIdle");
+            }
+            else if (GameManager.GetInstance().GetCurrentState() == (int)GameManager.GameState.Battle) //戰鬥待機
+            {
+                if (input.currentDirection == 1)
+                {
+                    animator.Play(playerCharacterSwitch.currentControlCharacterNamesSB.ToString() + "_SL_BattleIdle");
+                }
+                else if (input.currentDirection == 3)
+                {
+                    animator.Play(playerCharacterSwitch.currentControlCharacterNamesSB.ToString() + "_SR_BattleIdle");
+                }
+                else
+                {
+                    animator.Play(playerCharacterSwitch.currentControlCharacterNamesSB.ToString() + "_SL_BattleIdle");
+                }
+            }
+        }
 
         currentSpeedx = player.MoveSpeedX;
         currentSpeedx = player.MoveSpeedY;
@@ -39,8 +66,8 @@ public class PlayerState_Idle : PlayerState
     }
     public override void PhysicUpdate()
     {
-        player.SetVelocityX(currentSpeedx);
-        player.SetVelocityY(currentSpeedy);
+        player.SetVelocityX(this.currentSpeedx);
+        player.SetVelocityY(this.currentSpeedy);
         player.SetVelocityXY(0, 0);
     }
 }

@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: f68e6af22e11a71468fc5af1ac6cdad7
+guid: a82e4c76cf62bd54c9e96e8b07ad73fc
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -116,127 +116,127 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: B_64x64_FL_Attack1_Merge_0
+      name: B_FL_Attack2_Merge_0
       rect:
         serializedVersion: 2
         x: 0
         y: 0
-        width: 64
+        width: 80
         height: 64
       alignment: 9
-      pivot: {x: 0.725, y: 0}
+      pivot: {x: 0.7, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 698285ae59bb8394cb9120e0e07d9354
-      internalID: -1954714215
+      spriteID: cb96132c5a7869f4a8df29cf2276b67e
+      internalID: -1946856399
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: B_64x64_FL_Attack1_Merge_1
+      name: B_FL_Attack2_Merge_1
       rect:
         serializedVersion: 2
-        x: 64
+        x: 80
         y: 0
-        width: 64
+        width: 80
         height: 64
       alignment: 9
-      pivot: {x: 0.725, y: 0}
+      pivot: {x: 0.7, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 9dbbf8b5ccfbaab4faddec91ccf01ff8
-      internalID: 1043739934
+      spriteID: 8b951ed32458b4d42b0d17c74171599b
+      internalID: 133965172
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: B_64x64_FL_Attack1_Merge_2
+      name: B_FL_Attack2_Merge_2
       rect:
         serializedVersion: 2
-        x: 128
+        x: 160
         y: 0
-        width: 64
+        width: 80
         height: 64
       alignment: 9
-      pivot: {x: 0.725, y: 0}
+      pivot: {x: 0.7, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: db104b0e4f2d8a944a691cc30e6212a3
-      internalID: 22604841
+      spriteID: 07732e4acc5b5514c9ba1114f91d1227
+      internalID: -1698165489
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: B_64x64_FL_Attack1_Merge_3
+      name: B_FL_Attack2_Merge_3
       rect:
         serializedVersion: 2
-        x: 192
+        x: 240
         y: 0
-        width: 64
+        width: 80
         height: 64
       alignment: 9
-      pivot: {x: 0.725, y: 0}
+      pivot: {x: 0.7, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 3fac1415cb611cd4192f36f61479a70a
-      internalID: 527183143
+      spriteID: c51b4214ebd1be146bc2b5760573864a
+      internalID: -198563588
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: B_64x64_FL_Attack1_Merge_4
-      rect:
-        serializedVersion: 2
-        x: 256
-        y: 0
-        width: 64
-        height: 64
-      alignment: 9
-      pivot: {x: 0.725, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: a54e8e1b8295c7d4e8841347e77f0fef
-      internalID: -1142373454
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: B_64x64_FL_Attack1_Merge_5
+      name: B_FL_Attack2_Merge_4
       rect:
         serializedVersion: 2
         x: 320
         y: 0
-        width: 64
+        width: 80
         height: 64
       alignment: 9
-      pivot: {x: 0.725, y: 0}
+      pivot: {x: 0.7, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 2410b7f7a8fef434ebb8da3f0e3ad946
-      internalID: 1309543350
+      spriteID: 165411f3032c67d4d9bcef01e8ea0fae
+      internalID: -29618470
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: B_FL_Attack2_Merge_5
+      rect:
+        serializedVersion: 2
+        x: 400
+        y: 0
+        width: 80
+        height: 64
+      alignment: 9
+      pivot: {x: 0.7, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 24f93d306659968469a449836167444a
+      internalID: -1276931132
       vertices: []
       indices: 
       edges: []
@@ -252,12 +252,12 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      B_64x64_FL_Attack1_Merge_3: 527183143
-      B_64x64_FL_Attack1_Merge_4: -1142373454
-      B_64x64_FL_Attack1_Merge_2: 22604841
-      B_64x64_FL_Attack1_Merge_5: 1309543350
-      B_64x64_FL_Attack1_Merge_0: -1954714215
-      B_64x64_FL_Attack1_Merge_1: 1043739934
+      B_FL_Attack2_Merge_0: -1946856399
+      B_FL_Attack2_Merge_5: -1276931132
+      B_FL_Attack2_Merge_4: -29618470
+      B_FL_Attack2_Merge_1: 133965172
+      B_FL_Attack2_Merge_3: -198563588
+      B_FL_Attack2_Merge_2: -1698165489
   spritePackingTag: 
   pSDRemoveMatte: 0
   pSDShowRemoveMatteOption: 0
