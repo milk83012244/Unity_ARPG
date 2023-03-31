@@ -80,6 +80,15 @@ public partial class @PlayerInputActions : IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Dodge"",
+                    ""type"": ""Button"",
+                    ""id"": ""a5e5e276-a4cc-4c87-9956-43a28062571d"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -302,6 +311,17 @@ public partial class @PlayerInputActions : IInputActionCollection2, IDisposable
                     ""action"": ""SwitchCharacter3"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""7e192172-1631-477e-9480-2bf44b8175f9"",
+                    ""path"": ""<Keyboard>/r"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Dodge"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -316,6 +336,7 @@ public partial class @PlayerInputActions : IInputActionCollection2, IDisposable
         m_Gameplay_SwitchCharacter = m_Gameplay.FindAction("SwitchCharacter", throwIfNotFound: true);
         m_Gameplay_SwitchCharacter2 = m_Gameplay.FindAction("SwitchCharacter2", throwIfNotFound: true);
         m_Gameplay_SwitchCharacter3 = m_Gameplay.FindAction("SwitchCharacter3", throwIfNotFound: true);
+        m_Gameplay_Dodge = m_Gameplay.FindAction("Dodge", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -381,6 +402,7 @@ public partial class @PlayerInputActions : IInputActionCollection2, IDisposable
     private readonly InputAction m_Gameplay_SwitchCharacter;
     private readonly InputAction m_Gameplay_SwitchCharacter2;
     private readonly InputAction m_Gameplay_SwitchCharacter3;
+    private readonly InputAction m_Gameplay_Dodge;
     public struct GameplayActions
     {
         private @PlayerInputActions m_Wrapper;
@@ -391,6 +413,7 @@ public partial class @PlayerInputActions : IInputActionCollection2, IDisposable
         public InputAction @SwitchCharacter => m_Wrapper.m_Gameplay_SwitchCharacter;
         public InputAction @SwitchCharacter2 => m_Wrapper.m_Gameplay_SwitchCharacter2;
         public InputAction @SwitchCharacter3 => m_Wrapper.m_Gameplay_SwitchCharacter3;
+        public InputAction @Dodge => m_Wrapper.m_Gameplay_Dodge;
         public InputActionMap Get() { return m_Wrapper.m_Gameplay; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -418,6 +441,9 @@ public partial class @PlayerInputActions : IInputActionCollection2, IDisposable
                 @SwitchCharacter3.started -= m_Wrapper.m_GameplayActionsCallbackInterface.OnSwitchCharacter3;
                 @SwitchCharacter3.performed -= m_Wrapper.m_GameplayActionsCallbackInterface.OnSwitchCharacter3;
                 @SwitchCharacter3.canceled -= m_Wrapper.m_GameplayActionsCallbackInterface.OnSwitchCharacter3;
+                @Dodge.started -= m_Wrapper.m_GameplayActionsCallbackInterface.OnDodge;
+                @Dodge.performed -= m_Wrapper.m_GameplayActionsCallbackInterface.OnDodge;
+                @Dodge.canceled -= m_Wrapper.m_GameplayActionsCallbackInterface.OnDodge;
             }
             m_Wrapper.m_GameplayActionsCallbackInterface = instance;
             if (instance != null)
@@ -440,6 +466,9 @@ public partial class @PlayerInputActions : IInputActionCollection2, IDisposable
                 @SwitchCharacter3.started += instance.OnSwitchCharacter3;
                 @SwitchCharacter3.performed += instance.OnSwitchCharacter3;
                 @SwitchCharacter3.canceled += instance.OnSwitchCharacter3;
+                @Dodge.started += instance.OnDodge;
+                @Dodge.performed += instance.OnDodge;
+                @Dodge.canceled += instance.OnDodge;
             }
         }
     }
@@ -452,5 +481,6 @@ public partial class @PlayerInputActions : IInputActionCollection2, IDisposable
         void OnSwitchCharacter(InputAction.CallbackContext context);
         void OnSwitchCharacter2(InputAction.CallbackContext context);
         void OnSwitchCharacter3(InputAction.CallbackContext context);
+        void OnDodge(InputAction.CallbackContext context);
     }
 }

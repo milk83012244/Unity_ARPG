@@ -10,10 +10,9 @@ public class PlayerStateMachine : StateMachine
    [SerializeField] private PlayerState[] states;
 
     PlayerController player;
-
     PlayerCharacterSwitch characterSwitch;
-
     PlayerInput input;
+    PlayerCooldownController playerCooldownController;
 
     Animator animator;
     private void Awake()
@@ -23,12 +22,13 @@ public class PlayerStateMachine : StateMachine
         player = GetComponent<PlayerController>();
         characterSwitch = GetComponent<PlayerCharacterSwitch>();
         input = GetComponent<PlayerInput>();
+        playerCooldownController = GetComponent<PlayerCooldownController>();
 
         stateDic = new Dictionary<System.Type, IState>(states.Length);
 
         foreach (PlayerState state in states)
         {
-            state.Initialize(player, characterSwitch, animator, this , input);
+            state.Initialize(player, characterSwitch, animator, this , input, playerCooldownController);
             stateDic.Add(state.GetType(), state);
         }
 
@@ -43,7 +43,7 @@ public class PlayerStateMachine : StateMachine
         stateDic.Clear();
         foreach (PlayerState state in states)
         {
-            state.Initialize(player, characterSwitch, animator, this, input);
+            state.Initialize(player, characterSwitch, animator, this, input, playerCooldownController);
             stateDic.Add(state.GetType(), state);
         }
     }

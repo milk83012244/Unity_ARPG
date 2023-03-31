@@ -3,11 +3,16 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
+/// <summary>
+/// 玩家輸入類 負責接收輸出按鍵輸入
+/// </summary>
 public class PlayerInput : MonoBehaviour
 {
     PlayerInputActions playerInputActions;
 
     public int currentDirection;
+
+    public bool canDodge;
 
     #region 輸入相關變數
     public float AxisX => Axes.x;
@@ -17,7 +22,8 @@ public class PlayerInput : MonoBehaviour
     public bool MoveX => AxisX != 0f;
     public bool MoveY => AxisY != 0f;
 
-    public bool PressRun => playerInputActions.Gameplay.Run.IsPressed() == true;
+    public bool PressRun => playerInputActions.Gameplay.Run.IsPressed() == true ;
+    public bool PressDodge => playerInputActions.Gameplay.Dodge.IsPressed() == true && canDodge && GameManager.GetInstance().GetCurrentState() == (int)GameManager.GameState.Battle;
     public bool PressAttack => playerInputActions.Gameplay.Attack.IsPressed() && GameManager.GetInstance().CurrentGameState == GameManager.GameState.Battle;
     public bool ChangeCharacter1 => playerInputActions.Gameplay.SwitchCharacter.IsPressed() && GameManager.GetInstance().isBattleMode == true;
     //public bool Attack => playerInputActions.Gameplay.Attack.WasPressedThisFrame();
@@ -25,13 +31,13 @@ public class PlayerInput : MonoBehaviour
 
     private void Awake()
     {
+        canDodge = true;
         playerInputActions = new PlayerInputActions();
         currentDirection = 0;
     }
     private void Update()
     {
         currentDirection = PlayerCurrentDir();
-
     }
     public void EnableGamePlayInputs()
     {

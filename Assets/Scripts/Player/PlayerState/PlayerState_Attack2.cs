@@ -27,9 +27,16 @@ public class PlayerState_Attack2 : PlayerState
     }
     public override void LogicUpdate()
     {
-        if (CurrentStateTime >= 0.7f && input.PressAttack)
+        if (CurrentStateTime >= 0.7f)
         {
-            stateMachine.SwitchState(typeof(PlayerState_Attack3));
+            if (input.PressAttack)
+            {
+                stateMachine.SwitchState(typeof(PlayerState_Attack3));
+            }
+            else if (input.PressDodge)
+            {
+                stateMachine.SwitchState(typeof(PlayerState_Dodge));
+            }
         }
         if (IsAnimationFinished)
         {

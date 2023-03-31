@@ -39,6 +39,7 @@ public class PlayerState_Idle : PlayerState
 
         currentSpeedx = player.MoveSpeedX;
         currentSpeedx = player.MoveSpeedY;
+
         //player.SetVelocityX(0);
         //player.SetVelocityY(0);
         //player.SetVelocityXY(0,0);

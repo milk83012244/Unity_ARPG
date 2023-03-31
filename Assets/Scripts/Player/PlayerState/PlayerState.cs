@@ -13,6 +13,7 @@ public class PlayerState : ScriptableObject, IState
     //int stateHash;
 
     float stateStartTime;
+
     protected bool  isInitial = true;
     protected float currentSpeedx;
     protected float currentSpeedy;
@@ -23,6 +24,7 @@ public class PlayerState : ScriptableObject, IState
     protected PlayerCharacterSwitch playerCharacterSwitch;
 
     protected PlayerInput input;
+    protected PlayerCooldownController playerCooldownController;
 
     protected PlayerStateMachine stateMachine;
 
@@ -48,23 +50,14 @@ public class PlayerState : ScriptableObject, IState
         //stateHash = Animator.StringToHash(stateName);
     }
 
-    public void Initialize(PlayerController player,PlayerCharacterSwitch playerCharacterSwitch, Animator animator,PlayerStateMachine stateMachine , PlayerInput input)
+    public void Initialize(PlayerController player,PlayerCharacterSwitch playerCharacterSwitch, Animator animator,PlayerStateMachine stateMachine , PlayerInput input,PlayerCooldownController playerCooldownController)
     {
         this.player = player;
         this.playerCharacterSwitch = playerCharacterSwitch;
         this.animator = animator;
         this.stateMachine = stateMachine;
         this.input = input;
-    }
-    public virtual void Enter()
-    {
-        //animator.CrossFade(stateName, transitionDuration);
-        stateStartTime = Time.time; //動畫持續時間開始計時
-    }
-
-    public virtual void Exit()
-    {
-        
+        this.playerCooldownController = playerCooldownController;
     }
     /// <summary>
     /// 切換角色同時切換Animator
@@ -72,6 +65,17 @@ public class PlayerState : ScriptableObject, IState
     public virtual void ChangeAnimator(Animator animator)
     {
         this.animator = animator;
+    }
+    public virtual void Enter()
+    {
+        //animator.CrossFade(stateName, transitionDuration);
+        stateStartTime = Time.time; //動畫持續時間開始計時
+
+    }
+
+    public virtual void Exit()
+    {
+
     }
 
     public virtual void LogicUpdate()

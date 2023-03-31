@@ -3,12 +3,15 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
+/// <summary>
+/// 玩家控制器 負責玩家的移動控制
+/// </summary>
 public class PlayerController : MonoBehaviour
 {
     private PlayerInput input;
     private Rigidbody2D rig2D;
     private PlayerStateMachine stateMachine;
-    protected PlayerCharacterSwitch characterSwitch;
+    private PlayerCharacterSwitch characterSwitch;
 
     public float MoveSpeedX => Mathf.Abs(rig2D.velocity.x);
     public float MoveSpeedY => Mathf.Abs(rig2D.velocity.y);
@@ -55,5 +58,13 @@ public class PlayerController : MonoBehaviour
     {
         float XY = Mathf.Sqrt(speedX * speedX + speedY * speedY);
         rig2D.velocity = new Vector3(speedX * Mathf.Sqrt(0.5f), speedY * Mathf.Sqrt(0.5f));
+    }
+    public void DodgeMoveX(Vector2 dodgeDir, float speed)
+    {
+        rig2D.velocity = dodgeDir * speed * 1;
+    }
+    public void DodgeMoveY(Vector2 dodgeDir, float speed)
+    {
+        rig2D.velocity = dodgeDir * speed * 1;
     }
 }

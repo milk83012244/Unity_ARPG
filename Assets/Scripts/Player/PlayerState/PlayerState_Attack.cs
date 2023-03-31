@@ -32,9 +32,16 @@ public class PlayerState_Attack : PlayerState
         player.SetVelocityY(currentSpeedy);
         player.SetVelocityXY(0, 0);
 
-        if (CurrentStateTime >= 0.7f && input.PressAttack)
+        if (CurrentStateTime >= 0.7f)
         {
-            stateMachine.SwitchState(typeof(PlayerState_Attack2));
+            if (input.PressAttack)
+            {
+                stateMachine.SwitchState(typeof(PlayerState_Attack2));
+            }
+            else if (input.PressDodge)
+            {
+                stateMachine.SwitchState(typeof(PlayerState_Dodge));
+            }
         }
         if (IsAnimationFinished)
         {

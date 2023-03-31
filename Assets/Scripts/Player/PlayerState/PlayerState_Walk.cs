@@ -47,6 +47,10 @@ public class PlayerState_Walk : PlayerState
         {
             stateMachine.SwitchState(typeof(PlayerState_Run));
         }
+        if (input.PressDodge)
+        {
+            stateMachine.SwitchState(typeof(PlayerState_Dodge));
+        }
 
         //§ðÀ»
         if (input.PressAttack)

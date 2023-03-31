@@ -2,6 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// 玩家控制角色切換
+/// </summary>
 public class PlayerCharacterSwitch : MonoBehaviour
 {
     public string currentControlCharacterNames;
@@ -11,7 +14,6 @@ public class PlayerCharacterSwitch : MonoBehaviour
     public GameObject[] characterObjs;
 
     private PlayerStateMachine stateMachine;
-    private PlayerSubCharacterController playerSubCharacter;
 
     /// <summary>
     /// 當前控制角色
@@ -29,8 +31,7 @@ public class PlayerCharacterSwitch : MonoBehaviour
     private void Awake()
     {
         stateMachine = GetComponent<PlayerStateMachine>();
-        playerSubCharacter = GetComponent<PlayerSubCharacterController>();
-        BattleSubCharacter(0);
+        StartSetCharacter(0);
         //if (!currentControlCharacter.ContainsKey("Niru"))
         //{
         //    SwitchMainCharacter();
@@ -38,7 +39,7 @@ public class PlayerCharacterSwitch : MonoBehaviour
 
         partys.Clear();
     }
-    public void BattleSubCharacter(int characterId)
+    public void StartSetCharacter(int characterId)
     {
         currentControlCharacter.Add(characterNames[characterId], characterObjs[characterId]);
         foreach (KeyValuePair<string, GameObject> name in currentControlCharacter)
@@ -106,9 +107,7 @@ public class PlayerCharacterSwitch : MonoBehaviour
     public void BattleModeStartSwitchCharacter()
     {
         characterObjs[0].SetActive(false);
-       // playerSubCharacter.enabled = true;
-        subControlCharacter.Clear();
-        subControlCharacter.Add(characterNames[0], characterObjs[0]);
+
         currentControlCharacter.Clear();
         currentControlCharacter.Add(characterNames[1], characterObjs[1]);
         currentControlCharacter[characterNames[1]].SetActive(true);

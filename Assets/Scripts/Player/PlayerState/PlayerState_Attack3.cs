@@ -27,6 +27,14 @@ public class PlayerState_Attack3 : PlayerState
     }
     public override void LogicUpdate()
     {
+        if (CurrentStateTime >= 0.7f)
+        {
+            if (input.PressDodge)
+            {
+                stateMachine.SwitchState(typeof(PlayerState_Dodge));
+            }
+        }
+
         if (IsAnimationFinished)
         {
             stateMachine.SwitchState(typeof(PlayerState_Idle));
