@@ -12,9 +12,9 @@ public class SubCharacterController : MonoBehaviour
     [SerializeField] private PlayerController playerController;
 
     [SerializeField] private float distance;
-    public int currentDirection; //當前玩家方向
+    [SerializeField] public int currentDirection; //當前方向
     public bool Moveing => currentDistance > distance;
-    public float currentDistance;
+    [SerializeField] public float currentDistance;
 
     private void Awake()
     {

@@ -12,14 +12,22 @@ public class TestCheckPlayerInAttackRange : Node
 
     private Transform _transform;
     private Animator _animator;
+    private CharacterStatsDataMono selfStats;
 
     public TestCheckPlayerInAttackRange(Transform transform)
     {
         _transform = transform;
         _animator = transform.GetComponentInChildren<Animator>();
+        selfStats = transform.GetComponentInChildren<CharacterStatsDataMono>();
     }
     public override NodeState Evaluate()
     {
+        if (selfStats.CurrnetHealth <= 0)
+        {
+            state = NodeState.FAILURE;
+            return state;
+        }
+
         object t = GetData("target");
         if (t==null)
         {
@@ -30,7 +38,7 @@ public class TestCheckPlayerInAttackRange : Node
         Transform target = (Transform)t;
         if (Vector3.Distance(_transform.position,target.position) <= TestUnit.attackRange)
         {
-            _animator.Play("Slime_Blue_SL_Attack");
+           // _animator.Play("Slime_Blue_SL_Attack");
             state = NodeState.SUCCESS;
             return state;
         }

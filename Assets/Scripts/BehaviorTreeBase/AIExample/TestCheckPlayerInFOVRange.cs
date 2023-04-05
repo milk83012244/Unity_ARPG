@@ -27,7 +27,6 @@ public class TestCheckPlayerInFOVRange : Node
             if (colliders.Length > 0)
             {
                 parent.parent.SetData("target", colliders[0].transform);
-                _animator.Play("Slime_Blue_SL_Move");
                 state = NodeState.SUCCESS;
                 return state;
             }

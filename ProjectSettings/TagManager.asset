@@ -3,7 +3,10 @@
 --- !u!78 &1
 TagManager:
   serializedVersion: 2
-  tags: []
+  tags:
+  - Niru
+  - Mo
+  - Lia
   layers:
   - Default
   - TransparentFX
@@ -13,7 +16,7 @@ TagManager:
   - UI
   - CameraCollider
   - Player
-  - 
+  - Enemy
   - 
   - 
   - 
@@ -55,4 +58,7 @@ TagManager:
     locked: 0
   - name: Ground
     uniqueID: 2340040887
+    locked: 0
+  - name: UIFront
+    uniqueID: 4094093033
     locked: 0

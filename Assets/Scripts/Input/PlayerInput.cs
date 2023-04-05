@@ -44,6 +44,10 @@ public class PlayerInput : MonoBehaviour
         playerInputActions.Gameplay.Enable();
         //Cursor.lockState = CursorLockMode.Locked;
     }
+    public void DesableGamePlayInputs()
+    {
+        playerInputActions.Gameplay.Disable();
+    }
     /// <summary>
     /// 玩家當前轉向(其他需要轉向的動作用)
     /// </summary>
