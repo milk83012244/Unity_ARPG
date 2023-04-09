@@ -13,6 +13,6 @@ MonoBehaviour:
   m_Name: TestSlimeData
   m_EditorClassIdentifier: 
   mexHealth: 30
-  currentHealth: 0
+  currentHealth: 30
   baseDefence: 2
   currentDefence: 2

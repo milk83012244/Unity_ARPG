@@ -16,7 +16,9 @@ public class PlayerInput : MonoBehaviour
 
     #region 輸入相關變數
     public float AxisX => Axes.x;
+
     public float AxisY => Axes.y;
+
     Vector2 Axes => playerInputActions.Gameplay.Axes.ReadValue<Vector2>();
 
     public bool MoveX => AxisX != 0f;
@@ -25,7 +27,7 @@ public class PlayerInput : MonoBehaviour
     public bool PressRun => playerInputActions.Gameplay.Run.IsPressed() == true ;
     public bool PressDodge => playerInputActions.Gameplay.Dodge.IsPressed() == true && canDodge && GameManager.GetInstance().GetCurrentState() == (int)GameManager.GameState.Battle;
     public bool PressAttack => playerInputActions.Gameplay.Attack.IsPressed() && GameManager.GetInstance().CurrentGameState == GameManager.GameState.Battle;
-    public bool ChangeCharacter1 => playerInputActions.Gameplay.SwitchCharacter.IsPressed() && GameManager.GetInstance().isBattleMode == true;
+    public bool ChangeCharacter1 => playerInputActions.Gameplay.SwitchCharacter.IsPressed() && GameManager.GetInstance().GetCurrentState() == (int)GameManager.GameState.Battle;
     //public bool Attack => playerInputActions.Gameplay.Attack.WasPressedThisFrame();
     #endregion
 

@@ -16,7 +16,7 @@ public class GameManager : MonoBehaviour
         GameOver
     }
 
-    public bool isBattleMode = false;
+    public bool isInteractable = false;
 
     public GameState CurrentGameState;
 
