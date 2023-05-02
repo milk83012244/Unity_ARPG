@@ -9,10 +9,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c103279941d20f940b20f9816968e030, type: 3}
-  m_Name: TestPlayerDataSO
+  m_Script: {fileID: 11500000, guid: 5171be18c7ccee3449d99dc0fbb244af, type: 3}
+  m_Name: Mo_AttackSO
   m_EditorClassIdentifier: 
-  mexHealth: 100
-  currentHealth: 99
-  baseDefence: 5
-  currentDefence: 5
+  attackRange: 1.5
+  skillRange: 0
+  coolDown: 0.7
+  minDamage: 5
+  maxDamage: 10
+  criticalMultplier: 2
+  criticalChance: 0.2

@@ -12,8 +12,8 @@ public class EnemyTypeOneAttackController : MonoBehaviour
     }
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        characterStats.isCritical = Random.value < characterStats.testAttackData.criticalChance; //ÃzÀ»§PÂ_
+        characterStats.isCritical = Random.value < characterStats.attackData.criticalChance; //ÃzÀ»§PÂ_
         //§ðÀ»¥Ø¼Ð
-        characterStats.TakeDamage(characterStats, collision.GetComponentInParent<CharacterStatsDataMono>());
+        characterStats.TakeDamage(characterStats, collision.GetComponentInParent<CharacterStatsDataMutiMono>());
     }
 }

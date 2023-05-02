@@ -1,15 +1,16 @@
-using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 /// <summary>
-/// 獲取角色資料並計算 
+/// 獲取角色資料並計算(可切換角色)
 /// </summary>
-public class CharacterStatsDataMono : MonoBehaviour
+public class CharacterStatsDataMutiMono : MonoBehaviour
 {
-    public CharacterBattleDataSO characterData;
-    public CharacterAttackDataSO attackData;
+    public int currentCharacterID;
+
+    public List<CharacterBattleDataSO>  characterData = new List<CharacterBattleDataSO>();
+    public List<CharacterAttackDataSO>  attackData = new List<CharacterAttackDataSO>();
 
     [HideInInspector] public int currentDamage;
     [HideInInspector] public bool isCritical;
@@ -20,13 +21,13 @@ public class CharacterStatsDataMono : MonoBehaviour
         get
         {
             if (characterData != null)
-                return characterData.mexHealth;
+                return characterData[currentCharacterID].mexHealth;
             else
                 return 0;
         }
         set
         {
-            characterData.mexHealth = value;
+            characterData[currentCharacterID].mexHealth = value;
         }
     }
     public int CurrnetHealth
@@ -34,13 +35,13 @@ public class CharacterStatsDataMono : MonoBehaviour
         get
         {
             if (characterData != null)
-                return characterData.currentHealth;
+                return characterData[currentCharacterID].currentHealth;
             else
                 return 0;
         }
         set
         {
-            characterData.currentHealth = value;
+            characterData[currentCharacterID].currentHealth = value;
         }
     }
     public int BaseDefence
@@ -48,13 +49,13 @@ public class CharacterStatsDataMono : MonoBehaviour
         get
         {
             if (characterData != null)
-                return characterData.baseDefence;
+                return characterData[currentCharacterID].baseDefence;
             else
                 return 0;
         }
         set
         {
-            characterData.baseDefence = value;
+            characterData[currentCharacterID].baseDefence = value;
         }
     }
     public int CurrentDefence
@@ -62,13 +63,13 @@ public class CharacterStatsDataMono : MonoBehaviour
         get
         {
             if (characterData != null)
-                return characterData.currentDefence;
+                return characterData[currentCharacterID].currentDefence;
             else
                 return 0;
         }
         set
         {
-            characterData.currentDefence = value;
+            characterData[currentCharacterID].currentDefence = value;
         }
     }
     #endregion
@@ -77,9 +78,9 @@ public class CharacterStatsDataMono : MonoBehaviour
     /// <summary>
     /// 造成傷害(獲得敵方腳本扣生命值)
     /// </summary>
-    public void TakeDamage(CharacterStatsDataMono attacker, CharacterStatsDataMutiMono defender)//敵人只會攻擊到玩家
+    public void TakeDamage(CharacterStatsDataMutiMono attacker, CharacterStatsDataMono defender)
     {
-        int damage = Mathf.Max(attacker.CurrentDamage() - defender.CurrentDefence,0); //Max最小只會是0不會變負值
+        int damage = Mathf.Max(attacker.CurrentDamage() - defender.CurrentDefence, 0); //Max最小只會是0不會變負值
         defender.CurrnetHealth = Mathf.Max(defender.CurrnetHealth - damage, 0);
 
         //UI更新
@@ -91,13 +92,13 @@ public class CharacterStatsDataMono : MonoBehaviour
     /// </summary>
     public int CurrentDamage()
     {
-        float coreDamage = UnityEngine.Random.Range(attackData.minDamage, attackData.maxDamage);
+        float coreDamage = UnityEngine.Random.Range(attackData[currentCharacterID].minDamage, attackData[currentCharacterID].maxDamage);
 
         //計算附加傷害
 
         if (isCritical)
         {
-            coreDamage *= attackData.criticalMultplier;
+            coreDamage *= attackData[currentCharacterID].criticalMultplier;
             Debug.Log("爆擊" + coreDamage);
         }
         currentDamage = (int)coreDamage;

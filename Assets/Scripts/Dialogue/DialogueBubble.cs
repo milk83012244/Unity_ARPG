@@ -5,6 +5,7 @@ using UnityEngine;
 using Yarn.Unity;
 using TMPro;
 using static Yarn.Unity.Effects;
+using System.Threading.Tasks;
 
 /// <summary>
 /// 對話氣泡框
@@ -16,7 +17,6 @@ public class DialogueBubble : DialogueViewBase
     [SerializeField] TextMeshProUGUI CharacterNametext;
 
     private string tempDialogueLine;
-    private CoroutineInterruptToken typewriterToken;
 
     Action advanceHandler;
 
@@ -24,11 +24,14 @@ public class DialogueBubble : DialogueViewBase
 
     public float typeSpeed = 10f; //打字速度(毫秒)
 
+    private bool isTypewriterDone;
     /// <summary>
     /// 開始對話
     /// </summary>
     public override void RunLine(LocalizedLine dialogueLine, Action onDialogueLineFinished)
     {
+        isTypewriterDone = false;
+
         ShowBubble(true);
         SetisInteractable(true);
         CharacterNametext.text = dialogueLine.CharacterName; //角色名稱為Yarn腳本上的 發話者:
@@ -36,9 +39,14 @@ public class DialogueBubble : DialogueViewBase
         int removeEnd = tempDialogueLine.IndexOf(":");     
         dialogueLineText.text = tempDialogueLine.Substring(removeEnd + 1);  //把角色名稱刪除輸出對話內容文字
 
-        StartCoroutine(Typewriter(dialogueLineText, 10f, null));
+        //StartCoroutine(Typewriter(dialogueLineText, typeSpeed,null));
+        StartTypewriterCoroutine();
 
-        advanceHandler = requestInterrupt;
+        //advanceHandler = requestInterrupt;
+    }
+    public override void InterruptLine(LocalizedLine dialogueLine, Action onInterruptLineFinished)
+    {
+        onInterruptLineFinished?.Invoke();
     }
     /// <summary>
     /// 結束對話
@@ -52,6 +60,31 @@ public class DialogueBubble : DialogueViewBase
 
         SetisInteractable(false);
         onDismissalComplete();
+    }
+    /// <summary>
+    /// 傳入協程
+    /// </summary>
+    public void StartCoroutineWithCallback(IEnumerator coroutine,Action callback)
+    {
+        StartCoroutine(WaitForCoroutineToEnd(coroutine, callback));
+    }
+    /// <summary>
+    /// 封裝協程 在協程完成時回調函數
+    /// </summary>
+    private IEnumerator WaitForCoroutineToEnd(IEnumerator coroutine, Action callback)
+    {
+        yield return StartCoroutine(coroutine);
+        callback();
+    }
+    /// <summary>
+    /// 執行指定協程 完成時回調Action內容
+    /// </summary>
+    public void StartTypewriterCoroutine()
+    {
+        StartCoroutineWithCallback(Typewriter(dialogueLineText, typeSpeed, null), () =>
+         {
+             isTypewriterDone = true;
+         });
     }
 
     public void ShowBubble(bool show)
@@ -70,7 +103,6 @@ public class DialogueBubble : DialogueViewBase
     {
         GameManager.GetInstance().isInteractable = isInteractable;
     }
-
     /// <summary>
     /// 到下一句對話
     /// </summary>
@@ -78,13 +110,16 @@ public class DialogueBubble : DialogueViewBase
     {
         if (container.gameObject.activeSelf)
         {
-            advanceHandler?.Invoke();
+            if (isTypewriterDone)
+            {
+                requestInterrupt?.Invoke();
+            }
         }
     }
     private void Update()
     {
         container.SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, dialogueLineText.preferredWidth + 11f);
-        characterContainer.SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, CharacterNametext.preferredWidth + 11f);
+        characterContainer.SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, CharacterNametext.preferredWidth + 5f);
         if (Input.GetKeyDown(KeyCode.P))
         {
             UserRequestedViewAdvancement();

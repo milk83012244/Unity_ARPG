@@ -1,6 +1,10 @@
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+
+/// <summary>
+/// ¨¤¦â¼Æ­È­pºâ
+/// </summary>
 public class CharacterStats
 {
     /// <summary>

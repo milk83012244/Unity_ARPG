@@ -6,7 +6,7 @@ using UnityEngine;
 public class PlayerState_Walk : PlayerState
 {
     [SerializeField] float walkSpeed = 5f;
-    [SerializeField] float acceleration = 5f; //移動時的加速度
+    //[SerializeField] float acceleration = 5f; //移動時的加速度
 
     public override void Enter()
     {
@@ -26,8 +26,8 @@ public class PlayerState_Walk : PlayerState
         {
             animator.Play(playerCharacterSwitch.currentControlCharacterNamesSB.ToString() + "_F_Walk");
         }
-        currentSpeedx = Mathf.MoveTowards(currentSpeedx,walkSpeed, acceleration * Time.deltaTime);
-        currentSpeedy = Mathf.MoveTowards(currentSpeedy, walkSpeed, acceleration * Time.deltaTime);
+        currentSpeedx = Mathf.MoveTowards(currentSpeedx,walkSpeed,  Time.deltaTime);
+        currentSpeedy = Mathf.MoveTowards(currentSpeedy, walkSpeed,  Time.deltaTime);
     }
     public override void LogicUpdate()
     {

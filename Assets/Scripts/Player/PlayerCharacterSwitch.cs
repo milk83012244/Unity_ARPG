@@ -14,6 +14,7 @@ public class PlayerCharacterSwitch : MonoBehaviour
     public GameObject[] characterObjs;
 
     private PlayerStateMachine stateMachine;
+    private CharacterStatsDataMutiMono characterStatsData;
 
     /// <summary>
     /// 當前控制角色
@@ -30,6 +31,7 @@ public class PlayerCharacterSwitch : MonoBehaviour
 
     private void Awake()
     {
+        characterStatsData = GetComponent<CharacterStatsDataMutiMono>();
         stateMachine = GetComponent<PlayerStateMachine>();
         StartSetCharacter(0);
         //if (!currentControlCharacter.ContainsKey("Niru"))
@@ -111,6 +113,7 @@ public class PlayerCharacterSwitch : MonoBehaviour
         currentControlCharacter.Clear();
         currentControlCharacter.Add(characterNames[1], characterObjs[1]);
         currentControlCharacter[characterNames[1]].SetActive(true);
+        characterStatsData.currentCharacterID = 1;
         //獲取當前控制角色名稱
         foreach (KeyValuePair<string, GameObject> name in currentControlCharacter)
         {

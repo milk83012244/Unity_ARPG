@@ -45,7 +45,7 @@ public class DialogueBubbleCreate : MonoBehaviour
     public void Init()
     {
         bubbleTransform = GameObject.Find("MainDialogueCanvas").transform;
-        dialogueRunner = GameObject.Find("Dialogue System").GetComponent<DialogueRunner>();
+        dialogueRunner = GameObject.FindObjectOfType<DialogueRunner>();
         //if (dialogueRunner.gameObject.activeSelf)
         //{
         //    DialogueViewBase dialogueView = bubbleTransform.GetComponent<DialogueViewBase>(); //設定生成的氣泡框到Runner

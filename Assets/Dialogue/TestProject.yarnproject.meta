@@ -15,7 +15,7 @@ ScriptedImporter:
   defaultLanguage: zh-TW
   languagesToSourceAssets: []
   useAddressableAssets: 0
-  searchAllAssembliesForActions: 1
+  searchAllAssembliesForActions: 0
   assembliesToSearch: []
   ListOfFunctions:
   - Name: Random
