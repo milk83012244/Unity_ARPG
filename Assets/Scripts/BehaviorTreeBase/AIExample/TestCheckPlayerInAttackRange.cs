@@ -12,13 +12,13 @@ public class TestCheckPlayerInAttackRange : Node
 
     private Transform _transform;
     private Animator _animator;
-    private CharacterStatsDataMono selfStats;
+    private OtherCharacterStats selfStats;
 
     public TestCheckPlayerInAttackRange(Transform transform)
     {
         _transform = transform;
         _animator = transform.GetComponentInChildren<Animator>();
-        selfStats = transform.GetComponentInChildren<CharacterStatsDataMono>();
+        selfStats = transform.GetComponentInChildren<OtherCharacterStats>();
     }
     public override NodeState Evaluate()
     {

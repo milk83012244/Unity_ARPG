@@ -10,7 +10,7 @@ public class TaskGoToTarget : Node
 {
     private Animator _animator;
     private Transform _transform;
-    private CharacterStatsDataMono selfStats;
+    private OtherCharacterStats selfStats;
 
     private int currentDirection; //當前方向
 
@@ -18,7 +18,7 @@ public class TaskGoToTarget : Node
     {
         _transform = transform;
         _animator = transform.GetComponentInChildren<Animator>();
-        selfStats = transform.GetComponentInChildren<CharacterStatsDataMono>();
+        selfStats = transform.GetComponentInChildren<OtherCharacterStats>();
     }
     public override NodeState Evaluate()
     {

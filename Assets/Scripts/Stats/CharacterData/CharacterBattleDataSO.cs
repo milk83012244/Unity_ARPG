@@ -8,17 +8,19 @@ using UnityEngine;
 [CreateAssetMenu(menuName = "Data/CharacterData/CharacterBattleData", fileName = "CharacterBattleData")]
 public class CharacterBattleDataSO : ScriptableObject
 {
+    public ElementType elementType;
+
     [Header("Stats Info")]
     public int mexHealth;
     public int currentHealth;
-    public int baseDefence;
-    public int currentDefence;
+    public float baseDefence;
+    public float currentDefence;
 
     //ÄÝ©Ê´î§K(¨¾¿m)
     public float fireElementDefence;
     public float iceElementDefence;
     public float windElementDefence;
-    public float electricElementDefence;
+    public float thunderElementDefence;
     public float darkElementDefence;
     public float lightElementDefence;
 

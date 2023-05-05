@@ -8,20 +8,22 @@ using UnityEngine;
 [CreateAssetMenu(menuName = "Data/CharacterData/CharacterAttackData", fileName = "CharacterAttackData")]
 public class CharacterAttackDataSO : ScriptableObject
 {
+    public ElementType elementType;
+
     public float attackRange;
-    public float skillRange;
     public float coolDown;
-    public int minDamage;
-    public int maxDamage;
+    public float minDamage;
+    public float maxDamage;
 
     //ÄÝ©Ê¶Ë®`
     public float fireElementDamage;
     public float iceElementDamage;
     public float windElementDamage;
-    public float electricElementDamage;
+    public float thunderElementDamage;
     public float darkElementDamage;
     public float lightElementDamage;
 
     public float criticalMultplier;//ÃzÀ»­¿²v
     public float criticalChance;//ÃzÀ»²v
+
 }

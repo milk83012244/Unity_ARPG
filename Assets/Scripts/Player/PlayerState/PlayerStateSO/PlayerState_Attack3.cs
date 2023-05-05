@@ -5,6 +5,7 @@ using UnityEngine;
 [CreateAssetMenu(menuName = "Data/StateMachine/PlayerState/Attacks/Attack3", fileName = "PlayerState_Attack3")]
 public class PlayerState_Attack3 : PlayerState
 {
+    Attack3Subject subject = new Attack3Subject();
     public override void Enter()
     {
         base.Enter();
@@ -24,6 +25,10 @@ public class PlayerState_Attack3 : PlayerState
         {
             animator.Play(playerCharacterSwitch.currentControlCharacterNamesSB.ToString() + "_B_Attack3");
         }
+    }
+    public override void Exit()
+    {
+        base.Exit();
     }
     public override void LogicUpdate()
     {

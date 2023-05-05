@@ -12,10 +12,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5171be18c7ccee3449d99dc0fbb244af, type: 3}
   m_Name: TestEnemyAttackSO
   m_EditorClassIdentifier: 
+  elementType: 99
   attackRange: 1
-  skillRange: 0
   coolDown: 1
   minDamage: 2
   maxDamage: 4
+  fireElementDamage: 0
+  iceElementDamage: 0
+  windElementDamage: 0
+  thunderElementDamage: 0
+  darkElementDamage: 0
+  lightElementDamage: 0
   criticalMultplier: 2
   criticalChance: 0.2

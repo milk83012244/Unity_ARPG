@@ -13,7 +13,7 @@ public class TaskPatrol : Node
     private Transform _transform; //巡邏的主物件
     private Transform[] _waypoints; //巡邏點
 
-    private CharacterStatsDataMono selfStats;
+    private OtherCharacterStats selfStats;
 
     [SerializeField] public int currentDirection; //當前方向
     private int _currentWaypointIndex = 0;
@@ -26,7 +26,7 @@ public class TaskPatrol : Node
         _transform = transform;
         _waypoints = waypoints;
         _animator = transform.GetComponentInChildren<Animator>();
-        selfStats = transform.GetComponentInChildren<CharacterStatsDataMono>();
+        selfStats = transform.GetComponentInChildren<OtherCharacterStats>();
     }
     public override NodeState Evaluate()
     {

@@ -701,6 +701,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: b1bfdfd4ecb32014984d9a61eb131115, type: 2}
   attackData:
   - {fileID: 11400000, guid: d5fe6e7f271039e40b3a755e5af2329a, type: 2}
+  ElementDefences: []
   currentDamage: 0
   isCritical: 0
 --- !u!1 &100297708
@@ -738,7 +739,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 821, y: -172}
+  m_AnchoredPosition: {x: 842, y: -177}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &139207583
@@ -4117,6 +4118,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: def089becac48974b9b0b36415e861dd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  attackCount: 0
+  fireElement: 0
+  iceElement: 0
+  windElement: 0
+  thunderElement: 0
+  lightElement: 0
+  darkElement: 0
 --- !u!1 &802317071
 GameObject:
   m_ObjectHideFlags: 0
@@ -5696,6 +5704,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   characterData: {fileID: 11400000, guid: d6090728681092343910532ee5488ddc, type: 2}
   attackData: {fileID: 11400000, guid: 0eac79e057d484745bc9fcc06c20d214, type: 2}
+  ElementDefences: []
   currentDamage: 0
   isCritical: 0
 --- !u!1 &1452285367

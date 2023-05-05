@@ -11,13 +11,13 @@ public class TaskDead : Node
     private Transform _transform;
     private TestUnit testUnit;
 
-    private CharacterStatsDataMono selfStats;
+    private OtherCharacterStats selfStats;
 
     public TaskDead(Transform transform)
     {
         _transform = transform;
         _animator = transform.GetComponentInChildren<Animator>();
-        selfStats = transform.GetComponentInChildren<CharacterStatsDataMono>();
+        selfStats = transform.GetComponentInChildren<OtherCharacterStats>();
         testUnit = transform.GetComponentInParent<TestUnit>();
     }
     public override NodeState Evaluate()

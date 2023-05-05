@@ -12,7 +12,7 @@ public class PlayerController : MonoBehaviour
     private Rigidbody2D rig2D;
     private PlayerStateMachine stateMachine;
     private PlayerCharacterSwitch characterSwitch;
-    private CharacterStatsDataMono characterStats;
+    private PlayerCharacterStats characterStats;
 
     public float MoveSpeedX => Mathf.Abs(rig2D.velocity.x);
     public float MoveSpeedY => Mathf.Abs(rig2D.velocity.y);
@@ -23,7 +23,7 @@ public class PlayerController : MonoBehaviour
         rig2D = GetComponent<Rigidbody2D>();
         stateMachine = GetComponent<PlayerStateMachine>();
         characterSwitch = GetComponent<PlayerCharacterSwitch>();
-        characterStats = GetComponent<CharacterStatsDataMono>();
+        characterStats = GetComponent<PlayerCharacterStats>();
 
     }
     private void Start()

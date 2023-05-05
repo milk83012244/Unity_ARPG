@@ -57,10 +57,15 @@ public class TestUnit : Sx.BehaviorTree.Tree
     /// <summary>
     /// ¥Í¦¨¶Ë®`¤å¦r
     /// </summary>
-    public void SpawnDamageText(int takeDamage)
+    public void SpawnDamageText(int takeDamage, bool isCritical = false)
     {
         DamageText damageText = damageTextPool.Spawn(transform.position + new Vector3(0, 0.1f), poolParent);
-        damageText.SetDamageText(takeDamage);
+        damageText.SetDamageText(takeDamage, isCritical);
+    }
+    public void SpawnDamageText(int takeDamage, ElementType elementType,bool isCritical =false)
+    {
+        DamageText damageText = damageTextPool.Spawn(transform.position + new Vector3(0, 0.1f), poolParent);
+        damageText.SetDamageText(takeDamage, elementType, isCritical);
     }
     public void DestroySelf()
     {

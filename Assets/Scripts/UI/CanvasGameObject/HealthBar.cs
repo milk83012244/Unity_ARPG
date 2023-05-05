@@ -7,8 +7,8 @@ using TMPro;
 public class HealthBar : MonoBehaviour
 {
     public Image healthBar;
-    public CharacterStatsDataMutiMono characterMutiStats;
-    public CharacterStatsDataMono characterStats;
+    public PlayerCharacterStats characterMutiStats;
+    public OtherCharacterStats characterStats;
     public TMP_Text hpText;
 
     void Update()
