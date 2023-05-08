@@ -69,4 +69,8 @@ public class PlayerController : MonoBehaviour
     {
         rig2D.velocity = dodgeDir * speed * 1;
     }
+    public void DodgeMoveXY(Vector2 dodgeDir, float speedX, float speedY)
+    {
+        rig2D.velocity = new Vector3(speedX * Mathf.Sqrt(0.5f), speedY * Mathf.Sqrt(0.5f))* dodgeDir;
+    }
 }

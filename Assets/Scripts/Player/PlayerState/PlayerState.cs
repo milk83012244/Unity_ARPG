@@ -25,6 +25,7 @@ public class PlayerState : ScriptableObject, IState
 
     protected PlayerInput input;
     protected PlayerCooldownController playerCooldownController;
+    protected PlayerEffectSpawner playerEffectSpawner;
 
     protected PlayerStateMachine stateMachine;
 
@@ -50,7 +51,7 @@ public class PlayerState : ScriptableObject, IState
         //stateHash = Animator.StringToHash(stateName);
     }
 
-    public void Initialize(PlayerController player,PlayerCharacterSwitch playerCharacterSwitch, Animator animator,PlayerStateMachine stateMachine , PlayerInput input,PlayerCooldownController playerCooldownController)
+    public void Initialize(PlayerController player,PlayerCharacterSwitch playerCharacterSwitch, Animator animator,PlayerStateMachine stateMachine , PlayerInput input,PlayerCooldownController playerCooldownController, PlayerEffectSpawner playerEffectSpawner)
     {
         this.player = player;
         this.playerCharacterSwitch = playerCharacterSwitch;
@@ -58,6 +59,7 @@ public class PlayerState : ScriptableObject, IState
         this.stateMachine = stateMachine;
         this.input = input;
         this.playerCooldownController = playerCooldownController;
+        this.playerEffectSpawner = playerEffectSpawner;
     }
     /// <summary>
     /// ¤Á´«¨¤¦â¦P®É¤Á´«Animator

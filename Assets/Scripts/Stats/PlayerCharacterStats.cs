@@ -9,6 +9,7 @@ public class PlayerCharacterStats : MonoBehaviour
 {
     public int currentCharacterID;
 
+    //之後要改成隊伍有對應角色重新載入成對應角色的資料(用字典等鍵值對儲存)
     public List<CharacterBattleDataSO>  characterData = new List<CharacterBattleDataSO>();
     public List<CharacterAttackDataSO>  attackData = new List<CharacterAttackDataSO>();
 
@@ -90,11 +91,11 @@ public class PlayerCharacterStats : MonoBehaviour
     /// <summary>
     /// 造成傷害(獲得敵方腳本扣生命值)
     /// </summary>
-    public void TakeDamage(PlayerCharacterStats attacker, OtherCharacterStats defender, bool isCritical = false)
+    public void TakeDamage(PlayerCharacterStats attacker, OtherCharacterStats defender, bool isCritical = false,bool isSkill=false)
     {
         DamageCalculator damageCalculator = new DamageCalculator();
 
-        float damagefloat = Mathf.Max(damageCalculator.CalculateDamage(attacker) - (defender.CurrentDefence), 0);
+        float damagefloat = Mathf.Max(damageCalculator.CalculateDamage(attacker, isCritical,isSkill) - (defender.CurrentDefence), 0);
 
         currentDamage = (int)Mathf.Round(damagefloat);
 
@@ -103,7 +104,41 @@ public class PlayerCharacterStats : MonoBehaviour
         //UI更新
         //經驗提升等
     }
+    /// <summary>
+    /// 標記傷害
+    /// </summary>
+    public void TakeMarkDamage(PlayerCharacterStats attacker, OtherCharacterStats defender, bool isCritical = false)
+    {
+        DamageCalculator damageCalculator = new DamageCalculator();
 
+        float damagefloat = Mathf.Max(damageCalculator.CalculateMarkDamage(attacker, isCritical) - (defender.CurrentDefence), 0);
+
+        currentDamage = (int)Mathf.Round(damagefloat);
+
+        defender.CurrnetHealth = defender.CurrnetHealth - currentDamage;
+
+        //UI更新
+        //經驗提升等
+    }
+    /// <summary>
+    /// 副傷害
+    /// </summary>
+    public void TakeSubDamage(PlayerCharacterStats attacker, OtherCharacterStats defender, bool isCritical = false, bool isSkill = false)
+    {
+        DamageCalculator damageCalculator = new DamageCalculator();
+
+        float damagefloat = Mathf.Max(damageCalculator.CalculateSubDamage(attacker, isCritical,0.5f) - (defender.CurrentDefence), 0);
+
+        currentDamage = (int)Mathf.Round(damagefloat);
+
+        defender.CurrnetHealth = defender.CurrnetHealth - currentDamage;
+
+        //UI更新
+        //經驗提升等
+    }
+    /// <summary>
+    /// 造成屬性傷害(獲得敵方腳本扣生命值)
+    /// </summary>
     public void TakeDamage(PlayerCharacterStats attacker, OtherCharacterStats defender, ElementType elementType, bool isCritical = false)
     {
         //獲得計算器

@@ -60,6 +60,10 @@ public class PlayerState_Run : PlayerState
         {
             stateMachine.SwitchState(typeof(PlayerState_Attack));
         }
+        if (input.PressSkill1)
+        {
+            stateMachine.SwitchState(typeof(PlayerState_Skill1));
+        }
     }
     public override void PhysicUpdate()
     {

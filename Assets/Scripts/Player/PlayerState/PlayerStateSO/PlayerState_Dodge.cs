@@ -6,9 +6,13 @@ using UnityEngine;
 public class PlayerState_Dodge : PlayerState
 {
     [SerializeField] float dodgeSpeed = 5f;
+
+    public static bool isDodge;
     public override void Enter()
     {
         base.Enter();
+        isDodge = true;
+        playerEffectSpawner.DodgeSmokeTrigger.Invoke();
 
         if (input.currentDirection == 1)
         {
@@ -26,6 +30,7 @@ public class PlayerState_Dodge : PlayerState
     }
     public override void Exit()
     {
+        isDodge = false;
         playerCooldownController.DodgeCooldownTrigger.Invoke();
     }
     public override void LogicUpdate()
@@ -62,6 +67,26 @@ public class PlayerState_Dodge : PlayerState
         {
             dodgeDir = Vector2.up;
             player.DodgeMoveY(dodgeDir, dodgeSpeed);
+        }
+        if (input.AxisX >0 && input.AxisY > 0) //右上
+        {
+            dodgeDir = new Vector2(1, 1);
+            player.DodgeMoveXY(dodgeDir, dodgeSpeed, dodgeSpeed);
+        }
+        else if (input.AxisX < 0 && input.AxisY < 0) //左下
+        {
+            dodgeDir = new Vector2(-1, -1);
+            player.DodgeMoveXY(dodgeDir, dodgeSpeed, dodgeSpeed);
+        }
+        else if (input.AxisX > 0 && input.AxisY < 0) //右下
+        {
+            dodgeDir = new Vector2(1, -1);
+            player.DodgeMoveXY(dodgeDir, dodgeSpeed, dodgeSpeed);
+        }
+        else if (input.AxisX < 0 && input.AxisY >0) //左上
+        {
+            dodgeDir = new Vector2(-1, 1);
+            player.DodgeMoveXY(dodgeDir, dodgeSpeed, dodgeSpeed);
         }
     }
 }

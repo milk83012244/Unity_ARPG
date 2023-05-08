@@ -45,3 +45,4 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   dialogueBubbleCanvas: {fileID: 1148701699909881856, guid: 30f8dfb2967fdf341904dda3f9497fed, type: 3}
+  B_DodgeSmoke: {fileID: 3697515699954622886, guid: f320d13e41c6702469f2a3631a43f30c, type: 3}

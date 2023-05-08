@@ -25,25 +25,4 @@ public interface IAttack3Subject
     /// </summary>
     void NotifyObservers(bool isAttack3);
 }
-public class Attack3Subject : IAttack3Subject
-{
-    private List<IAttack3Observer> observers = new List<IAttack3Observer>();
 
-    public void NotifyObservers(bool isAttack3)
-    {
-        foreach (var observer in observers)
-        {
-            observer.Notify(isAttack3);
-        }
-    }
-
-    public void RegisterObserver(IAttack3Observer observer)
-    {
-        observers.Add(observer);
-    }
-
-    public void RemoveObserver(IAttack3Observer observer)
-    {
-        observers.Remove(observer);
-    }
-}

@@ -89,6 +89,15 @@ public partial class @PlayerInputActions : IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Skill1"",
+                    ""type"": ""Button"",
+                    ""id"": ""fbd01cf8-82df-49eb-acda-1e2922e0418e"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -270,8 +279,30 @@ public partial class @PlayerInputActions : IInputActionCollection2, IDisposable
                 },
                 {
                     ""name"": """",
+                    ""id"": ""3ab6af44-7c25-4d28-ad20-4eebd6d513fa"",
+                    ""path"": ""<XInputController>/rightShoulder"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Run"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
                     ""id"": ""e9a9d2fc-c3ee-44f0-abe2-e0b996f042f0"",
                     ""path"": ""<Mouse>/leftButton"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Attack"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""9e523b1f-395f-4394-a24d-894d07205520"",
+                    ""path"": ""<XInputController>/buttonWest"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
@@ -322,6 +353,39 @@ public partial class @PlayerInputActions : IInputActionCollection2, IDisposable
                     ""action"": ""Dodge"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""ade46346-8978-454e-93c6-6a75b3d40497"",
+                    ""path"": ""<XInputController>/buttonEast"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Dodge"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""d880058a-44dd-4a98-8e3d-e81cbd1d9b66"",
+                    ""path"": ""<Keyboard>/q"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Skill1"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""f34575be-f9a8-40f2-934a-193f44721cbb"",
+                    ""path"": ""<XInputController>/buttonNorth"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Skill1"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -337,6 +401,7 @@ public partial class @PlayerInputActions : IInputActionCollection2, IDisposable
         m_Gameplay_SwitchCharacter2 = m_Gameplay.FindAction("SwitchCharacter2", throwIfNotFound: true);
         m_Gameplay_SwitchCharacter3 = m_Gameplay.FindAction("SwitchCharacter3", throwIfNotFound: true);
         m_Gameplay_Dodge = m_Gameplay.FindAction("Dodge", throwIfNotFound: true);
+        m_Gameplay_Skill1 = m_Gameplay.FindAction("Skill1", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -403,6 +468,7 @@ public partial class @PlayerInputActions : IInputActionCollection2, IDisposable
     private readonly InputAction m_Gameplay_SwitchCharacter2;
     private readonly InputAction m_Gameplay_SwitchCharacter3;
     private readonly InputAction m_Gameplay_Dodge;
+    private readonly InputAction m_Gameplay_Skill1;
     public struct GameplayActions
     {
         private @PlayerInputActions m_Wrapper;
@@ -414,6 +480,7 @@ public partial class @PlayerInputActions : IInputActionCollection2, IDisposable
         public InputAction @SwitchCharacter2 => m_Wrapper.m_Gameplay_SwitchCharacter2;
         public InputAction @SwitchCharacter3 => m_Wrapper.m_Gameplay_SwitchCharacter3;
         public InputAction @Dodge => m_Wrapper.m_Gameplay_Dodge;
+        public InputAction @Skill1 => m_Wrapper.m_Gameplay_Skill1;
         public InputActionMap Get() { return m_Wrapper.m_Gameplay; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -444,6 +511,9 @@ public partial class @PlayerInputActions : IInputActionCollection2, IDisposable
                 @Dodge.started -= m_Wrapper.m_GameplayActionsCallbackInterface.OnDodge;
                 @Dodge.performed -= m_Wrapper.m_GameplayActionsCallbackInterface.OnDodge;
                 @Dodge.canceled -= m_Wrapper.m_GameplayActionsCallbackInterface.OnDodge;
+                @Skill1.started -= m_Wrapper.m_GameplayActionsCallbackInterface.OnSkill1;
+                @Skill1.performed -= m_Wrapper.m_GameplayActionsCallbackInterface.OnSkill1;
+                @Skill1.canceled -= m_Wrapper.m_GameplayActionsCallbackInterface.OnSkill1;
             }
             m_Wrapper.m_GameplayActionsCallbackInterface = instance;
             if (instance != null)
@@ -469,6 +539,9 @@ public partial class @PlayerInputActions : IInputActionCollection2, IDisposable
                 @Dodge.started += instance.OnDodge;
                 @Dodge.performed += instance.OnDodge;
                 @Dodge.canceled += instance.OnDodge;
+                @Skill1.started += instance.OnSkill1;
+                @Skill1.performed += instance.OnSkill1;
+                @Skill1.canceled += instance.OnSkill1;
             }
         }
     }
@@ -482,5 +555,6 @@ public partial class @PlayerInputActions : IInputActionCollection2, IDisposable
         void OnSwitchCharacter2(InputAction.CallbackContext context);
         void OnSwitchCharacter3(InputAction.CallbackContext context);
         void OnDodge(InputAction.CallbackContext context);
+        void OnSkill1(InputAction.CallbackContext context);
     }
 }

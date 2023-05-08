@@ -17,11 +17,15 @@ MonoBehaviour:
   coolDown: 0.7
   minDamage: 5
   maxDamage: 10
+  attackSpeed: 0
   fireElementDamage: 0
   iceElementDamage: 0
   windElementDamage: 0
   thunderElementDamage: 0
   darkElementDamage: 0
   lightElementDamage: 0
-  criticalMultplier: 1.5
+  skill1Multplier: 2
+  skill2Multplier: 0
+  markMultplier: 1.3
+  criticalMultplier: 2
   criticalChance: 0.2

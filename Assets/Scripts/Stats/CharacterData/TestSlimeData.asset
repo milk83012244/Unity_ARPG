@@ -13,8 +13,8 @@ MonoBehaviour:
   m_Name: TestSlimeData
   m_EditorClassIdentifier: 
   elementType: 99
-  mexHealth: 100
-  currentHealth: 95
+  mexHealth: 5000
+  currentHealth: 4561
   baseDefence: 0
   currentDefence: 0
   fireElementDefence: 0

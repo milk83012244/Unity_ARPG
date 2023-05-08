@@ -5,9 +5,10 @@ using UnityEngine;
 [CreateAssetMenu(menuName = "Data/StateMachine/PlayerState/Attacks/Attack3", fileName = "PlayerState_Attack3")]
 public class PlayerState_Attack3 : PlayerState
 {
-    Attack3Subject subject = new Attack3Subject();
+    public static bool isAttack3;
     public override void Enter()
     {
+        isAttack3 = true;
         base.Enter();
         if (input.PressAttack && input.currentDirection == 1)
         {
@@ -28,7 +29,7 @@ public class PlayerState_Attack3 : PlayerState
     }
     public override void Exit()
     {
-        base.Exit();
+        isAttack3 = false;
     }
     public override void LogicUpdate()
     {

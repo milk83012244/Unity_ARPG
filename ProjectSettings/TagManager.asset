@@ -7,6 +7,7 @@ TagManager:
   - Niru
   - Mo
   - Lia
+  - Enemy
   layers:
   - Default
   - TransparentFX
@@ -58,6 +59,12 @@ TagManager:
     locked: 0
   - name: Ground
     uniqueID: 2340040887
+    locked: 0
+  - name: Environment
+    uniqueID: 4056950117
+    locked: 0
+  - name: BattleEffect1
+    uniqueID: 2646219023
     locked: 0
   - name: UIFront
     uniqueID: 4094093033

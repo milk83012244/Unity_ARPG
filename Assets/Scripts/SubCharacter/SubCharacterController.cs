@@ -15,6 +15,7 @@ public class SubCharacterController : MonoBehaviour
     [SerializeField] public int currentDirection; //當前方向
     public bool Moveing => currentDistance > distance;
     [SerializeField] public float currentDistance;
+    [SerializeField] public float maskDistance;
 
     private void Awake()
     {
@@ -28,13 +29,28 @@ public class SubCharacterController : MonoBehaviour
     }
     private void OrderLayerChange()
     {
+        maskDistance = Vector2.Distance(this.transform.position, playerController.transform.position);
         if (this.transform.position.y > playerController.transform.position.y)
         {
             spriteRenderer.sortingOrder = 0;
+            spriteRenderer.color = new(spriteRenderer.color.r, spriteRenderer.color.g, spriteRenderer.color.b, 1f);
         }
         else if (this.transform.position.y <= playerController.transform.position.y)
         {
             spriteRenderer.sortingOrder = 1;
+            //透明度與圖片前後設定
+            if (maskDistance < distance - 0.05f)
+            {
+                spriteRenderer.color = new(spriteRenderer.color.r, spriteRenderer.color.g, spriteRenderer.color.b, 0.7f);
+            }
+            else if (Mathf.Abs(playerController.transform.position.x - this.transform.position.x ) < 0.2f && playerController.transform.position.y - this.transform.position.y < 0.7f)
+            {
+                spriteRenderer.color = new(spriteRenderer.color.r, spriteRenderer.color.g, spriteRenderer.color.b, 0.7f);
+            }
+            else
+            {
+                spriteRenderer.color = new(spriteRenderer.color.r, spriteRenderer.color.g, spriteRenderer.color.b, 1f);
+            }
         }
     }
     /// <summary>

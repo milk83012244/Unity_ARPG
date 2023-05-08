@@ -21,5 +21,6 @@ public class GameAssets : MonoBehaviour
         }
     }
     //就可以呼叫掛在這裡的物件
+    [Header("UI相關")]
     public Transform dialogueBubbleCanvas; //氣泡對話框
 }

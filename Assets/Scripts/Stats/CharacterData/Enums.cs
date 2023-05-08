@@ -8,3 +8,8 @@ public enum ElementType
     Dark,
     None =99,
 }
+public enum MarkType
+{
+    Mo,
+    None = 99,
+}

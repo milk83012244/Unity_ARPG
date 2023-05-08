@@ -1,9 +1,12 @@
+using System.Collections;
 using System.Collections.Generic;
 using Sx.BehaviorTree;
 using UnityEngine;
 
 public class TestUnit : Sx.BehaviorTree.Tree
 {
+    private Coroutine markClearCountCor;
+
     public UnityEngine.Transform[] waypoints;
     public static float speed = 0.8f;
     public static float fovRange = 0.8f;
@@ -14,6 +17,10 @@ public class TestUnit : Sx.BehaviorTree.Tree
     [SerializeField] Transform poolParent;
     [SerializeField] private GameObject damageTextPrafab;
     private ObjectPool<DamageText> damageTextPool;
+
+    [SerializeField] private SpriteRenderer[] markSprites;
+
+    public bool isMarked;
 
     protected override void Start()
     {
@@ -67,10 +74,59 @@ public class TestUnit : Sx.BehaviorTree.Tree
         DamageText damageText = damageTextPool.Spawn(transform.position + new Vector3(0, 0.1f), poolParent);
         damageText.SetDamageText(takeDamage, elementType, isCritical);
     }
+    public void SpawnMarkDamageText(int takeDamage, bool isCritical = false)
+    {
+        DamageText damageText = damageTextPool.Spawn(transform.position + new Vector3(0, 0.2f), poolParent);
+        damageText.SetDamageText(takeDamage, isCritical);
+    }
     public void DestroySelf()
     {
         Destroy(this.gameObject, 1f);
     }
+
+    /// <summary>
+    /// 賦予標記
+    /// </summary>
+    public void SetMark(MarkType markType)
+    {
+        markSprites[(int)markType].gameObject.SetActive(true);
+        isMarked = true;
+        markClearCountCor = StartCoroutine(MarkClearCount());
+    }
+    /// <summary>
+    /// 消除標記
+    /// </summary>
+    public void ClearMark()
+    {
+        for (int i = 0; i < markSprites.Length; i++)
+        {
+            if (markSprites[i] != null)
+            {
+                AnimatorStateInfo animatorInfo;
+                Animator animator = markSprites[i].gameObject.GetComponent<Animator>();
+                animatorInfo = animator.GetCurrentAnimatorStateInfo(0);
+                animator.SetTrigger("MarkClear");
+            }
+        }
+        if (markClearCountCor != null)
+        {
+            StopCoroutine(markClearCountCor);
+            markClearCountCor = null;
+        }
+        isMarked = false;
+    }
+    /// <summary>
+    /// 標記一段時間沒有觸發就自己解除
+    /// </summary>
+    private IEnumerator MarkClearCount()
+    {
+        yield return Yielders.GetWaitForSeconds(5f);
+        if (isMarked)
+        {
+            ClearMark();
+        }
+    }
+
     private void OnDrawGizmos()
     {
         UnityEngine.Gizmos.color = UnityEngine.Color.yellow;

@@ -15,6 +15,8 @@ public class CharacterAttackDataSO : ScriptableObject
     public float minDamage;
     public float maxDamage;
 
+    public float attackSpeed;
+
     //ÄÝ©Ê¶Ë®`
     public float fireElementDamage;
     public float iceElementDamage;
@@ -22,6 +24,11 @@ public class CharacterAttackDataSO : ScriptableObject
     public float thunderElementDamage;
     public float darkElementDamage;
     public float lightElementDamage;
+
+    public float skill1Multplier;
+    public float skill2Multplier;
+
+    public float markMultplier;
 
     public float criticalMultplier;//ÃzÀ»­¿²v
     public float criticalChance;//ÃzÀ»²v
