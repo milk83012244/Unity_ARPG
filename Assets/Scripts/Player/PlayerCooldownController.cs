@@ -11,6 +11,9 @@ public class PlayerCooldownController : MonoBehaviour
     [HideInInspector] public Action<string> Skill1CooldownTrigger;
     public MoSkill1Attack moSkill1Attack;
 
+    [HideInInspector] public Action<string> Skill2CooldownTrigger;
+    public MoSkill2Attack moSkill2Attack;
+
     private PlayerInput playerInput;
 
     private Coroutine dodgeCor;
@@ -19,11 +22,13 @@ public class PlayerCooldownController : MonoBehaviour
     {
         DodgeCooldownTrigger += DodgeCooldownStart;
         Skill1CooldownTrigger += Skill1CooldownStart;
+        Skill2CooldownTrigger += Skill2CooldownStart;
     }
     private void OnDisable()
     {
         DodgeCooldownTrigger -= DodgeCooldownStart;
         Skill1CooldownTrigger -= Skill1CooldownStart;
+        Skill2CooldownTrigger -= Skill2CooldownStart;
         StopAllCoroutines();
     }
     private void Awake()
@@ -46,6 +51,15 @@ public class PlayerCooldownController : MonoBehaviour
         {
             case "Mo":
                 moSkill1Attack.StartSkillCoolDown();
+                break;
+        }
+    }
+    private void Skill2CooldownStart(string characterame)
+    {
+        switch (characterame)
+        {
+            case "Mo":
+                moSkill2Attack.StartSkillCoolDown();
                 break;
         }
     }

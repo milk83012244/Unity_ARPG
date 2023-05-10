@@ -61,16 +61,21 @@ public class PlayerController : MonoBehaviour
         float XY = Mathf.Sqrt(speedX * speedX + speedY * speedY);
         rig2D.velocity = new Vector3(speedX * Mathf.Sqrt(0.5f), speedY * Mathf.Sqrt(0.5f));
     }
-    public void DodgeMoveX(Vector2 dodgeDir, float speed)
+    public void DodgeMove(Vector2 dodgeDir, float speed)
     {
         rig2D.velocity = dodgeDir * speed * 1;
     }
-    public void DodgeMoveY(Vector2 dodgeDir, float speed)
-    {
-        rig2D.velocity = dodgeDir * speed * 1;
-    }
+
     public void DodgeMoveXY(Vector2 dodgeDir, float speedX, float speedY)
     {
         rig2D.velocity = new Vector3(speedX * Mathf.Sqrt(0.5f), speedY * Mathf.Sqrt(0.5f))* dodgeDir;
+    }
+    public void MoSkill2Move(Vector2 Dir, float speed)
+    {
+        rig2D.velocity = Dir * speed * 1;
+    }
+    public void MoSkill2MoveXY(Vector2 Dir, float speedX, float speedY)
+    {
+        rig2D.velocity = new Vector3(speedX * Mathf.Sqrt(0.5f), speedY * Mathf.Sqrt(0.5f)) * Dir;
     }
 }

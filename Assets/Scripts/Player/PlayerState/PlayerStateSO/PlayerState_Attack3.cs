@@ -39,6 +39,10 @@ public class PlayerState_Attack3 : PlayerState
             {
                 stateMachine.SwitchState(typeof(PlayerState_Dodge));
             }
+            if (input.PressSkill2)
+            {
+                stateMachine.SwitchState(typeof(PlayerState_Skill2));
+            }
         }
 
         if (IsAnimationFinished)

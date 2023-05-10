@@ -51,22 +51,22 @@ public class PlayerState_Dodge : PlayerState
         if (input.currentDirection == 1)
         {
             dodgeDir = Vector2.left;
-            player.DodgeMoveX(dodgeDir, dodgeSpeed);
+            player.DodgeMove(dodgeDir, dodgeSpeed);
         }
         else if (input.currentDirection == 2)
         {
             dodgeDir = Vector2.down;
-            player.DodgeMoveY(dodgeDir, dodgeSpeed);
+            player.DodgeMove(dodgeDir, dodgeSpeed);
         }
         else if (input.currentDirection == 3)
         {
             dodgeDir = Vector2.right;
-            player.DodgeMoveX(dodgeDir, dodgeSpeed);
+            player.DodgeMove(dodgeDir, dodgeSpeed);
         }
         else if (input.currentDirection == 4)
         {
             dodgeDir = Vector2.up;
-            player.DodgeMoveY(dodgeDir, dodgeSpeed);
+            player.DodgeMove(dodgeDir, dodgeSpeed);
         }
         if (input.AxisX >0 && input.AxisY > 0) //¥k¤W
         {

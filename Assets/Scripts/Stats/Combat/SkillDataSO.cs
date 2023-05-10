@@ -6,5 +6,6 @@ using UnityEngine;
 public class SkillDataSO : ScriptableObject
 {
     public int skillLevel;
-    public int skillCoolDown;
+    public float skillDuration;
+    public float skillCoolDown;
 }

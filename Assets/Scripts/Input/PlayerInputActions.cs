@@ -98,6 +98,15 @@ public partial class @PlayerInputActions : IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Skill2"",
+                    ""type"": ""Button"",
+                    ""id"": ""26e166e4-c234-49b9-a45b-5cac2f44930a"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -357,7 +366,7 @@ public partial class @PlayerInputActions : IInputActionCollection2, IDisposable
                 {
                     ""name"": """",
                     ""id"": ""ade46346-8978-454e-93c6-6a75b3d40497"",
-                    ""path"": ""<XInputController>/buttonEast"",
+                    ""path"": ""<XInputController>/buttonSouth"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
@@ -386,6 +395,28 @@ public partial class @PlayerInputActions : IInputActionCollection2, IDisposable
                     ""action"": ""Skill1"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""6a5db270-d094-4351-a750-b2b1b12e4c8d"",
+                    ""path"": ""<Keyboard>/e"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Skill2"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""e830eeb6-173a-4850-937e-2a38fe1e7660"",
+                    ""path"": ""<XInputController>/buttonEast"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Skill2"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -402,6 +433,7 @@ public partial class @PlayerInputActions : IInputActionCollection2, IDisposable
         m_Gameplay_SwitchCharacter3 = m_Gameplay.FindAction("SwitchCharacter3", throwIfNotFound: true);
         m_Gameplay_Dodge = m_Gameplay.FindAction("Dodge", throwIfNotFound: true);
         m_Gameplay_Skill1 = m_Gameplay.FindAction("Skill1", throwIfNotFound: true);
+        m_Gameplay_Skill2 = m_Gameplay.FindAction("Skill2", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -469,6 +501,7 @@ public partial class @PlayerInputActions : IInputActionCollection2, IDisposable
     private readonly InputAction m_Gameplay_SwitchCharacter3;
     private readonly InputAction m_Gameplay_Dodge;
     private readonly InputAction m_Gameplay_Skill1;
+    private readonly InputAction m_Gameplay_Skill2;
     public struct GameplayActions
     {
         private @PlayerInputActions m_Wrapper;
@@ -481,6 +514,7 @@ public partial class @PlayerInputActions : IInputActionCollection2, IDisposable
         public InputAction @SwitchCharacter3 => m_Wrapper.m_Gameplay_SwitchCharacter3;
         public InputAction @Dodge => m_Wrapper.m_Gameplay_Dodge;
         public InputAction @Skill1 => m_Wrapper.m_Gameplay_Skill1;
+        public InputAction @Skill2 => m_Wrapper.m_Gameplay_Skill2;
         public InputActionMap Get() { return m_Wrapper.m_Gameplay; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -514,6 +548,9 @@ public partial class @PlayerInputActions : IInputActionCollection2, IDisposable
                 @Skill1.started -= m_Wrapper.m_GameplayActionsCallbackInterface.OnSkill1;
                 @Skill1.performed -= m_Wrapper.m_GameplayActionsCallbackInterface.OnSkill1;
                 @Skill1.canceled -= m_Wrapper.m_GameplayActionsCallbackInterface.OnSkill1;
+                @Skill2.started -= m_Wrapper.m_GameplayActionsCallbackInterface.OnSkill2;
+                @Skill2.performed -= m_Wrapper.m_GameplayActionsCallbackInterface.OnSkill2;
+                @Skill2.canceled -= m_Wrapper.m_GameplayActionsCallbackInterface.OnSkill2;
             }
             m_Wrapper.m_GameplayActionsCallbackInterface = instance;
             if (instance != null)
@@ -542,6 +579,9 @@ public partial class @PlayerInputActions : IInputActionCollection2, IDisposable
                 @Skill1.started += instance.OnSkill1;
                 @Skill1.performed += instance.OnSkill1;
                 @Skill1.canceled += instance.OnSkill1;
+                @Skill2.started += instance.OnSkill2;
+                @Skill2.performed += instance.OnSkill2;
+                @Skill2.canceled += instance.OnSkill2;
             }
         }
     }
@@ -556,5 +596,6 @@ public partial class @PlayerInputActions : IInputActionCollection2, IDisposable
         void OnSwitchCharacter3(InputAction.CallbackContext context);
         void OnDodge(InputAction.CallbackContext context);
         void OnSkill1(InputAction.CallbackContext context);
+        void OnSkill2(InputAction.CallbackContext context);
     }
 }

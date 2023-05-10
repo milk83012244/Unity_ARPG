@@ -56,7 +56,7 @@ public class DamageCalculator
     /// <summary>
     /// ª±®a°Æ§ðÀ»­pºâ
     /// </summary>
-    public int CalculateSubDamage(PlayerCharacterStats attacker, bool isCritical = false,float subMultplier = 0f)
+    public int CalculateSubDamage(PlayerCharacterStats attacker, float subMultplier, bool isCritical = false)
     {
         float coreDamage = UnityEngine.Random.Range(attacker.attackData[attacker.currentCharacterID].minDamage, attacker.attackData[attacker.currentCharacterID].maxDamage);
         coreDamage *= subMultplier;

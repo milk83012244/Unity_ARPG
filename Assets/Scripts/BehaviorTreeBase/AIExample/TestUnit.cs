@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using Sx.BehaviorTree;
 using UnityEngine;
 
-public class TestUnit : Sx.BehaviorTree.Tree
+public class TestUnit : Sx.BehaviorTree.Tree, IDamageable
 {
     private Coroutine markClearCountCor;
 
@@ -102,9 +102,7 @@ public class TestUnit : Sx.BehaviorTree.Tree
         {
             if (markSprites[i] != null)
             {
-                AnimatorStateInfo animatorInfo;
                 Animator animator = markSprites[i].gameObject.GetComponent<Animator>();
-                animatorInfo = animator.GetCurrentAnimatorStateInfo(0);
                 animator.SetTrigger("MarkClear");
             }
         }
@@ -131,5 +129,12 @@ public class TestUnit : Sx.BehaviorTree.Tree
     {
         UnityEngine.Gizmos.color = UnityEngine.Color.yellow;
         UnityEngine.Gizmos.DrawWireSphere(transform.position, fovRange);
+    }
+    /// <summary>
+    /// 實作受傷效果(硬直,擊退,特殊狀態等)
+    /// </summary>
+    public void DamageEffect()
+    {
+        
     }
 }

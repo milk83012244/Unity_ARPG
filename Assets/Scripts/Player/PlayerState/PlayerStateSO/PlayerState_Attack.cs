@@ -42,7 +42,11 @@ public class PlayerState_Attack : PlayerState
             {
                 stateMachine.SwitchState(typeof(PlayerState_Skill1));
             }
-            else if (input.PressDodge)
+            if (input.PressSkill2)
+            {
+                stateMachine.SwitchState(typeof(PlayerState_Skill2));
+            }
+            if (input.PressDodge)
             {
                 stateMachine.SwitchState(typeof(PlayerState_Dodge));
             }

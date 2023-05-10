@@ -127,7 +127,7 @@ public class PlayerCharacterStats : MonoBehaviour
     {
         DamageCalculator damageCalculator = new DamageCalculator();
 
-        float damagefloat = Mathf.Max(damageCalculator.CalculateSubDamage(attacker, isCritical,0.5f) - (defender.CurrentDefence), 0);
+        float damagefloat = Mathf.Max(damageCalculator.CalculateSubDamage(attacker, 0.5f, isCritical) - (defender.CurrentDefence), 0);
 
         currentDamage = (int)Mathf.Round(damagefloat);
 

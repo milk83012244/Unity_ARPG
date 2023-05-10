@@ -10,7 +10,8 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: cc90557eed61c694b9c7e9fe7d657c27, type: 3}
-  m_Name: Mo_SkillDataSO
+  m_Name: Mo_Skill2DataSO
   m_EditorClassIdentifier: 
   skillLevel: 0
-  skillCoolDown: 3
+  skillDuration: 0
+  skillCoolDown: 1

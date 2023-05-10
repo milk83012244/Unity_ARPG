@@ -12,8 +12,9 @@ public class PlayerInput : MonoBehaviour
 
     public int currentDirection;
 
-    public bool canDodge;
-    public bool canSkill1;
+   [HideInInspector] public bool canDodge;
+    [HideInInspector] public bool canSkill1;
+    [HideInInspector] public bool canSkill2;
 
     #region 輸入相關變數
     public float AxisX => Axes.x;
@@ -29,6 +30,8 @@ public class PlayerInput : MonoBehaviour
     public bool PressDodge => playerInputActions.Gameplay.Dodge.IsPressed() == true && canDodge && GameManager.GetInstance().GetCurrentState() == (int)GameManager.GameState.Battle;
     public bool PressAttack => playerInputActions.Gameplay.Attack.IsPressed() && GameManager.GetInstance().CurrentGameState == GameManager.GameState.Battle;
     public bool PressSkill1 => playerInputActions.Gameplay.Skill1.WasPressedThisFrame() && canSkill1&& GameManager.GetInstance().CurrentGameState == GameManager.GameState.Battle;
+
+    public bool PressSkill2 => playerInputActions.Gameplay.Skill2.WasPressedThisFrame() && canSkill2 && GameManager.GetInstance().CurrentGameState == GameManager.GameState.Battle;
     public bool ChangeCharacter1 => playerInputActions.Gameplay.SwitchCharacter.IsPressed() && GameManager.GetInstance().GetCurrentState() == (int)GameManager.GameState.Battle;
     //public bool Attack => playerInputActions.Gameplay.Attack.WasPressedThisFrame();
     #endregion
@@ -37,6 +40,7 @@ public class PlayerInput : MonoBehaviour
     {
         canDodge = true;
         canSkill1 = true;
+        canSkill2 = true;
         playerInputActions = new PlayerInputActions();
         currentDirection = 0;
     }

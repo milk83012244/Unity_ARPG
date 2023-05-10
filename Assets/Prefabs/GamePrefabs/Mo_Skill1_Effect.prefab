@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 4322090853966420053}
   - component: {fileID: 6614626511185911121}
   - component: {fileID: 6111184515634069418}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Mo_Skill1_Effect
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -120,7 +120,7 @@ BoxCollider2D:
   m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0.0009728521, y: -0.062262535}
+  m_Offset: {x: 0.0009728521, y: -0.042131312}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
@@ -131,7 +131,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 0.17016676, y: 0.41462654}
+  m_Size: {x: 0.17016676, y: 0.454889}
   m_EdgeRadius: 0
 --- !u!114 &6111184515634069418
 MonoBehaviour:
@@ -147,4 +147,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   moSkill1Attack: {fileID: 0}
   damageInterval: 0.5
-  damageDuration: 3
+  damageDuration: 2
