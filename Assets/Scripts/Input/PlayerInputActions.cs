@@ -55,7 +55,7 @@ public partial class @PlayerInputActions : IInputActionCollection2, IDisposable
                     ""initialStateCheck"": false
                 },
                 {
-                    ""name"": ""SwitchCharacter"",
+                    ""name"": ""SwitchCharacter1"",
                     ""type"": ""Button"",
                     ""id"": ""e888d136-30f7-4963-978f-1837d42d8f3f"",
                     ""expectedControlType"": ""Button"",
@@ -326,7 +326,18 @@ public partial class @PlayerInputActions : IInputActionCollection2, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""SwitchCharacter"",
+                    ""action"": ""SwitchCharacter1"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""0ce1a5ec-e29a-4f97-8906-41149aba249e"",
+                    ""path"": ""<XInputController>/dpad/up"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""SwitchCharacter1"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
@@ -343,8 +354,30 @@ public partial class @PlayerInputActions : IInputActionCollection2, IDisposable
                 },
                 {
                     ""name"": """",
+                    ""id"": ""a96dc2cc-de9a-4e3c-bdad-9fe7e14b9817"",
+                    ""path"": ""<XInputController>/dpad/right"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""SwitchCharacter2"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
                     ""id"": ""1078c209-4236-49b0-b405-e40aa9697fc2"",
                     ""path"": ""<Keyboard>/3"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""SwitchCharacter3"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""a87ec5ba-fd03-4fd3-97c4-20460068b0d2"",
+                    ""path"": ""<XInputController>/dpad/down"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
@@ -428,7 +461,7 @@ public partial class @PlayerInputActions : IInputActionCollection2, IDisposable
         m_Gameplay_Axes = m_Gameplay.FindAction("Axes", throwIfNotFound: true);
         m_Gameplay_Run = m_Gameplay.FindAction("Run", throwIfNotFound: true);
         m_Gameplay_Attack = m_Gameplay.FindAction("Attack", throwIfNotFound: true);
-        m_Gameplay_SwitchCharacter = m_Gameplay.FindAction("SwitchCharacter", throwIfNotFound: true);
+        m_Gameplay_SwitchCharacter1 = m_Gameplay.FindAction("SwitchCharacter1", throwIfNotFound: true);
         m_Gameplay_SwitchCharacter2 = m_Gameplay.FindAction("SwitchCharacter2", throwIfNotFound: true);
         m_Gameplay_SwitchCharacter3 = m_Gameplay.FindAction("SwitchCharacter3", throwIfNotFound: true);
         m_Gameplay_Dodge = m_Gameplay.FindAction("Dodge", throwIfNotFound: true);
@@ -496,7 +529,7 @@ public partial class @PlayerInputActions : IInputActionCollection2, IDisposable
     private readonly InputAction m_Gameplay_Axes;
     private readonly InputAction m_Gameplay_Run;
     private readonly InputAction m_Gameplay_Attack;
-    private readonly InputAction m_Gameplay_SwitchCharacter;
+    private readonly InputAction m_Gameplay_SwitchCharacter1;
     private readonly InputAction m_Gameplay_SwitchCharacter2;
     private readonly InputAction m_Gameplay_SwitchCharacter3;
     private readonly InputAction m_Gameplay_Dodge;
@@ -509,7 +542,7 @@ public partial class @PlayerInputActions : IInputActionCollection2, IDisposable
         public InputAction @Axes => m_Wrapper.m_Gameplay_Axes;
         public InputAction @Run => m_Wrapper.m_Gameplay_Run;
         public InputAction @Attack => m_Wrapper.m_Gameplay_Attack;
-        public InputAction @SwitchCharacter => m_Wrapper.m_Gameplay_SwitchCharacter;
+        public InputAction @SwitchCharacter1 => m_Wrapper.m_Gameplay_SwitchCharacter1;
         public InputAction @SwitchCharacter2 => m_Wrapper.m_Gameplay_SwitchCharacter2;
         public InputAction @SwitchCharacter3 => m_Wrapper.m_Gameplay_SwitchCharacter3;
         public InputAction @Dodge => m_Wrapper.m_Gameplay_Dodge;
@@ -533,9 +566,9 @@ public partial class @PlayerInputActions : IInputActionCollection2, IDisposable
                 @Attack.started -= m_Wrapper.m_GameplayActionsCallbackInterface.OnAttack;
                 @Attack.performed -= m_Wrapper.m_GameplayActionsCallbackInterface.OnAttack;
                 @Attack.canceled -= m_Wrapper.m_GameplayActionsCallbackInterface.OnAttack;
-                @SwitchCharacter.started -= m_Wrapper.m_GameplayActionsCallbackInterface.OnSwitchCharacter;
-                @SwitchCharacter.performed -= m_Wrapper.m_GameplayActionsCallbackInterface.OnSwitchCharacter;
-                @SwitchCharacter.canceled -= m_Wrapper.m_GameplayActionsCallbackInterface.OnSwitchCharacter;
+                @SwitchCharacter1.started -= m_Wrapper.m_GameplayActionsCallbackInterface.OnSwitchCharacter1;
+                @SwitchCharacter1.performed -= m_Wrapper.m_GameplayActionsCallbackInterface.OnSwitchCharacter1;
+                @SwitchCharacter1.canceled -= m_Wrapper.m_GameplayActionsCallbackInterface.OnSwitchCharacter1;
                 @SwitchCharacter2.started -= m_Wrapper.m_GameplayActionsCallbackInterface.OnSwitchCharacter2;
                 @SwitchCharacter2.performed -= m_Wrapper.m_GameplayActionsCallbackInterface.OnSwitchCharacter2;
                 @SwitchCharacter2.canceled -= m_Wrapper.m_GameplayActionsCallbackInterface.OnSwitchCharacter2;
@@ -564,9 +597,9 @@ public partial class @PlayerInputActions : IInputActionCollection2, IDisposable
                 @Attack.started += instance.OnAttack;
                 @Attack.performed += instance.OnAttack;
                 @Attack.canceled += instance.OnAttack;
-                @SwitchCharacter.started += instance.OnSwitchCharacter;
-                @SwitchCharacter.performed += instance.OnSwitchCharacter;
-                @SwitchCharacter.canceled += instance.OnSwitchCharacter;
+                @SwitchCharacter1.started += instance.OnSwitchCharacter1;
+                @SwitchCharacter1.performed += instance.OnSwitchCharacter1;
+                @SwitchCharacter1.canceled += instance.OnSwitchCharacter1;
                 @SwitchCharacter2.started += instance.OnSwitchCharacter2;
                 @SwitchCharacter2.performed += instance.OnSwitchCharacter2;
                 @SwitchCharacter2.canceled += instance.OnSwitchCharacter2;
@@ -591,7 +624,7 @@ public partial class @PlayerInputActions : IInputActionCollection2, IDisposable
         void OnAxes(InputAction.CallbackContext context);
         void OnRun(InputAction.CallbackContext context);
         void OnAttack(InputAction.CallbackContext context);
-        void OnSwitchCharacter(InputAction.CallbackContext context);
+        void OnSwitchCharacter1(InputAction.CallbackContext context);
         void OnSwitchCharacter2(InputAction.CallbackContext context);
         void OnSwitchCharacter3(InputAction.CallbackContext context);
         void OnDodge(InputAction.CallbackContext context);

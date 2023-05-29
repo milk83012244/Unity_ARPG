@@ -33,7 +33,7 @@
                     "initialStateCheck": false
                 },
                 {
-                    "name": "SwitchCharacter",
+                    "name": "SwitchCharacter1",
                     "type": "Button",
                     "id": "e888d136-30f7-4963-978f-1837d42d8f3f",
                     "expectedControlType": "Button",
@@ -304,7 +304,18 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "SwitchCharacter",
+                    "action": "SwitchCharacter1",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "0ce1a5ec-e29a-4f97-8906-41149aba249e",
+                    "path": "<XInputController>/dpad/up",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "SwitchCharacter1",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
@@ -321,8 +332,30 @@
                 },
                 {
                     "name": "",
+                    "id": "a96dc2cc-de9a-4e3c-bdad-9fe7e14b9817",
+                    "path": "<XInputController>/dpad/right",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "SwitchCharacter2",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
                     "id": "1078c209-4236-49b0-b405-e40aa9697fc2",
                     "path": "<Keyboard>/3",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "SwitchCharacter3",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "a87ec5ba-fd03-4fd3-97c4-20460068b0d2",
+                    "path": "<XInputController>/dpad/down",
                     "interactions": "",
                     "processors": "",
                     "groups": "",

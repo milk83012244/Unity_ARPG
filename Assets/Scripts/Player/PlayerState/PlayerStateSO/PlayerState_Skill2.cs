@@ -35,13 +35,13 @@ public class PlayerState_Skill2 : PlayerState
                 MoSkill2Move();
                 break;
         }
+        //技能CD
+        playerCooldownController.Skill2CooldownTrigger.Invoke(playerCharacterSwitch.currentControlCharacterNamesSB.ToString());
     }
     public override void Exit()
     {
         MoveEnd();
         isMoSkill2 = false;
-        //技能CD
-        playerCooldownController.Skill2CooldownTrigger.Invoke(playerCharacterSwitch.currentControlCharacterNamesSB.ToString());
     }
     public override void LogicUpdate()
     {

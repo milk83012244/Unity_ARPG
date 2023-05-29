@@ -18,6 +18,7 @@ public class PlayerCharacterStats : MonoBehaviour
     [HideInInspector] public int currentDamage;
     [HideInInspector] public bool isCritical;
 
+
     #region 從ChatacterDataSO讀取值
     public int MaxHealth
     {
@@ -79,12 +80,7 @@ public class PlayerCharacterStats : MonoBehaviour
 
     private void Start()
     {
-        ElementDefences.Add(characterData[currentCharacterID].fireElementDefence);
-        ElementDefences.Add(characterData[currentCharacterID].iceElementDefence);
-        ElementDefences.Add(characterData[currentCharacterID].windElementDefence);
-        ElementDefences.Add(characterData[currentCharacterID].thunderElementDefence);
-        ElementDefences.Add(characterData[currentCharacterID].lightElementDefence);
-        ElementDefences.Add(characterData[currentCharacterID].darkElementDefence);
+        InitData();
     }
 
     #region 傷害計算
@@ -103,6 +99,7 @@ public class PlayerCharacterStats : MonoBehaviour
 
         //UI更新
         //經驗提升等
+        CinemachineShake.GetInstance().ShakeCamera(0.3f, 0.1f);
     }
     /// <summary>
     /// 標記傷害
@@ -158,6 +155,21 @@ public class PlayerCharacterStats : MonoBehaviour
         //經驗提升等
     }
     #endregion
+    /// <summary>
+    /// 初始化角色數值
+    /// </summary>
+    public void InitData()
+    {
+        ElementDefences.Add(characterData[currentCharacterID].fireElementDefence);
+        ElementDefences.Add(characterData[currentCharacterID].iceElementDefence);
+        ElementDefences.Add(characterData[currentCharacterID].windElementDefence);
+        ElementDefences.Add(characterData[currentCharacterID].thunderElementDefence);
+        ElementDefences.Add(characterData[currentCharacterID].lightElementDefence);
+        ElementDefences.Add(characterData[currentCharacterID].darkElementDefence);
+    }
+    /// <summary>
+    /// 切換角色時重設數值
+    /// </summary>
     public void ResetData()
     {
         if (ElementDefences.Count != 0)

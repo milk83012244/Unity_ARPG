@@ -66,17 +66,20 @@ public class TestUnit : Sx.BehaviorTree.Tree, IDamageable
     /// </summary>
     public void SpawnDamageText(int takeDamage, bool isCritical = false)
     {
-        DamageText damageText = damageTextPool.Spawn(transform.position + new Vector3(0, 0.1f), poolParent);
+        Vector3 random = new Vector2(Random.Range(-0.3f, 0.3f), Random.Range(-0.3f, 0.3f));
+        DamageText damageText = damageTextPool.Spawn(transform.position + new Vector3(0, 0.1f) + random, poolParent);
         damageText.SetDamageText(takeDamage, isCritical);
     }
     public void SpawnDamageText(int takeDamage, ElementType elementType,bool isCritical =false)
     {
-        DamageText damageText = damageTextPool.Spawn(transform.position + new Vector3(0, 0.1f), poolParent);
+        Vector3 random = new Vector2(Random.Range(-0.3f, 0.3f), Random.Range(-0.3f, 0.3f));
+        DamageText damageText = damageTextPool.Spawn(transform.position + new Vector3(0, 0.1f)+ random, poolParent);
         damageText.SetDamageText(takeDamage, elementType, isCritical);
     }
     public void SpawnMarkDamageText(int takeDamage, bool isCritical = false)
     {
-        DamageText damageText = damageTextPool.Spawn(transform.position + new Vector3(0, 0.2f), poolParent);
+        Vector3 random = new Vector2(Random.Range(-0.1f, 0.1f), Random.Range(-0.1f, 0.1f));
+        DamageText damageText = damageTextPool.Spawn(transform.position + new Vector3(0, 0.2f)+ random, poolParent);
         damageText.SetDamageText(takeDamage, isCritical);
     }
     public void DestroySelf()

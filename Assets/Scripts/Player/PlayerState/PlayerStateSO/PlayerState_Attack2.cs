@@ -29,7 +29,7 @@ public class PlayerState_Attack2 : PlayerState
     {
         if (CurrentStateTime >= 0.7f)
         {
-            if (input.PressAttack)
+            if (input.PressAttack && characterStats.characterData[characterStats.currentCharacterID].PlayerNormalAttackCount>=3)
             {
                 stateMachine.SwitchState(typeof(PlayerState_Attack3));
             }

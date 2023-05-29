@@ -27,6 +27,9 @@ public class SubCharacterController : MonoBehaviour
         OrderLayerChange();
         currentDirection = DriectionCheck();
     }
+    /// <summary>
+    /// 與主要控制角色的層級控制
+    /// </summary>
     private void OrderLayerChange()
     {
         maskDistance = Vector2.Distance(this.transform.position, playerController.transform.position);
@@ -78,6 +81,10 @@ public class SubCharacterController : MonoBehaviour
         if (currentDistance > distance)
         {
             this.transform.position = Vector2.MoveTowards(this.transform.position, playerController.transform.position, speed *Time.deltaTime);
+        }
+        else if (currentDistance > distance * 2)
+        {
+            this.transform.position = Vector2.MoveTowards(this.transform.position, playerController.transform.position, speed * Time.deltaTime);
         }
     }
     /// <summary>

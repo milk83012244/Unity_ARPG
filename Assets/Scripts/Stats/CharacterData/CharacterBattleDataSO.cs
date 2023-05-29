@@ -9,6 +9,8 @@ using UnityEngine;
 public class CharacterBattleDataSO : ScriptableObject
 {
     public ElementType elementType;
+    public AttackType attackType;
+    public int PlayerNormalAttackCount; //¨¤¦â´¶§ð¦¸¼Æ
 
     [Header("Stats Info")]
     public int mexHealth;

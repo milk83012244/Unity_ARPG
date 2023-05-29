@@ -28,6 +28,7 @@ public class PlayerState : ScriptableObject, IState
     protected PlayerEffectSpawner playerEffectSpawner;
 
     protected PlayerStateMachine stateMachine;
+    protected PlayerCharacterStats characterStats;
 
     /// <summary>
     /// 當前遊戲狀態
@@ -51,7 +52,7 @@ public class PlayerState : ScriptableObject, IState
         //stateHash = Animator.StringToHash(stateName);
     }
 
-    public void Initialize(PlayerController player,PlayerCharacterSwitch playerCharacterSwitch, Animator animator,PlayerStateMachine stateMachine , PlayerInput input,PlayerCooldownController playerCooldownController, PlayerEffectSpawner playerEffectSpawner)
+    public void Initialize(PlayerController player,PlayerCharacterSwitch playerCharacterSwitch, Animator animator,PlayerStateMachine stateMachine , PlayerInput input,PlayerCooldownController playerCooldownController, PlayerEffectSpawner playerEffectSpawner, PlayerCharacterStats characterStats)
     {
         this.player = player;
         this.playerCharacterSwitch = playerCharacterSwitch;
@@ -60,6 +61,7 @@ public class PlayerState : ScriptableObject, IState
         this.input = input;
         this.playerCooldownController = playerCooldownController;
         this.playerEffectSpawner = playerEffectSpawner;
+        this.characterStats = characterStats;
     }
     /// <summary>
     /// 切換角色同時切換Animator

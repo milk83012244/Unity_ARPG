@@ -14,6 +14,7 @@ public class PlayerStateMachine : StateMachine
     PlayerInput input;
     PlayerCooldownController playerCooldownController;
     PlayerEffectSpawner playerEffectSpawner;
+    PlayerCharacterStats characterStats;
 
     Animator animator;
     private void Awake()
@@ -25,12 +26,13 @@ public class PlayerStateMachine : StateMachine
         input = GetComponent<PlayerInput>();
         playerCooldownController = GetComponent<PlayerCooldownController>();
         playerEffectSpawner = GetComponent<PlayerEffectSpawner>();
+        characterStats = GetComponent<PlayerCharacterStats>();
 
         stateDic = new Dictionary<System.Type, IState>(states.Length);
 
         foreach (PlayerState state in states)
         {
-            state.Initialize(player, characterSwitch, animator, this , input, playerCooldownController, playerEffectSpawner);
+            state.Initialize(player, characterSwitch, animator, this , input, playerCooldownController, playerEffectSpawner, characterStats);
             stateDic.Add(state.GetType(), state);
         }
 
@@ -45,7 +47,7 @@ public class PlayerStateMachine : StateMachine
         stateDic.Clear();
         foreach (PlayerState state in states)
         {
-            state.Initialize(player, characterSwitch, animator, this, input, playerCooldownController,playerEffectSpawner);
+            state.Initialize(player, characterSwitch, animator, this, input, playerCooldownController,playerEffectSpawner, characterStats);
             stateDic.Add(state.GetType(), state);
         }
     }

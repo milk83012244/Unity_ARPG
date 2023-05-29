@@ -36,31 +36,29 @@ public class MoSkill1Attack : MonoBehaviour
         if (damageable != null)
         {
             OtherCharacterStats defander = collision.GetComponent<OtherCharacterStats>();
-            TestUnit enemyUnit = defander.GetComponent<TestUnit>();
-            if (playerInput.canSkill1)
+            EnemyUnits enemyUnit = defander.GetComponent<EnemyUnits>();
+
+            if (enemyUnit.isMarked)
             {
-                if (enemyUnit.isMarked)
-                {
-                    enemyUnit.ClearMark();
-                    activeMarkAttack = true;
-                }
-                else
-                {
-                    enemyUnit.SetMark(MarkType.Mo);
-                    activeMarkAttack = false;
-                }
-                if (activeMarkAttack)
-                {
-                    characterStats.TakeMarkDamage(characterStats, defander, characterStats.isCritical);
-                    enemyUnit.SpawnMarkDamageText(characterStats.currentDamage, characterStats.isCritical);
-                    characterStats.TakeDamage(characterStats, defander, characterStats.isCritical, isSkill: true);
-                }
-                else
-                {
-                    characterStats.TakeDamage(characterStats, defander, characterStats.isCritical, isSkill: true);
-                }
-                enemyUnit.SpawnDamageText(characterStats.currentDamage, characterStats.isCritical);
+                enemyUnit.ClearMark();
+                activeMarkAttack = true;
             }
+            else
+            {
+                enemyUnit.SetMark(MarkType.Mo);
+                activeMarkAttack = false;
+            }
+            if (activeMarkAttack)
+            {
+                characterStats.TakeMarkDamage(characterStats, defander, characterStats.isCritical);
+                enemyUnit.SpawnMarkDamageText(characterStats.currentDamage, characterStats.isCritical);
+                characterStats.TakeDamage(characterStats, defander, characterStats.isCritical, isSkill: true);
+            }
+            else
+            {
+                characterStats.TakeDamage(characterStats, defander, characterStats.isCritical, isSkill: true);
+            }
+            enemyUnit.SpawnDamageText(characterStats.currentDamage, characterStats.isCritical);
         }
     }
     public void StartSkillCoolDown()

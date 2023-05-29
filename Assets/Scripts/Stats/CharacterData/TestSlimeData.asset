@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   elementType: 99
   mexHealth: 5000
-  currentHealth: 4561
+  currentHealth: 4499
   baseDefence: 0
   currentDefence: 0
   fireElementDefence: 0

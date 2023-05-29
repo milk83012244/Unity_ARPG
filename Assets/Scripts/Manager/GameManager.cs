@@ -56,6 +56,23 @@ public class GameManager : MonoBehaviour
     {
         return (int)CurrentGameState;
     }
+    /// <summary>
+    /// 獲得當前控制角色號碼
+    /// </summary>
+    public int GetCurrentBattleCharacter()
+    {
+        switch (PlayerCharacterSwitch.battleCurrentCharacterNumber)
+        {
+            case BattleCurrentCharacterNumber.First:
+                return 1;
+            case BattleCurrentCharacterNumber.Second:
+                return 2;
+            case BattleCurrentCharacterNumber.Third:
+                return 3;
+            default:
+                return 0;
+        }
+    }
     public void PauseGame()
     {
         // 暫停遊戲代碼

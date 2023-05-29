@@ -33,7 +33,7 @@ public class MoSkill1Effect : MonoBehaviour
             moSkill1Attack.characterStats.isCritical = Random.value < moSkill1Attack.characterStats.attackData[moSkill1Attack.characterStats.currentCharacterID].criticalChance;
             if (damageable != null)
             {
-                TestUnit enemyUnit = damageable as TestUnit;
+                EnemyUnits enemyUnit = damageable as EnemyUnits;
                 OtherCharacterStats defander = enemyUnit.GetComponent<OtherCharacterStats>();
 
                 moSkill1Attack.characterStats.TakeSubDamage(moSkill1Attack.characterStats, defander, moSkill1Attack.characterStats.isCritical);

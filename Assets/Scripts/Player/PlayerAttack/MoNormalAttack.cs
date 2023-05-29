@@ -36,7 +36,7 @@ public class MoNormalAttack : MonoBehaviour
         if (damageable != null)
         {
             OtherCharacterStats defander = collision.GetComponent<OtherCharacterStats>();
-            TestUnit enemyUnit = defander.GetComponent<TestUnit>();
+            EnemyUnits enemyUnit = defander.GetComponent<EnemyUnits>();
 
             if (PlayerState_Attack3.isAttack3)
             {
@@ -88,7 +88,7 @@ public class MoNormalAttack : MonoBehaviour
             }
             else
             {
-                if (activeMarkAttack)
+                if (isMarkAttack && activeMarkAttack)
                 {
                     characterStats.TakeMarkDamage(characterStats, defander, characterStats.isCritical);
                     enemyUnit.SpawnMarkDamageText(characterStats.currentDamage, characterStats.isCritical);

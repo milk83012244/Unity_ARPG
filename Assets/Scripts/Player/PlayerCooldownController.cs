@@ -16,6 +16,7 @@ public class PlayerCooldownController : MonoBehaviour
 
     private PlayerInput playerInput;
 
+    public AttackButtons attackButtons;
     private Coroutine dodgeCor;
 
     private void OnEnable()
@@ -51,6 +52,7 @@ public class PlayerCooldownController : MonoBehaviour
         {
             case "Mo":
                 moSkill1Attack.StartSkillCoolDown();
+                attackButtons.StartSkill1Count(characterame);
                 break;
         }
     }
@@ -60,6 +62,7 @@ public class PlayerCooldownController : MonoBehaviour
         {
             case "Mo":
                 moSkill2Attack.StartSkillCoolDown();
+                attackButtons.StartSkill2Count(characterame);
                 break;
         }
     }

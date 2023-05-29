@@ -8,6 +8,26 @@ using UnityEngine.InputSystem;
 /// </summary>
 public class PlayerController : MonoBehaviour
 {
+    private PlayerController()
+    {
+        instance = this;
+    }
+
+    private static PlayerController instance; //只限於敵人獲取用
+
+    public static PlayerController GetInstance()
+    {
+        if (instance == null)
+        {
+            Debug.LogError("沒有PlayerController實例");
+            return instance;
+        }
+        else
+        {
+            return instance;
+        }
+    }
+
     private PlayerInput input;
     private Rigidbody2D rig2D;
     private PlayerStateMachine stateMachine;

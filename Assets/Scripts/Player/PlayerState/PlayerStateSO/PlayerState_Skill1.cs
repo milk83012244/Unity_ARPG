@@ -24,11 +24,12 @@ public class PlayerState_Skill1 : PlayerState
         {
             animator.Play(playerCharacterSwitch.currentControlCharacterNamesSB.ToString() + "_B_Skill1");
         }
+        //技能CD
+        playerCooldownController.Skill1CooldownTrigger.Invoke(playerCharacterSwitch.currentControlCharacterNamesSB.ToString());
     }
     public override void Exit()
     {
-        //技能CD
-        playerCooldownController.Skill1CooldownTrigger.Invoke(playerCharacterSwitch.currentControlCharacterNamesSB.ToString());
+
     }
     public override void LogicUpdate()
     {

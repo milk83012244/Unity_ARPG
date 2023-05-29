@@ -32,7 +32,12 @@ public class PlayerInput : MonoBehaviour
     public bool PressSkill1 => playerInputActions.Gameplay.Skill1.WasPressedThisFrame() && canSkill1&& GameManager.GetInstance().CurrentGameState == GameManager.GameState.Battle;
 
     public bool PressSkill2 => playerInputActions.Gameplay.Skill2.WasPressedThisFrame() && canSkill2 && GameManager.GetInstance().CurrentGameState == GameManager.GameState.Battle;
-    public bool ChangeCharacter1 => playerInputActions.Gameplay.SwitchCharacter.IsPressed() && GameManager.GetInstance().GetCurrentState() == (int)GameManager.GameState.Battle;
+    public bool ChangeCharacter1 => playerInputActions.Gameplay.SwitchCharacter1.WasPressedThisFrame() && GameManager.GetInstance().GetCurrentState() == (int)GameManager.GameState.Battle &&
+        GameManager.GetInstance().GetCurrentBattleCharacter() != (int)BattleCurrentCharacterNumber.First;
+    public bool ChangeCharacter2 => playerInputActions.Gameplay.SwitchCharacter2.WasPressedThisFrame() && GameManager.GetInstance().GetCurrentState() == (int)GameManager.GameState.Battle &&
+        GameManager.GetInstance().GetCurrentBattleCharacter() != (int) BattleCurrentCharacterNumber.Second;
+    public bool ChangeCharacter3 => playerInputActions.Gameplay.SwitchCharacter3.WasPressedThisFrame() && GameManager.GetInstance().GetCurrentState() == (int)GameManager.GameState.Battle &&
+    GameManager.GetInstance().GetCurrentBattleCharacter() != (int)BattleCurrentCharacterNumber.Third;
     //public bool Attack => playerInputActions.Gameplay.Attack.WasPressedThisFrame();
     #endregion
 

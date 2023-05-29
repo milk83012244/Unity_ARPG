@@ -1,20 +1,27 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Sirenix.OdinInspector;
 
 /// <summary>
 /// 玩家控制角色切換
 /// </summary>
-public class PlayerCharacterSwitch : MonoBehaviour
+public class PlayerCharacterSwitch : SerializedMonoBehaviour
 {
     public string currentControlCharacterNames;
     public System.Text.StringBuilder currentControlCharacterNamesSB = new System.Text.StringBuilder();
 
-    public string[] characterNames;
-    public GameObject[] characterObjs;
+    //隊伍資料比對用
+    //public List<string> characterNames = new List<string>();
+    //public List<GameObject> characterObjs = new List<GameObject>();
+    public Dictionary<string, GameObject> characterDic = new Dictionary<string, GameObject>();
 
+    public static BattleCurrentCharacterNumber battleCurrentCharacterNumber;
+
+    private PlayerInput input;
     private PlayerStateMachine stateMachine;
     private PlayerCharacterStats characterStats;
+    private PlayerPartyManager partyManager;
 
     /// <summary>
     /// 當前控制角色
@@ -24,31 +31,36 @@ public class PlayerCharacterSwitch : MonoBehaviour
     /// AI控制友方角色
     /// </summary>
     public Dictionary<string, GameObject> subControlCharacter = new Dictionary<string, GameObject>();
-    /// <summary>
-    /// 隊伍
-    /// </summary>
-    private Dictionary<int, string> partys = new Dictionary<int, string>();
 
     private void Awake()
     {
+        input = GetComponent<PlayerInput>();
         characterStats = GetComponent<PlayerCharacterStats>();
         stateMachine = GetComponent<PlayerStateMachine>();
-        StartSetCharacter(0);
+        partyManager = GetComponent<PlayerPartyManager>();
+        StartSetCharacter("Niru");
         //if (!currentControlCharacter.ContainsKey("Niru"))
         //{
         //    SwitchMainCharacter();
         //}
 
-        partys.Clear();
     }
-    public void StartSetCharacter(int characterId)
+    private void Update()
     {
-        currentControlCharacter.Add(characterNames[characterId], characterObjs[characterId]);
+        SwitchBattleCharacterInput();
+    }
+    /// <summary>
+    ///  初始化角色
+    /// </summary>
+    public void StartSetCharacter(string characterName)
+    {
+        currentControlCharacter.Add(characterName, characterDic[characterName]);
         foreach (KeyValuePair<string, GameObject> name in currentControlCharacter)
         {
             currentControlCharacterNamesSB.Append(name.Key);
         }
     }
+
     /// <summary>
     /// 非戰鬥模式中切換角色
     /// </summary>
@@ -59,60 +71,22 @@ public class PlayerCharacterSwitch : MonoBehaviour
     /// <summary>
     /// 戰鬥模式中切換角色
     /// </summary>
-    public void SwitchCharacterInBattle()
+    public void SwitchCharacterInBattle(int number)
     {
-
-    }
-
-    /// <summary>
-    /// 非戰鬥模式切換回主角
-    /// </summary>
-    public void SwitchMainCharacterInNormal()
-    {
-        if (currentControlCharacter.Count > 0)
+        if (number > partyManager.partys.Count)
         {
-            currentControlCharacter.Clear();
+            Debug.Log("隊伍編號" + number + "沒有角色");
+            return;
         }
+        string characterName = partyManager.partys[(int)battleCurrentCharacterNumber];
+        characterDic[characterName].SetActive(false);
 
-        for (int i = 0; i < characterObjs.Length; i++)
-        {
-            if (i == 0)
-            {
-                if (currentControlCharacter.Count == 0)
-                {
-                    currentControlCharacter.Add(characterNames[i], characterObjs[i]);
-                    currentControlCharacter[characterNames[0]].SetActive(true);
-                    //獲取當前控制角色名稱
-                    foreach (KeyValuePair<string, GameObject> name in currentControlCharacter)
-                    {
-                        if (currentControlCharacterNamesSB != null)
-                        {
-                            currentControlCharacterNamesSB.Clear();
-                        }
-                        currentControlCharacterNamesSB.Append(name.Key);
-                        //currentControlCharacterNames = name.Key;
-                    }
-                }
-            }
-            else
-            {
-                characterObjs[i].SetActive(false); //關閉其他角色
-            }
-        }
-        stateMachine.ReIbitialize();
-        stateMachine.SwitchState(typeof(PlayerState_Idle)); //切換角色狀態機
-    }
-
-    /// <summary>
-    /// 戰鬥模式切換到戰鬥角色
-    /// </summary>
-    public void BattleModeStartSwitchCharacter()
-    {
-        characterObjs[0].SetActive(false);
-
+        battleCurrentCharacterNumber = (BattleCurrentCharacterNumber)number;
+        characterName = partyManager.partys[(int)battleCurrentCharacterNumber];
         currentControlCharacter.Clear();
-        currentControlCharacter.Add(characterNames[1], characterObjs[1]);
-        currentControlCharacter[characterNames[1]].SetActive(true);
+        currentControlCharacter.Add(characterName, characterDic[characterName]); //目前是固定的之後可以用一個常數儲存最後使用的角色
+        //currentControlCharacter[characterName].SetActive(true);
+        characterDic[characterName].SetActive(true);
         characterStats.currentCharacterID = 0;
         //獲取當前控制角色名稱
         foreach (KeyValuePair<string, GameObject> name in currentControlCharacter)
@@ -126,5 +100,99 @@ public class PlayerCharacterSwitch : MonoBehaviour
         }
         stateMachine.ReIbitialize();
         stateMachine.SwitchState(typeof(PlayerState_Idle)); //切換角色狀態機
+    }
+
+    /// <summary>
+    /// 非戰鬥模式切換回主角
+    /// </summary>
+    public void SwitchMainCharacterInNormal()
+    {
+        if (partyManager.partys.Count <= 0)
+        {
+            Debug.Log("隊伍沒有成員無法切換至戰鬥模式");//可以改為UI顯示
+        }
+
+        if (currentControlCharacter.Count > 0)
+        {
+            currentControlCharacter.Clear();
+        }
+
+        if (currentControlCharacter.Count == 0)
+        {
+            foreach (var characterName in characterDic)
+            {
+                if (characterName.Key == "Niru") //關閉其他角色物件
+                {
+                    currentControlCharacter.Add(characterName.Key, characterDic[characterName.Key]);
+                    //currentControlCharacter[characterName.Key].SetActive(true);
+                    characterDic[characterName.Key].SetActive(true);
+                }
+                else
+                {
+                    characterDic[characterName.Key].SetActive(false);
+                }
+            }
+            //獲取當前控制角色名稱
+            foreach (KeyValuePair<string, GameObject> name in currentControlCharacter)
+            {
+                if (currentControlCharacterNamesSB != null)
+                {
+                    currentControlCharacterNamesSB.Clear();
+                }
+                currentControlCharacterNamesSB.Append(name.Key);
+            }
+        }
+
+        stateMachine.ReIbitialize();
+        stateMachine.SwitchState(typeof(PlayerState_Idle)); //切換角色狀態機
+        battleCurrentCharacterNumber = BattleCurrentCharacterNumber.None;
+    }
+
+    /// <summary>
+    /// 戰鬥模式切換到戰鬥角色
+    /// </summary>
+    public void BattleModeStartSwitchCharacter()
+    {
+        characterDic["Niru"].SetActive(false);
+
+        battleCurrentCharacterNumber = BattleCurrentCharacterNumber.First;
+        string characterName = partyManager.partys[(int)battleCurrentCharacterNumber];
+
+        currentControlCharacter.Clear();
+        currentControlCharacter.Add(characterName, characterDic[characterName]); //目前是固定的之後可以用一個常數儲存最後使用的角色
+         //currentControlCharacter[characterNames[1]].SetActive(true);
+        characterDic[characterName].SetActive(true);
+        characterStats.currentCharacterID = 0;
+        //獲取當前控制角色名稱
+        foreach (KeyValuePair<string, GameObject> name in currentControlCharacter)
+        {
+            if (currentControlCharacterNamesSB != null)
+            {
+                currentControlCharacterNamesSB.Clear();
+            }
+            currentControlCharacterNamesSB.Append(name.Key);
+            // currentControlCharacterNames = name.Key;
+        }
+        stateMachine.ReIbitialize();
+        stateMachine.SwitchState(typeof(PlayerState_Idle)); //切換角色狀態機
+
+    }
+    private void SwitchBattleCharacterInput()
+    {
+        if (GameManager.GetInstance().GetCurrentState() == (int)GameManager.GameState.Battle)
+        {
+            if (input.ChangeCharacter1)
+            {
+                SwitchCharacterInBattle(1);
+            }
+            else if (input.ChangeCharacter2)
+            {
+                SwitchCharacterInBattle(2);
+            }
+            else if (input.ChangeCharacter3)
+            {
+                SwitchCharacterInBattle(3);
+            }
+        }
     }
 }

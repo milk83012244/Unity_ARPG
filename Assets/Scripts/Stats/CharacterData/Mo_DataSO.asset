@@ -13,6 +13,8 @@ MonoBehaviour:
   m_Name: Mo_DataSO
   m_EditorClassIdentifier: 
   elementType: 99
+  attackType: 0
+  PlayerNormalAttackCount: 3
   mexHealth: 100
   currentHealth: 99
   baseDefence: 5
