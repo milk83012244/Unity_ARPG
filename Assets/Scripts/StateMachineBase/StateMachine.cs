@@ -1,18 +1,19 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Sirenix.OdinInspector;
 
 /// <summary>
 /// 狀態機管理
 /// 1.管理與切換持有的狀態類
 /// 2.負責狀態更新
 /// </summary>
-public class StateMachine : MonoBehaviour
+public class StateMachine : SerializedMonoBehaviour
 {
     /// <summary>
     /// 當前狀態
     /// </summary>
-    IState currentState;
+    [SerializeField] IState currentState;
     /// <summary>
     /// 狀態字典
     /// </summary>

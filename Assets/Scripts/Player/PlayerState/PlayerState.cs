@@ -1,11 +1,12 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Sirenix.OdinInspector;
 
 /// <summary>
 /// 玩家狀態數值
 /// </summary>
-public class PlayerState : ScriptableObject, IState
+public class PlayerState : SerializedScriptableObject, IState
 {
     //[SerializeField] string stateName;
     //[SerializeField, Range(0f, 1f)] float transitionDuration = 0.1f; 
@@ -15,6 +16,7 @@ public class PlayerState : ScriptableObject, IState
     float stateStartTime;
 
     protected bool  isInitial = true;
+
     protected float currentSpeedx;
     protected float currentSpeedy;
 
@@ -33,7 +35,7 @@ public class PlayerState : ScriptableObject, IState
     /// <summary>
     /// 當前遊戲狀態
     /// </summary>
-    protected int CurrentGameState => (int)GameManager.GetInstance().CurrentGameState;
+    protected int CurrentGameState => (int)GameManager.Instance.CurrentGameState;
     /// <summary>
     /// 動畫結束標示
     /// </summary>
@@ -90,5 +92,64 @@ public class PlayerState : ScriptableObject, IState
     public virtual void PhysicUpdate()
     {
        
+    }
+
+    public virtual void UseDamage()
+    {
+
+    }
+    /// <summary>
+    /// 共用使用技能的狀態判斷
+    /// </summary>
+    public virtual void UseSkill()
+    {
+        //技能有瞄準功能
+        if (GameManager.Instance.CurrentGameState == GameState.Battle && playerCharacterSwitch.GetSkillManager().skills[0].hasFiring)
+        {
+            if (input.PressingSkill1)
+            {
+                stateMachine.SwitchState(typeof(PlayerState_Firing));
+            }
+            else if (input.PressSkill1Release)
+            {
+                stateMachine.SwitchState(typeof(PlayerState_Skill1));
+            }
+        }
+        else
+        {
+            if (input.PressSkill1)
+            {
+                stateMachine.SwitchState(typeof(PlayerState_Skill1));
+            }
+        }
+        if (GameManager.Instance.CurrentGameState == GameState.Battle && playerCharacterSwitch.GetSkillManager().skills[1].hasFiring)
+        {
+            if (input.PressingSkill2)
+            {
+                stateMachine.SwitchState(typeof(PlayerState_Firing));
+            }
+            else if (input.PressSkill2Release)
+            {
+                stateMachine.SwitchState(typeof(PlayerState_Skill2));
+            }
+        }
+        else
+        {
+            if (input.PressSkill2)
+            {
+                stateMachine.SwitchState(typeof(PlayerState_Skill2));
+            }
+        }
+        if (input.PressUSkill && characterStats.CurrnetUSkillValue==100)
+        {
+            stateMachine.SwitchState(typeof(PlayerState_USkill));
+        }
+    }
+    /// <summary>
+    /// 狀態進行時角色切換開關
+    /// </summary>
+    public virtual void SwitchCharacterState(bool canSwitch)
+    {
+        playerCharacterSwitch.characterSwitchButtons.characterSwitchSlotCanUseForStateAction.Invoke(canSwitch);
     }
 }

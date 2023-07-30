@@ -26,6 +26,8 @@ public class PlayerState_Attack3 : PlayerState
         {
             animator.Play(playerCharacterSwitch.currentControlCharacterNamesSB.ToString() + "_B_Attack3");
         }
+
+        base.SwitchCharacterState(false);
     }
     public override void Exit()
     {
@@ -35,6 +37,8 @@ public class PlayerState_Attack3 : PlayerState
     {
         if (CurrentStateTime >= 0.7f)
         {
+            base.SwitchCharacterState(true);
+
             if (input.PressDodge)
             {
                 stateMachine.SwitchState(typeof(PlayerState_Dodge));

@@ -22,18 +22,18 @@ public class TestTemp : MonoBehaviour
     }
     private void SwitchBattleModeDeBug()
     {
-        if (GameManager.GetInstance().CurrentGameState == GameManager.GameState.Normel)
+        if (GameManager.Instance.CurrentGameState == GameState.Normal)
         {
-            GameManager.GetInstance().SwitchBattleMode();
-            stateText.text = GameManager.GetInstance().CurrentGameState.ToString();
+            GameManager.Instance.SetState(GameState.Battle);
+            stateText.text = GameManager.Instance.CurrentGameState.ToString();
         }
-        else if (GameManager.GetInstance().CurrentGameState == GameManager.GameState.Battle)
+        else if (GameManager.Instance.CurrentGameState == GameState.Battle)
         {
-            GameManager.GetInstance().SwitchNormelMode();
-            stateText.text = GameManager.GetInstance().CurrentGameState.ToString();
+            GameManager.Instance.SetState(GameState.Normal);
+            stateText.text = GameManager.Instance.CurrentGameState.ToString();
         }
 
-        if (GameManager.GetInstance().CurrentGameState == GameManager.GameState.Normel)
+        if (GameManager.Instance.CurrentGameState == GameState.Normal)
         {
             subCharacterParentObj.SetActive(false);
 
@@ -45,7 +45,7 @@ public class TestTemp : MonoBehaviour
                 subCharacterSwitch.BattleModeSubCharacterDisable();
             }
         }
-        else if (GameManager.GetInstance().CurrentGameState == GameManager.GameState.Battle)
+        else if (GameManager.Instance.CurrentGameState == GameState.Battle)
         {
             subCharacterParentObj.SetActive(true);
             subCharacterSwitch.StartPos(stateMachine.transform.position);

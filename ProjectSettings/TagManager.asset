@@ -8,6 +8,8 @@ TagManager:
   - Mo
   - Lia
   - Enemy
+  - EnemyAttack
+  - CounterHit
   layers:
   - Default
   - TransparentFX
@@ -17,7 +19,12 @@ TagManager:
   - UI
   - CameraCollider
   - Player
+  - PlayerCollider
   - Enemy
+  - EnemyCollider
+  - CounterAttack
+  - PlayerCollider
+  - EnvironmentCollider
   - 
   - 
   - 
@@ -34,16 +41,20 @@ TagManager:
   - 
   - 
   - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
+  - Live2DAnimate
   - 
   m_SortingLayers:
   - name: Default
     uniqueID: 0
+    locked: 0
+  - name: Ground
+    uniqueID: 2340040887
+    locked: 0
+  - name: Environment
+    uniqueID: 4056950117
+    locked: 0
+  - name: Buliding
+    uniqueID: 1240837943
     locked: 0
   - name: Player
     uniqueID: 110268263
@@ -54,18 +65,18 @@ TagManager:
   - name: Enemy
     uniqueID: 3729184649
     locked: 0
-  - name: Buliding
-    uniqueID: 1240837943
-    locked: 0
-  - name: Ground
-    uniqueID: 2340040887
-    locked: 0
-  - name: Environment
-    uniqueID: 4056950117
-    locked: 0
   - name: BattleEffect1
     uniqueID: 2646219023
     locked: 0
   - name: UIFront
     uniqueID: 4094093033
+    locked: 0
+  - name: EnvironmentFront
+    uniqueID: 3338489831
+    locked: 0
+  - name: BulidingFront
+    uniqueID: 290507509
+    locked: 0
+  - name: Live2DAnimate
+    uniqueID: 1285314843
     locked: 0

@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: EnemyType1Behavior
   m_EditorClassIdentifier: 
   mBehaviorSource:
-    behaviorName: Behavior
+    behaviorName: EnemyBehaviorType1
     behaviorDescription: 
     mTaskData:
       types: []

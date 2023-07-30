@@ -91,18 +91,81 @@ public partial class @PlayerInputActions : IInputActionCollection2, IDisposable
                     ""initialStateCheck"": false
                 },
                 {
-                    ""name"": ""Skill1"",
+                    ""name"": ""Guard"",
                     ""type"": ""Button"",
-                    ""id"": ""fbd01cf8-82df-49eb-acda-1e2922e0418e"",
+                    ""id"": ""ea8dcf16-7b4d-4e4b-9852-679c1dfffa34"",
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
                 },
                 {
+                    ""name"": ""Skill1"",
+                    ""type"": ""Button"",
+                    ""id"": ""fbd01cf8-82df-49eb-acda-1e2922e0418e"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": ""Hold"",
+                    ""initialStateCheck"": false
+                },
+                {
                     ""name"": ""Skill2"",
                     ""type"": ""Button"",
                     ""id"": ""26e166e4-c234-49b9-a45b-5cac2f44930a"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""USkill"",
+                    ""type"": ""Button"",
+                    ""id"": ""bbd5665e-71d1-4aed-960d-add16e34697b"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""AimAxes"",
+                    ""type"": ""Value"",
+                    ""id"": ""5be76879-04f1-4eb4-962f-7ba735de24d4"",
+                    ""expectedControlType"": ""Vector2"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": true
+                },
+                {
+                    ""name"": ""SwitchFunctionkey1"",
+                    ""type"": ""Button"",
+                    ""id"": ""a13d4963-aaa0-4814-9db8-f13e1a4bd21f"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""SwitchFunctionkey2"",
+                    ""type"": ""Button"",
+                    ""id"": ""24ccc270-383b-4202-85b5-f90498ca4401"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""SwitchFunctionkey3"",
+                    ""type"": ""Button"",
+                    ""id"": ""45b274bc-919a-4fcd-ac1a-4e88e34162f5"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""SwitchFunctionkey4"",
+                    ""type"": ""Button"",
+                    ""id"": ""c651efe5-8c63-4a9a-88d0-d9d6b00b7f43"",
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": """",
@@ -388,7 +451,7 @@ public partial class @PlayerInputActions : IInputActionCollection2, IDisposable
                 {
                     ""name"": """",
                     ""id"": ""7e192172-1631-477e-9480-2bf44b8175f9"",
-                    ""path"": ""<Keyboard>/r"",
+                    ""path"": ""<Keyboard>/g"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
@@ -450,11 +513,209 @@ public partial class @PlayerInputActions : IInputActionCollection2, IDisposable
                     ""action"": ""Skill2"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""2e84494e-4b04-45d5-9998-edeb09be6d86"",
+                    ""path"": ""<Mouse>/position"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""AimAxes"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""af64f963-b101-4d8b-bfdb-dd813aeb411c"",
+                    ""path"": ""<XInputController>/rightStick"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""AimAxes"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""One Modifier"",
+                    ""id"": ""8b99ab43-37d8-49f2-bea4-3338f21ce367"",
+                    ""path"": ""OneModifier"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""SwitchFunctionkey1"",
+                    ""isComposite"": true,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""modifier"",
+                    ""id"": ""5d2197b2-e91f-4cdb-981a-15ce7c795b56"",
+                    ""path"": ""<Keyboard>/z"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""SwitchFunctionkey1"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""binding"",
+                    ""id"": ""389ec039-8c00-4049-8d05-e9d5dd0a8ea2"",
+                    ""path"": ""<Keyboard>/1"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""SwitchFunctionkey1"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""One Modifier"",
+                    ""id"": ""31f8aaed-89ea-4ef6-bf49-d6f8930fe4c5"",
+                    ""path"": ""OneModifier"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""SwitchFunctionkey2"",
+                    ""isComposite"": true,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""modifier"",
+                    ""id"": ""9d39cf21-255e-422d-928b-3e961e2bdbf6"",
+                    ""path"": ""<Keyboard>/z"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""SwitchFunctionkey2"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""binding"",
+                    ""id"": ""e4d5a9af-2a63-4ba6-9706-55821a7c754f"",
+                    ""path"": ""<Keyboard>/2"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""SwitchFunctionkey2"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""One Modifier"",
+                    ""id"": ""32274611-c336-4a3b-9632-ec78ff06c941"",
+                    ""path"": ""OneModifier"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""SwitchFunctionkey3"",
+                    ""isComposite"": true,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""modifier"",
+                    ""id"": ""64e1090a-1aef-4485-8f1a-9b4b790c5083"",
+                    ""path"": ""<Keyboard>/z"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""SwitchFunctionkey3"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""binding"",
+                    ""id"": ""58d4bc0e-0528-4a09-a03b-f5090beac85e"",
+                    ""path"": ""<Keyboard>/3"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""SwitchFunctionkey3"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""One Modifier"",
+                    ""id"": ""ed3a24e6-f7b7-4308-ba01-15a829d9dd32"",
+                    ""path"": ""OneModifier"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""SwitchFunctionkey4"",
+                    ""isComposite"": true,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""modifier"",
+                    ""id"": ""c1f86cf4-c3a4-402b-861d-55fc9ebe50d6"",
+                    ""path"": ""<Keyboard>/z"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""SwitchFunctionkey4"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""binding"",
+                    ""id"": ""875b8895-5d04-4589-8bcd-a33f6fc8257f"",
+                    ""path"": ""<Keyboard>/4"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""SwitchFunctionkey4"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""2d37b5f6-cd27-4131-bb0c-336ec796f93b"",
+                    ""path"": ""<Mouse>/rightButton"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Guard"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""279002c7-56c2-4d47-8433-90e439361803"",
+                    ""path"": ""<Keyboard>/r"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""USkill"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
     ],
-    ""controlSchemes"": []
+    ""controlSchemes"": [
+        {
+            ""name"": ""control scheme1"",
+            ""bindingGroup"": ""control scheme1"",
+            ""devices"": [
+                {
+                    ""devicePath"": ""<XInputController>"",
+                    ""isOptional"": false,
+                    ""isOR"": false
+                },
+                {
+                    ""devicePath"": ""<Keyboard>"",
+                    ""isOptional"": false,
+                    ""isOR"": false
+                },
+                {
+                    ""devicePath"": ""<Mouse>"",
+                    ""isOptional"": false,
+                    ""isOR"": false
+                }
+            ]
+        }
+    ]
 }");
         // Gameplay
         m_Gameplay = asset.FindActionMap("Gameplay", throwIfNotFound: true);
@@ -465,8 +726,15 @@ public partial class @PlayerInputActions : IInputActionCollection2, IDisposable
         m_Gameplay_SwitchCharacter2 = m_Gameplay.FindAction("SwitchCharacter2", throwIfNotFound: true);
         m_Gameplay_SwitchCharacter3 = m_Gameplay.FindAction("SwitchCharacter3", throwIfNotFound: true);
         m_Gameplay_Dodge = m_Gameplay.FindAction("Dodge", throwIfNotFound: true);
+        m_Gameplay_Guard = m_Gameplay.FindAction("Guard", throwIfNotFound: true);
         m_Gameplay_Skill1 = m_Gameplay.FindAction("Skill1", throwIfNotFound: true);
         m_Gameplay_Skill2 = m_Gameplay.FindAction("Skill2", throwIfNotFound: true);
+        m_Gameplay_USkill = m_Gameplay.FindAction("USkill", throwIfNotFound: true);
+        m_Gameplay_AimAxes = m_Gameplay.FindAction("AimAxes", throwIfNotFound: true);
+        m_Gameplay_SwitchFunctionkey1 = m_Gameplay.FindAction("SwitchFunctionkey1", throwIfNotFound: true);
+        m_Gameplay_SwitchFunctionkey2 = m_Gameplay.FindAction("SwitchFunctionkey2", throwIfNotFound: true);
+        m_Gameplay_SwitchFunctionkey3 = m_Gameplay.FindAction("SwitchFunctionkey3", throwIfNotFound: true);
+        m_Gameplay_SwitchFunctionkey4 = m_Gameplay.FindAction("SwitchFunctionkey4", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -533,8 +801,15 @@ public partial class @PlayerInputActions : IInputActionCollection2, IDisposable
     private readonly InputAction m_Gameplay_SwitchCharacter2;
     private readonly InputAction m_Gameplay_SwitchCharacter3;
     private readonly InputAction m_Gameplay_Dodge;
+    private readonly InputAction m_Gameplay_Guard;
     private readonly InputAction m_Gameplay_Skill1;
     private readonly InputAction m_Gameplay_Skill2;
+    private readonly InputAction m_Gameplay_USkill;
+    private readonly InputAction m_Gameplay_AimAxes;
+    private readonly InputAction m_Gameplay_SwitchFunctionkey1;
+    private readonly InputAction m_Gameplay_SwitchFunctionkey2;
+    private readonly InputAction m_Gameplay_SwitchFunctionkey3;
+    private readonly InputAction m_Gameplay_SwitchFunctionkey4;
     public struct GameplayActions
     {
         private @PlayerInputActions m_Wrapper;
@@ -546,8 +821,15 @@ public partial class @PlayerInputActions : IInputActionCollection2, IDisposable
         public InputAction @SwitchCharacter2 => m_Wrapper.m_Gameplay_SwitchCharacter2;
         public InputAction @SwitchCharacter3 => m_Wrapper.m_Gameplay_SwitchCharacter3;
         public InputAction @Dodge => m_Wrapper.m_Gameplay_Dodge;
+        public InputAction @Guard => m_Wrapper.m_Gameplay_Guard;
         public InputAction @Skill1 => m_Wrapper.m_Gameplay_Skill1;
         public InputAction @Skill2 => m_Wrapper.m_Gameplay_Skill2;
+        public InputAction @USkill => m_Wrapper.m_Gameplay_USkill;
+        public InputAction @AimAxes => m_Wrapper.m_Gameplay_AimAxes;
+        public InputAction @SwitchFunctionkey1 => m_Wrapper.m_Gameplay_SwitchFunctionkey1;
+        public InputAction @SwitchFunctionkey2 => m_Wrapper.m_Gameplay_SwitchFunctionkey2;
+        public InputAction @SwitchFunctionkey3 => m_Wrapper.m_Gameplay_SwitchFunctionkey3;
+        public InputAction @SwitchFunctionkey4 => m_Wrapper.m_Gameplay_SwitchFunctionkey4;
         public InputActionMap Get() { return m_Wrapper.m_Gameplay; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -578,12 +860,33 @@ public partial class @PlayerInputActions : IInputActionCollection2, IDisposable
                 @Dodge.started -= m_Wrapper.m_GameplayActionsCallbackInterface.OnDodge;
                 @Dodge.performed -= m_Wrapper.m_GameplayActionsCallbackInterface.OnDodge;
                 @Dodge.canceled -= m_Wrapper.m_GameplayActionsCallbackInterface.OnDodge;
+                @Guard.started -= m_Wrapper.m_GameplayActionsCallbackInterface.OnGuard;
+                @Guard.performed -= m_Wrapper.m_GameplayActionsCallbackInterface.OnGuard;
+                @Guard.canceled -= m_Wrapper.m_GameplayActionsCallbackInterface.OnGuard;
                 @Skill1.started -= m_Wrapper.m_GameplayActionsCallbackInterface.OnSkill1;
                 @Skill1.performed -= m_Wrapper.m_GameplayActionsCallbackInterface.OnSkill1;
                 @Skill1.canceled -= m_Wrapper.m_GameplayActionsCallbackInterface.OnSkill1;
                 @Skill2.started -= m_Wrapper.m_GameplayActionsCallbackInterface.OnSkill2;
                 @Skill2.performed -= m_Wrapper.m_GameplayActionsCallbackInterface.OnSkill2;
                 @Skill2.canceled -= m_Wrapper.m_GameplayActionsCallbackInterface.OnSkill2;
+                @USkill.started -= m_Wrapper.m_GameplayActionsCallbackInterface.OnUSkill;
+                @USkill.performed -= m_Wrapper.m_GameplayActionsCallbackInterface.OnUSkill;
+                @USkill.canceled -= m_Wrapper.m_GameplayActionsCallbackInterface.OnUSkill;
+                @AimAxes.started -= m_Wrapper.m_GameplayActionsCallbackInterface.OnAimAxes;
+                @AimAxes.performed -= m_Wrapper.m_GameplayActionsCallbackInterface.OnAimAxes;
+                @AimAxes.canceled -= m_Wrapper.m_GameplayActionsCallbackInterface.OnAimAxes;
+                @SwitchFunctionkey1.started -= m_Wrapper.m_GameplayActionsCallbackInterface.OnSwitchFunctionkey1;
+                @SwitchFunctionkey1.performed -= m_Wrapper.m_GameplayActionsCallbackInterface.OnSwitchFunctionkey1;
+                @SwitchFunctionkey1.canceled -= m_Wrapper.m_GameplayActionsCallbackInterface.OnSwitchFunctionkey1;
+                @SwitchFunctionkey2.started -= m_Wrapper.m_GameplayActionsCallbackInterface.OnSwitchFunctionkey2;
+                @SwitchFunctionkey2.performed -= m_Wrapper.m_GameplayActionsCallbackInterface.OnSwitchFunctionkey2;
+                @SwitchFunctionkey2.canceled -= m_Wrapper.m_GameplayActionsCallbackInterface.OnSwitchFunctionkey2;
+                @SwitchFunctionkey3.started -= m_Wrapper.m_GameplayActionsCallbackInterface.OnSwitchFunctionkey3;
+                @SwitchFunctionkey3.performed -= m_Wrapper.m_GameplayActionsCallbackInterface.OnSwitchFunctionkey3;
+                @SwitchFunctionkey3.canceled -= m_Wrapper.m_GameplayActionsCallbackInterface.OnSwitchFunctionkey3;
+                @SwitchFunctionkey4.started -= m_Wrapper.m_GameplayActionsCallbackInterface.OnSwitchFunctionkey4;
+                @SwitchFunctionkey4.performed -= m_Wrapper.m_GameplayActionsCallbackInterface.OnSwitchFunctionkey4;
+                @SwitchFunctionkey4.canceled -= m_Wrapper.m_GameplayActionsCallbackInterface.OnSwitchFunctionkey4;
             }
             m_Wrapper.m_GameplayActionsCallbackInterface = instance;
             if (instance != null)
@@ -609,16 +912,46 @@ public partial class @PlayerInputActions : IInputActionCollection2, IDisposable
                 @Dodge.started += instance.OnDodge;
                 @Dodge.performed += instance.OnDodge;
                 @Dodge.canceled += instance.OnDodge;
+                @Guard.started += instance.OnGuard;
+                @Guard.performed += instance.OnGuard;
+                @Guard.canceled += instance.OnGuard;
                 @Skill1.started += instance.OnSkill1;
                 @Skill1.performed += instance.OnSkill1;
                 @Skill1.canceled += instance.OnSkill1;
                 @Skill2.started += instance.OnSkill2;
                 @Skill2.performed += instance.OnSkill2;
                 @Skill2.canceled += instance.OnSkill2;
+                @USkill.started += instance.OnUSkill;
+                @USkill.performed += instance.OnUSkill;
+                @USkill.canceled += instance.OnUSkill;
+                @AimAxes.started += instance.OnAimAxes;
+                @AimAxes.performed += instance.OnAimAxes;
+                @AimAxes.canceled += instance.OnAimAxes;
+                @SwitchFunctionkey1.started += instance.OnSwitchFunctionkey1;
+                @SwitchFunctionkey1.performed += instance.OnSwitchFunctionkey1;
+                @SwitchFunctionkey1.canceled += instance.OnSwitchFunctionkey1;
+                @SwitchFunctionkey2.started += instance.OnSwitchFunctionkey2;
+                @SwitchFunctionkey2.performed += instance.OnSwitchFunctionkey2;
+                @SwitchFunctionkey2.canceled += instance.OnSwitchFunctionkey2;
+                @SwitchFunctionkey3.started += instance.OnSwitchFunctionkey3;
+                @SwitchFunctionkey3.performed += instance.OnSwitchFunctionkey3;
+                @SwitchFunctionkey3.canceled += instance.OnSwitchFunctionkey3;
+                @SwitchFunctionkey4.started += instance.OnSwitchFunctionkey4;
+                @SwitchFunctionkey4.performed += instance.OnSwitchFunctionkey4;
+                @SwitchFunctionkey4.canceled += instance.OnSwitchFunctionkey4;
             }
         }
     }
     public GameplayActions @Gameplay => new GameplayActions(this);
+    private int m_controlscheme1SchemeIndex = -1;
+    public InputControlScheme controlscheme1Scheme
+    {
+        get
+        {
+            if (m_controlscheme1SchemeIndex == -1) m_controlscheme1SchemeIndex = asset.FindControlSchemeIndex("control scheme1");
+            return asset.controlSchemes[m_controlscheme1SchemeIndex];
+        }
+    }
     public interface IGameplayActions
     {
         void OnAxes(InputAction.CallbackContext context);
@@ -628,7 +961,14 @@ public partial class @PlayerInputActions : IInputActionCollection2, IDisposable
         void OnSwitchCharacter2(InputAction.CallbackContext context);
         void OnSwitchCharacter3(InputAction.CallbackContext context);
         void OnDodge(InputAction.CallbackContext context);
+        void OnGuard(InputAction.CallbackContext context);
         void OnSkill1(InputAction.CallbackContext context);
         void OnSkill2(InputAction.CallbackContext context);
+        void OnUSkill(InputAction.CallbackContext context);
+        void OnAimAxes(InputAction.CallbackContext context);
+        void OnSwitchFunctionkey1(InputAction.CallbackContext context);
+        void OnSwitchFunctionkey2(InputAction.CallbackContext context);
+        void OnSwitchFunctionkey3(InputAction.CallbackContext context);
+        void OnSwitchFunctionkey4(InputAction.CallbackContext context);
     }
 }

@@ -16,20 +16,20 @@ public class PlayerSubCharacterController : MonoBehaviour
     }
     private void Awake()
     {
-        foreach (KeyValuePair<string, GameObject> name in playerCharacterSwitch.subControlCharacter)
-        {
-            subCharacterObj = playerCharacterSwitch.subControlCharacter[name.Key];
-        }
+        //foreach (KeyValuePair<string, GameObject> name in playerCharacterSwitch.subControlCharacter)
+        //{
+        //    subCharacterObj = playerCharacterSwitch.subControlCharacter[name.Key];
+        //}
     }
 
-    private void FixedUpdate()
-    {
-        positionList.Add(transform.position);
+    //private void FixedUpdate()
+    //{
+    //    positionList.Add(transform.position);
 
-        if (positionList.Count > distance)
-        {
-            positionList.RemoveAt(0);
-            subCharacterObj.transform.position = positionList[0];
-        }
-    }
+    //    if (positionList.Count > distance)
+    //    {
+    //        positionList.RemoveAt(0);
+    //        subCharacterObj.transform.position = positionList[0];
+    //    }
+    //}
 }

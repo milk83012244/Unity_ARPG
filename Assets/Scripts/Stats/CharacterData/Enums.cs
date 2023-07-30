@@ -34,3 +34,14 @@ public enum BattleCurrentCharacterNumber
     Second =2,
     Third =3,
 }
+/// <summary>
+/// 其他角色或物件受到傷害的類型
+/// </summary>
+public enum CharacterDamageType
+{
+    Invincible = 0, //無敵
+    DestructibleItems = 1, //可破壞物件
+    Player = 2,
+    Friendly = 3,
+    Enemy = 4,
+}

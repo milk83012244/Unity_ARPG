@@ -3,8 +3,15 @@ using System.Collections.Generic;
 using UnityEngine;
 public class FacePlayer : MonoBehaviour
 {
+    private OtherCharacterStats selfStats;
+    private string selfName;
     public int currentDirection;
 
+    private void Start()
+    {
+        selfStats = GetComponent<OtherCharacterStats>();
+        selfName = selfStats.enemyBattleData.characterName;
+    }
     public int DirectionCheck(Vector3 self, Vector3 target)
     {
         Vector2 direction = target - self;
@@ -14,7 +21,7 @@ public class FacePlayer : MonoBehaviour
         {
             return 1;
         }
-        else if (-angle <= 135 && -angle > 45)//上
+        else if (-angle <= 135 && -angle > 45)//下
         {
             return 2;
         }
@@ -22,7 +29,7 @@ public class FacePlayer : MonoBehaviour
         {
             return 3;
         }
-        else if (-angle > -135 && -angle < -45)//下
+        else if (-angle > -135 && -angle < -45)//上
         {
             return 4;
         }
@@ -31,6 +38,9 @@ public class FacePlayer : MonoBehaviour
             return currentDirection;
         }
     }
+    /// <summary>
+    /// 負責轉向與播放移動待機動畫
+    /// </summary>
     public void AnimationDirCheck(int currentDirection, string animationType, Animator animator)
     {
         if (currentDirection == 0)
@@ -41,12 +51,12 @@ public class FacePlayer : MonoBehaviour
             switch (currentDirection)
             {
                 case 1:
-                    animator.Play("Slime_Blue_SR_idle");
+                    animator.Play(selfName +"_SR_idle");
                     break;
                 case 2:
                 case 3:
                 case 4:
-                    animator.Play("Slime_Blue_SL_idle");
+                    animator.Play(selfName + "_SL_idle");
                     break;
             }
         }
@@ -56,11 +66,29 @@ public class FacePlayer : MonoBehaviour
             {
                 case 1:
                 case 4:
-                    animator.Play("Slime_Blue_SR_Move");
+                    animator.Play(selfName + "_SR_Move");
                     break;
                 case 2:
                 case 3:
                     animator.Play("Slime_Blue_SL_Move");
+                    break;
+            }
+        }
+        else if (animationType == "Attack")
+        {
+            switch (currentDirection)
+            {
+                case 1:
+                    animator.Play(selfName + "_SR_Attack");
+                    break;
+                case 2:
+                    animator.Play(selfName + "_F_Attack");
+                    break;
+                case 3:
+                    animator.Play(selfName + "_SL_Attack");
+                    break;
+                case 4:
+                    animator.Play(selfName + "_B_Attack");
                     break;
             }
         }

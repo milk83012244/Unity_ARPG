@@ -11,9 +11,9 @@ public class LevelSystem
     public event EventHandler OnExperienceChanged; //獲得經驗值事件
     public event EventHandler OnLevelChanged; //升級事件
 
-    private static readonly int[] experiencePerLevel = new[] { 100,120,140,160,180,200,220,250,300,400 }; //升級經驗表
-    private int level; //當前等級
-    private int experience; //當前經驗
+    public List<int> experiencePerLevel = new List<int>(); //升級經驗表
+    public int level; //當前等級
+    public int experience; //當前經驗
     //private int experienceToNextLevel; //到下一級所需經驗
 
     public LevelSystem()
@@ -32,8 +32,6 @@ public class LevelSystem
             experience += amount;
             while (!IsMaxLevel() && experience >= GetExperienceToNextLevel(level))
             {
-                //升級演出
-
                 experience -= GetExperienceToNextLevel(level);
                 level++;
                 if (OnLevelChanged != null) OnLevelChanged(this, EventArgs.Empty);
@@ -61,7 +59,7 @@ public class LevelSystem
     /// </summary>
     public int GetExperienceToNextLevel(int level)
     {
-        if (level<experiencePerLevel.Length)
+        if (level<experiencePerLevel.Count)
         {
             return experiencePerLevel[level];
         }
@@ -91,6 +89,6 @@ public class LevelSystem
     /// </summary>
     public bool IsMaxLevel(int level)
     {
-        return level == experiencePerLevel.Length - 1;
+        return level == experiencePerLevel.Count - 1;
     }
 }

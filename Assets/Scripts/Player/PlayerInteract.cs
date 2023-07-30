@@ -12,12 +12,13 @@ public class PlayerInteract : MonoBehaviour
 
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.F) && !GameManager.GetInstance().isInteractable)
+        if (Input.GetKeyDown(KeyCode.F) && GameManager.Instance.GetCurrentPlayerBehaviourState() == PlayerBehaviourState.None)
         {
             IInteractable interactable = GetInteractableObject();
             if (interactable != null)
             {
-                interactable.Interact(transform);
+                //與可互動對象互動 未來擴充:可以依照互動類型來做分別
+                interactable.Interact(transform,true);
             }
         }
     }

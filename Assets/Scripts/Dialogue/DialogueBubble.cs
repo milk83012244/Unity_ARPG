@@ -4,8 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Yarn.Unity;
 using TMPro;
-using static Yarn.Unity.Effects;
-using System.Threading.Tasks;
+using Febucci.UI.Core;
 
 /// <summary>
 /// 對話氣泡框
@@ -15,6 +14,7 @@ public class DialogueBubble : DialogueViewBase
     [SerializeField] RectTransform container; //對話框
     [SerializeField] RectTransform characterContainer;//角色框
     [SerializeField] TextMeshProUGUI CharacterNametext;
+    public TypewriterCore typewriter;
 
     private string tempDialogueLine;
 
@@ -22,7 +22,6 @@ public class DialogueBubble : DialogueViewBase
 
     public TextMeshProUGUI dialogueLineText;
 
-    public float typeSpeed = 10f; //打字速度(毫秒)
 
     private bool isTypewriterDone;
     /// <summary>
@@ -30,17 +29,16 @@ public class DialogueBubble : DialogueViewBase
     /// </summary>
     public override void RunLine(LocalizedLine dialogueLine, Action onDialogueLineFinished)
     {
-        isTypewriterDone = false;
-
         ShowBubble(true);
-        SetisInteractable(true);
+        //SetisInteractable(true);
         CharacterNametext.text = dialogueLine.CharacterName; //角色名稱為Yarn腳本上的 發話者:
         tempDialogueLine = dialogueLine.Text.Text;
         int removeEnd = tempDialogueLine.IndexOf(":");     
         dialogueLineText.text = tempDialogueLine.Substring(removeEnd + 1);  //把角色名稱刪除輸出對話內容文字
 
         //StartCoroutine(Typewriter(dialogueLineText, typeSpeed,null));
-        StartTypewriterCoroutine();
+        typewriter.ShowText(dialogueLineText.text);
+        //StartTypewriterCoroutine();
 
         //advanceHandler = requestInterrupt;
     }
@@ -58,7 +56,7 @@ public class DialogueBubble : DialogueViewBase
         StopAllCoroutines();
         ShowBubble(false);
 
-        SetisInteractable(false);
+        //SetisInteractable(false);
         onDismissalComplete();
     }
     /// <summary>
@@ -76,16 +74,6 @@ public class DialogueBubble : DialogueViewBase
         yield return StartCoroutine(coroutine);
         callback();
     }
-    /// <summary>
-    /// 執行指定協程 完成時回調Action內容
-    /// </summary>
-    public void StartTypewriterCoroutine()
-    {
-        StartCoroutineWithCallback(Typewriter(dialogueLineText, typeSpeed, null), () =>
-         {
-             isTypewriterDone = true;
-         });
-    }
 
     public void ShowBubble(bool show)
     {
@@ -99,10 +87,6 @@ public class DialogueBubble : DialogueViewBase
         container.position = target.position;
     }
 
-    public void SetisInteractable(bool isInteractable)
-    {
-        GameManager.GetInstance().isInteractable = isInteractable;
-    }
     /// <summary>
     /// 到下一句對話
     /// </summary>
@@ -110,10 +94,11 @@ public class DialogueBubble : DialogueViewBase
     {
         if (container.gameObject.activeSelf)
         {
-            if (isTypewriterDone)
-            {
-                requestInterrupt?.Invoke();
-            }
+            //if (isTypewriterDone)
+            //{
+            //    requestInterrupt?.Invoke();
+            //}
+            requestInterrupt?.Invoke();
         }
     }
     private void Update()

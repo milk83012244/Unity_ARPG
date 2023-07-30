@@ -8,6 +8,7 @@ using UnityEngine.InputSystem;
 /// </summary>
 public class PlayerController : MonoBehaviour
 {
+    #region 虫ㄒ
     private PlayerController()
     {
         instance = this;
@@ -27,16 +28,55 @@ public class PlayerController : MonoBehaviour
             return instance;
         }
     }
+    #endregion
 
     private PlayerInput input;
     private Rigidbody2D rig2D;
     private PlayerStateMachine stateMachine;
     private PlayerCharacterSwitch characterSwitch;
     private PlayerCharacterStats characterStats;
+    public PlayerBattleUIDisplay uIDisplay;
+    public AttackButtons attackButtons;
 
+    public GameObject rangedAimObject;
+    public GameObject meleeAimObject;
+    public GameObject SkillCursorObject;
+    public GameObject LiaProjectilePos;
+
+    //簿笆北
     public float MoveSpeedX => Mathf.Abs(rig2D.velocity.x);
     public float MoveSpeedY => Mathf.Abs(rig2D.velocity.y);
 
+    public Vector2 targetPosition;
+
+    //环祘非み北
+    public float aimRotationSpeed = 5f;  // 非み臂锣硉
+    public float aimDistance = 0.25f;
+    public float aimHigh = 0.23f;
+
+    //м核非北
+    public float skillFiringMaxRange;
+
+    public bool canUseNormalAttack;
+    public bool canUseSkill1;//м琌ㄏノ秨闽籔мCD礚闽
+    public bool canUseSkill2;
+    public bool canUseUSkill;
+    public bool isDamageing;
+
+    private void OnDisable()
+    {
+        GameManager.Instance.onNormalGameStateChanged -= OnGameStateChanged;
+        GameManager.Instance.onBattleGameStateChanged -= OnGameStateChanged;
+        GameManager.Instance.onPasueGameStateChanged -= OnGameStateChanged;
+        GameManager.Instance.onGameOverGameStateChanged -= OnGameStateChanged;
+    }
+    private void OnDestroy()
+    {
+        GameManager.Instance.onNormalGameStateChanged -= OnGameStateChanged;
+        GameManager.Instance.onBattleGameStateChanged -= OnGameStateChanged;
+        GameManager.Instance.onPasueGameStateChanged -= OnGameStateChanged;
+        GameManager.Instance.onGameOverGameStateChanged -= OnGameStateChanged;
+    }
     private void Awake()
     {
         input = GetComponent<PlayerInput>();
@@ -45,15 +85,119 @@ public class PlayerController : MonoBehaviour
         characterSwitch = GetComponent<PlayerCharacterSwitch>();
         characterStats = GetComponent<PlayerCharacterStats>();
 
+        GameManager.Instance.onNormalGameStateChanged += OnGameStateChanged;
+        GameManager.Instance.onBattleGameStateChanged += OnGameStateChanged;
+        GameManager.Instance.onPasueGameStateChanged += OnGameStateChanged;
+        GameManager.Instance.onGameOverGameStateChanged += OnGameStateChanged;
     }
     private void Start()
     {
+        SetNormalAttackCanUse(true);
+        SetSkill1CanUse(true);
+        SetSkill2CanUse(true);
+        SetUSkillCanUse(true);
+
         input.EnableGamePlayInputs();
     }
-    private void Update()
-    {
 
+    /// <summary>
+    /// 砞﹚北à︹计
+    /// </summary>
+    public void SetCharacterStats(PlayerCharacterStats characterStats)
+    {
+        this.characterStats = characterStats;
+        SpriteRenderer rangedAimSprite = rangedAimObject.GetComponent<SpriteRenderer>();
+        SpriteRenderer meleeAimSprite = meleeAimObject.GetComponent<SpriteRenderer>();
+
+        if (this.characterStats.characterData[this.characterStats.currentCharacterID].attackType != AttackType.RangedAttack)
+        {
+            rangedAimSprite.enabled = false;
+            meleeAimSprite.enabled = true;
+        }
+        else if (this.characterStats.characterData[this.characterStats.currentCharacterID].attackType == AttackType.RangedAttack)
+        {
+            rangedAimSprite.enabled = true;
+            meleeAimSprite.enabled = false;
+        }
     }
+    public void SkillCursorObjectSetActive(bool isOpen)
+    {
+        SkillCursorObject.SetActive(isOpen);
+    }
+    #region м/环祘ю阑北
+    /// <summary>
+    /// 环禯瞒à︹非み臂锣
+    /// </summary>
+    public void RotateAim(Transform aimTransform)
+    {
+        if (characterStats.characterData[characterStats.currentCharacterID].attackType != AttackType.RangedAttack)
+        {
+            return;
+        }
+        #region 菲公ノ
+        Vector3 mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+        mousePosition.z = transform.position.z;
+        // 璸衡非み竚
+        Vector3 aimDirection = mousePosition - transform.position;
+        aimDirection.z = 0f;  // 盢Z禸砞竚0絋玂2Dキ臂锣
+        aimDirection.Normalize();  // タ砏て秖ㄏㄤ1
+        Vector3 aimPosition = LiaProjectilePos.transform.position + new Vector3(0, aimHigh, 0) + aimDistance * aimDirection;
+        aimTransform.position = aimPosition;
+        #endregion
+
+        #region もрノ
+        //Vector3 aimPosition = transform.position + new Vector3(0, aimHigh, 0) + aimDistance * aimTransform.right;
+        //aimTransform.position = aimPosition;
+
+        //Vector3 aimDirection = new Vector3(input.AimAxes.x, input.AimAxes.y);
+        #endregion
+
+        // ㏕﹚非み程à
+        if (aimDirection.magnitude < 0.1f)
+        {
+            aimDirection = aimTransform.right;
+        }
+
+        float aimAngle = Mathf.Atan2(aimDirection.y, aimDirection.x) * Mathf.Rad2Deg;
+        aimTransform.rotation = Quaternion.Euler(0f, 0f, aimAngle);
+    }
+    /// <summary>
+    /// м非み簿笆北
+    /// </summary>
+    public void MoveSkillCursor(Transform skillCursorTransform)
+    {
+        if (characterSwitch.currentSkillManager.skills[0].hasFiring)
+        {
+            if (input.PressingSkill1)
+            {
+                #region 菲公ノ
+                Vector3 mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+                mousePosition.z = 0f;
+                float distance = Vector3.Distance(mousePosition, this.transform.position); //菲公籔產禯瞒
+
+                if (distance > characterSwitch.currentSkillManager.skills[0].skillFiringRange) //㏕﹚竚程核非絛瞅
+                {
+                    Vector3 direction = (mousePosition - this.transform.position).normalized;
+                    mousePosition = this.transform.position + direction * characterSwitch.currentSkillManager.skills[0].skillFiringRange;
+                }
+
+                skillCursorTransform.position = mousePosition;
+
+                #endregion
+                #region もрノ
+
+                #endregion
+            }
+        }
+        else
+        {
+            return;
+        }
+    }
+
+    #endregion
+
+    #region 簿笆北
     public void Move(float speed)
     {
         SetVelocityX(speed * input.AxisX);
@@ -63,7 +207,6 @@ public class PlayerController : MonoBehaviour
     {
         SetVelocityXY(speedx * input.AxisX, speedy * input.AxisY);
     }
-
     public void SetVelocity(Vector3 velocity)
     {
         rig2D.velocity = velocity;
@@ -85,10 +228,9 @@ public class PlayerController : MonoBehaviour
     {
         rig2D.velocity = dodgeDir * speed * 1;
     }
-
     public void DodgeMoveXY(Vector2 dodgeDir, float speedX, float speedY)
     {
-        rig2D.velocity = new Vector3(speedX * Mathf.Sqrt(0.5f), speedY * Mathf.Sqrt(0.5f))* dodgeDir;
+        rig2D.velocity = new Vector3(speedX * Mathf.Sqrt(0.5f), speedY * Mathf.Sqrt(0.5f)) * dodgeDir;
     }
     public void MoSkill2Move(Vector2 Dir, float speed)
     {
@@ -97,5 +239,44 @@ public class PlayerController : MonoBehaviour
     public void MoSkill2MoveXY(Vector2 Dir, float speedX, float speedY)
     {
         rig2D.velocity = new Vector3(speedX * Mathf.Sqrt(0.5f), speedY * Mathf.Sqrt(0.5f)) * Dir;
+    }
+    #endregion
+
+    #region 驹矮北
+    public void SetNormalAttackCanUse(bool canUse)
+    {
+        canUseNormalAttack = canUse;
+        attackButtons.normalAttackCanUseAction?.Invoke(canUse);
+    }
+    /// <summary>
+    /// м1琌ㄏノ北
+    /// </summary>
+    public void SetSkill1CanUse(bool canUse)
+    {
+        canUseSkill1 = canUse;
+        attackButtons.skill1CanUseAction?.Invoke(canUse);
+    }
+    public void SetSkill2CanUse(bool canUse)
+    {
+        canUseSkill2 = canUse;
+        attackButtons.skill2CanUseAction?.Invoke(canUse);
+    }
+    public void SetUSkillCanUse(bool canUse)
+    {
+        canUseUSkill = canUse;
+        attackButtons.USkillCanUseAction?.Invoke(canUse);
+    }
+    public void StartDamageState(bool start)
+    {
+        isDamageing = start;
+    }
+    #endregion
+
+    /// <summary>
+    /// 疭﹚笴栏篈币ノ
+    /// </summary>
+    private void OnGameStateChanged(GameState newGameState)
+    {
+        enabled = newGameState == GameState.Normal || newGameState == GameState.Battle;
     }
 }

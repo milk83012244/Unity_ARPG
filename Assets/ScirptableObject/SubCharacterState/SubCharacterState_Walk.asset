@@ -12,4 +12,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2f6f71b9604b3714fb878aad21e8d677, type: 3}
   m_Name: SubCharacterState_Walk
   m_EditorClassIdentifier: 
-  walkSpeed: 1
+  walkSpeed: 1.2

@@ -13,9 +13,34 @@ public class SubCharacterController : MonoBehaviour
 
     [SerializeField] private float distance;
     [SerializeField] public int currentDirection; //當前方向
+    [SerializeField] public int currentDirectionLeftRight; //當前方向(只有左右)
+
     public bool Moveing => currentDistance > distance;
+
     [SerializeField] public float currentDistance;
     [SerializeField] public float maskDistance;
+
+    private void OnEnable()
+    {
+        GameManager.Instance.onNormalGameStateChanged += OnGameStateChanged;
+        GameManager.Instance.onBattleGameStateChanged += OnGameStateChanged;
+        GameManager.Instance.onPasueGameStateChanged += OnGameStateChanged;
+        GameManager.Instance.onGameOverGameStateChanged += OnGameStateChanged;
+    }
+    private void OnDisable()
+    {
+        GameManager.Instance.onNormalGameStateChanged -= OnGameStateChanged;
+        GameManager.Instance.onBattleGameStateChanged -= OnGameStateChanged;
+        GameManager.Instance.onPasueGameStateChanged -= OnGameStateChanged;
+        GameManager.Instance.onGameOverGameStateChanged -= OnGameStateChanged;
+    }
+    private void OnDestroy()
+    {
+        GameManager.Instance.onNormalGameStateChanged -= OnGameStateChanged;
+        GameManager.Instance.onBattleGameStateChanged -= OnGameStateChanged;
+        GameManager.Instance.onPasueGameStateChanged -= OnGameStateChanged;
+        GameManager.Instance.onGameOverGameStateChanged -= OnGameStateChanged;
+    }
 
     private void Awake()
     {
@@ -25,7 +50,9 @@ public class SubCharacterController : MonoBehaviour
     private void Update()
     {
         OrderLayerChange();
+        currentDistanceCheck();
         currentDirection = DriectionCheck();
+        currentDirectionLeftRight = DriectionCheckLeftRight();
     }
     /// <summary>
     /// 與主要控制角色的層級控制
@@ -44,11 +71,11 @@ public class SubCharacterController : MonoBehaviour
             //透明度與圖片前後設定
             if (maskDistance < distance - 0.05f)
             {
-                spriteRenderer.color = new(spriteRenderer.color.r, spriteRenderer.color.g, spriteRenderer.color.b, 0.7f);
+                spriteRenderer.color = new(spriteRenderer.color.r, spriteRenderer.color.g, spriteRenderer.color.b, 0.6f);
             }
-            else if (Mathf.Abs(playerController.transform.position.x - this.transform.position.x ) < 0.2f && playerController.transform.position.y - this.transform.position.y < 0.7f)
+            else if (Mathf.Abs(playerController.transform.position.x - this.transform.position.x) < 0.2f && playerController.transform.position.y - this.transform.position.y < 0.7f)
             {
-                spriteRenderer.color = new(spriteRenderer.color.r, spriteRenderer.color.g, spriteRenderer.color.b, 0.7f);
+                spriteRenderer.color = new(spriteRenderer.color.r, spriteRenderer.color.g, spriteRenderer.color.b, 0.6f);
             }
             else
             {
@@ -56,13 +83,44 @@ public class SubCharacterController : MonoBehaviour
             }
         }
     }
+    private void currentDistanceCheck()
+    {
+        currentDistance = Vector2.Distance(this.transform.position, playerController.transform.position);
+    }
     /// <summary>
     /// 是否啟動跟隨
     /// </summary>
     public bool FollowingCheck()
     {
-        currentDistance = Vector2.Distance(this.transform.position, playerController.transform.position);
         if (currentDistance > distance)
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
+    /// <summary>
+    /// 啟動走路距離
+    /// </summary>
+    public bool WalkCheck()
+    {
+        if (currentDistance > distance && currentDistance < distance * 2.2f)
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
+    /// <summary>
+    /// 啟動跑步距離
+    /// </summary>
+    public bool RunCheck()
+    {
+        if (currentDistance > distance && currentDistance >= distance * 2.2f)
         {
             return true;
         }
@@ -76,13 +134,9 @@ public class SubCharacterController : MonoBehaviour
     /// </summary>
     public void Following(float speed)
     {
-        currentDistance = Vector2.Distance(this.transform.position, playerController.transform.position);
+        //currentDistance = Vector2.Distance(this.transform.position, playerController.transform.position);
 
         if (currentDistance > distance)
-        {
-            this.transform.position = Vector2.MoveTowards(this.transform.position, playerController.transform.position, speed *Time.deltaTime);
-        }
-        else if (currentDistance > distance * 2)
         {
             this.transform.position = Vector2.MoveTowards(this.transform.position, playerController.transform.position, speed * Time.deltaTime);
         }
@@ -117,5 +171,32 @@ public class SubCharacterController : MonoBehaviour
         {
             return currentDirection;
         }
+    }
+    /// <summary>
+    /// 友方角色與玩家方向(只有左右)
+    /// </summary>
+    public int DriectionCheckLeftRight()
+    {
+        Vector3 sub = this.transform.position;
+        Vector3 player = playerController.transform.position;
+        Vector2 direction = player - sub;
+        direction.Normalize();
+        float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
+        if (-angle >= -90 && -angle <= 90) //右
+        {
+            return 1;
+        }
+        else//左
+        {
+            return 3;
+        }
+    }
+
+    /// <summary>
+    /// 在特定遊戲狀態下啟用
+    /// </summary>
+    private void OnGameStateChanged(GameState newGameState)
+    {
+        enabled = newGameState == GameState.Normal || newGameState == GameState.Battle;
     }
 }

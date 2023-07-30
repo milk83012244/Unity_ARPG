@@ -84,7 +84,7 @@ MonoBehaviour:
   m_FallbackScreenDPI: 96
   m_DefaultSpriteDPI: 96
   m_DynamicPixelsPerUnit: 1
-  m_PresetInfoIsWorld: 0
+  m_PresetInfoIsWorld: 1
 --- !u!114 &1148701699909881885
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -101,7 +101,7 @@ MonoBehaviour:
   m_BlockingObjects: 0
   m_BlockingMask:
     serializedVersion: 2
-    m_Bits: 4294967295
+    m_Bits: 4087
 --- !u!114 &1148701699909881857
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -117,8 +117,8 @@ MonoBehaviour:
   container: {fileID: 1148701700153318667}
   characterContainer: {fileID: 4915494783600836060}
   CharacterNametext: {fileID: 7595928082064388994}
+  typewriter: {fileID: 0}
   dialogueLineText: {fileID: 1148701701279762896}
-  typeSpeed: 10
 --- !u!1 &1148701700153318666
 GameObject:
   m_ObjectHideFlags: 0

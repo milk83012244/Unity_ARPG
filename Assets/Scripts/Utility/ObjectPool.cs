@@ -7,16 +7,16 @@ using UnityEngine;
 /// </summary>
 public class ObjectPool<T> where T : MonoBehaviour
 {
-    private static ObjectPool<T> Instance;
-    public static ObjectPool<T> instance
+    private static ObjectPool<T> instance;
+    public static ObjectPool<T> Instance
     {
         get
         {
-            if (Instance == null)
+            if (instance == null)
             {
-                Instance = new ObjectPool<T>();
+                instance = new ObjectPool<T>();
             }
-            return Instance;
+            return instance;
         }
     }
 
@@ -29,18 +29,18 @@ public class ObjectPool<T> where T : MonoBehaviour
     /// 實例化單例
     /// </summary>
     /// <returns></returns>
-    public static ObjectPool<T> GetInstance()
-    {
-        if (instance == null)
-        {
-            Debug.LogError("沒有ObjectPool實例");
-            return instance;
-        }
-        else
-        {
-            return instance;
-        }
-    }
+    //public static ObjectPool<T> GetInstance()
+    //{
+    //    if (instance == null)
+    //    {
+    //        Debug.LogError("沒有ObjectPool實例");
+    //        return instance;
+    //    }
+    //    else
+    //    {
+    //        return instance;
+    //    }
+    //}
 
     public void InitPool(GameObject prefab, int warmUpCount = 0, Transform parent = null)
     {
@@ -91,14 +91,22 @@ public class ObjectPool<T> where T : MonoBehaviour
         return obj;
     }
     /// <summary>
-    /// 將物件回收到物件池中
+    /// 將物件回收到物件池中 或是刪除
     /// </summary>
-    public void Recycle(T obj)
+    public void Recycle(T obj,bool isDestory=false)
     {
         objectQueue.Enqueue(obj);
 
         #region 對要回收的物件做的動作
-        obj.gameObject.SetActive(false);
+        if (isDestory)
+        {
+            MonoBehaviour.Destroy(obj.gameObject);
+        }
+        else
+        {
+            obj.gameObject.SetActive(false);
+        }
+
         #endregion
     }
 }

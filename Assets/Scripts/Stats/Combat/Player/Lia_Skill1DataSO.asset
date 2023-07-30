@@ -1,0 +1,19 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cc90557eed61c694b9c7e9fe7d657c27, type: 3}
+  m_Name: Lia_Skill1DataSO
+  m_EditorClassIdentifier: 
+  hasFiring: 1
+  skillFiringRange: 1
+  skillLevel: 0
+  skillDuration: 0
+  skillCoolDown: 5

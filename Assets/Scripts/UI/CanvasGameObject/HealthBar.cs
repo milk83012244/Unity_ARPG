@@ -7,23 +7,54 @@ using TMPro;
 public class HealthBar : MonoBehaviour
 {
     public Image healthBar;
-    public PlayerCharacterStats characterMutiStats;
-    public OtherCharacterStats characterStats;
+    public PlayerCharacterStats PlayerCharacterStats;
+    public OtherCharacterStats otherCharacterStats;
     public TMP_Text hpText;
 
+    public Color fullHealthColor = Color.green;
+    public Color middleHealthColor = Color.yellow;
+    public Color lowHealthColor = Color.red;
+    public float middleHealthThreshold = 0.45f; //血量顏色轉換值
+    public float lowHealthThreshold = 0.25f;//血量顏色轉換值
+
+    private void Start()
+    {
+        if (otherCharacterStats == null && PlayerCharacterStats != null)
+        {
+            healthBar.color = fullHealthColor;
+            hpText.color = fullHealthColor;
+        }
+    }
     void Update()
     {
         healthBar.fillAmount = GetExperienceNormalized();
 
         if (hpText != null)
         {
-            if (characterStats != null && characterMutiStats==null)
+            if (otherCharacterStats != null && PlayerCharacterStats == null)
             {
-                hpText.text = characterStats.CurrnetHealth + "/" + characterStats.MaxHealth;
+                hpText.text = otherCharacterStats.CurrnetHealth + "/" + otherCharacterStats.MaxHealth;
             }
-            else if (characterStats == null && characterMutiStats != null)
+            else if (otherCharacterStats == null && PlayerCharacterStats != null)
             {
-                hpText.text = characterMutiStats.CurrnetHealth + "/" + characterMutiStats.MaxHealth;
+                hpText.text = PlayerCharacterStats.CurrnetHealth + "/" + PlayerCharacterStats.MaxHealth;
+
+                //血量顏色
+                if (GetExperienceNormalized() <= middleHealthThreshold)
+                {
+                    healthBar.color = middleHealthColor;
+                    hpText.color = middleHealthColor;
+                }
+                else if (GetExperienceNormalized() <= lowHealthThreshold)
+                {
+                    healthBar.color = lowHealthColor;
+                    hpText.color = lowHealthColor;
+                }
+                else
+                {
+                    healthBar.color = fullHealthColor;
+                    hpText.color = fullHealthColor;
+                }
             }
         }
 
@@ -34,13 +65,13 @@ public class HealthBar : MonoBehaviour
     /// </summary>
     public float GetExperienceNormalized()
     {
-        if (characterStats != null && characterMutiStats == null)
+        if (otherCharacterStats != null && PlayerCharacterStats == null)
         {
-            return (float)characterStats.CurrnetHealth / characterStats.MaxHealth;
+            return (float)otherCharacterStats.CurrnetHealth / otherCharacterStats.MaxHealth;
         }
-        else if (characterStats == null && characterMutiStats != null)
+        else if (otherCharacterStats == null && PlayerCharacterStats != null)
         {
-            return (float)characterMutiStats.CurrnetHealth / characterMutiStats.MaxHealth;
+            return (float)PlayerCharacterStats.CurrnetHealth / PlayerCharacterStats.MaxHealth;
         }
         else
         {

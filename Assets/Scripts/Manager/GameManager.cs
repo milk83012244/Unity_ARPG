@@ -1,28 +1,53 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Sirenix.OdinInspector;
 
-public class GameManager : MonoBehaviour
+public enum GameState
+{
+    Normal,
+    Battle,
+    Paused,
+    GameOver
+}
+public enum PlayerBehaviourState //玩家行為邏輯狀態
+{
+    None,
+    Interactive,
+    Talking,
+}
+public class GameManager : SerializedMonoBehaviour
 {
     // 定義GameManager的實例，以便在其他腳本中訪問它
-    public static GameManager instance;
-
-    // 定義遊戲的狀態，例如遊戲進行中、暫停、結束等
-    public enum GameState
+    private static GameManager instance;
+    public static GameManager Instance
     {
-        Normel,
-        Battle,
-        Paused,
-        GameOver
+        get
+        {
+            return instance;
+        }
     }
 
-    public bool isInteractable = false;
+    public GameState CurrentGameState { get; private set; }
+    public PlayerBehaviourState CurrentPlayerBehaviourState { get; private set; }
 
-    public GameState CurrentGameState;
+    //遊戲狀態切換委派
+    public delegate void GameStateHander(GameState newGameState);
+    //玩家狀態切換委派
+    public delegate void PlayerBehaviourStateHander(PlayerBehaviourState newGameState);
+
+    //遊戲狀態切換事件監聽
+    public event GameStateHander onNormalGameStateChanged;
+    public event GameStateHander onBattleGameStateChanged;
+    public event GameStateHander onPasueGameStateChanged;
+    public event GameStateHander onGameOverGameStateChanged;
+    //玩家狀態切換事件監聽
+    public event PlayerBehaviourStateHander onNonePlayerBehaviourStateChanged;
+    public event PlayerBehaviourStateHander onInteractivePlayerBehaviourStateChanged;
+    public event PlayerBehaviourStateHander onTalkingPlayerBehaviourStateChanged;
 
     private void Awake()
     {
-        SwitchNormelMode();
         if (instance == null)
         {
             instance = this;
@@ -31,30 +56,57 @@ public class GameManager : MonoBehaviour
         {
             Destroy(this.gameObject);
         }
+        SetState(GameState.Normal);
+        SetPlayerBehaviourState(PlayerBehaviourState.None);
+
+        DontDestroyOnLoad(gameObject);
     }
-    public static GameManager GetInstance()
+    public void SetState(GameState newGameState)
     {
-        if (instance == null)
+        if (newGameState == CurrentGameState)
+            return;
+        CurrentGameState = newGameState;
+        switch (newGameState)
         {
-            Debug.LogError("沒有GameManager實例");
-            return instance;
+            case GameState.Normal:
+                onNormalGameStateChanged?.Invoke(newGameState);
+                break;
+            case GameState.Battle:
+                onBattleGameStateChanged?.Invoke(newGameState);
+                break;
+            case GameState.Paused:
+                onPasueGameStateChanged?.Invoke(newGameState);
+                break;
+            case GameState.GameOver:
+                onGameOverGameStateChanged?.Invoke(newGameState);
+                break;
         }
-        else
+    }
+    public void SetPlayerBehaviourState(PlayerBehaviourState playerState)
+    {
+        if (playerState == CurrentPlayerBehaviourState)
+            return;
+        CurrentPlayerBehaviourState = playerState;
+        switch (playerState)
         {
-            return instance;
+            case PlayerBehaviourState.None:
+                onNonePlayerBehaviourStateChanged?.Invoke(playerState);
+                break;
+            case PlayerBehaviourState.Interactive:
+                onInteractivePlayerBehaviourStateChanged?.Invoke(playerState);
+                break;
+            case PlayerBehaviourState.Talking:
+                onTalkingPlayerBehaviourStateChanged?.Invoke(playerState);
+                break;
         }
-    }
-    public void SwitchNormelMode()
-    {
-        CurrentGameState = GameState.Normel;
-    }
-    public void SwitchBattleMode()
-    {
-        CurrentGameState = GameState.Battle;
     }
     public int GetCurrentState()
     {
         return (int)CurrentGameState;
+    }
+    public PlayerBehaviourState GetCurrentPlayerBehaviourState()
+    {
+        return CurrentPlayerBehaviourState;
     }
     /// <summary>
     /// 獲得當前控制角色號碼
@@ -87,6 +139,6 @@ public class GameManager : MonoBehaviour
         // ...
 
         // 設置遊戲狀態為遊戲進行中
-        CurrentGameState = GameState.Normel;
+        CurrentGameState = GameState.Normal;
     }
 }

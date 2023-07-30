@@ -1,0 +1,302 @@
+{
+	"Version": 3,
+	"Meta": {
+		"Duration": 0.017,
+		"Fps": 60.0,
+		"Loop": true,
+		"AreBeziersRestricted": true,
+		"CurveCount": 26,
+		"TotalSegmentCount": 26,
+		"TotalPointCount": 52,
+		"UserDataCount": 0,
+		"TotalUserDataSize": 0
+	},
+	"Curves": [
+		{
+			"Target": "Parameter",
+			"Id": "Scene1_ArmRY",
+			"Segments": [
+				0,
+				-28,
+				0,
+				0.017,
+				-28
+			]
+		},
+		{
+			"Target": "Parameter",
+			"Id": "Scene1_ArmLY",
+			"Segments": [
+				0,
+				-26,
+				0,
+				0.017,
+				-26
+			]
+		},
+		{
+			"Target": "Parameter",
+			"Id": "Scene1_HairR",
+			"Segments": [
+				0,
+				0,
+				0,
+				0.017,
+				0
+			]
+		},
+		{
+			"Target": "Parameter",
+			"Id": "Scene1_HairL",
+			"Segments": [
+				0,
+				0,
+				0,
+				0.017,
+				0
+			]
+		},
+		{
+			"Target": "Parameter",
+			"Id": "Scene1_BackHairR",
+			"Segments": [
+				0,
+				0,
+				0,
+				0.017,
+				0
+			]
+		},
+		{
+			"Target": "Parameter",
+			"Id": "Scene1_ArmRClothShake",
+			"Segments": [
+				0,
+				30,
+				0,
+				0.017,
+				30
+			]
+		},
+		{
+			"Target": "Parameter",
+			"Id": "Scene1_AllY",
+			"Segments": [
+				0,
+				0,
+				0,
+				0.017,
+				0
+			]
+		},
+		{
+			"Target": "Parameter",
+			"Id": "Scene1_ArmR1Rotate",
+			"Segments": [
+				0,
+				0,
+				0,
+				0.017,
+				0
+			]
+		},
+		{
+			"Target": "Parameter",
+			"Id": "Scene2_AllDis",
+			"Segments": [
+				0,
+				0,
+				0,
+				0.017,
+				0
+			]
+		},
+		{
+			"Target": "Parameter",
+			"Id": "Scene2_ImprintDis",
+			"Segments": [
+				0,
+				0,
+				0,
+				0.017,
+				0
+			]
+		},
+		{
+			"Target": "Parameter",
+			"Id": "Scene2_EyeRCrossDis",
+			"Segments": [
+				0,
+				0,
+				0,
+				0.017,
+				0
+			]
+		},
+		{
+			"Target": "Parameter",
+			"Id": "Scene2_EyeLOpen",
+			"Segments": [
+				0,
+				0,
+				0,
+				0.017,
+				0
+			]
+		},
+		{
+			"Target": "Parameter",
+			"Id": "Scene2_EyeROpen",
+			"Segments": [
+				0,
+				0,
+				0,
+				0.017,
+				0
+			]
+		},
+		{
+			"Target": "Parameter",
+			"Id": "Scene2_ArmRCloth",
+			"Segments": [
+				0,
+				0,
+				0,
+				0.017,
+				0
+			]
+		},
+		{
+			"Target": "Parameter",
+			"Id": "Scene2_BangsR",
+			"Segments": [
+				0,
+				0,
+				0,
+				0.017,
+				0
+			]
+		},
+		{
+			"Target": "Parameter",
+			"Id": "Scnen2_BackHairL1",
+			"Segments": [
+				0,
+				0,
+				0,
+				0.017,
+				0
+			]
+		},
+		{
+			"Target": "Parameter",
+			"Id": "Scnen2_BackHairL2",
+			"Segments": [
+				0,
+				0,
+				0,
+				0.017,
+				0
+			]
+		},
+		{
+			"Target": "Parameter",
+			"Id": "Scnen2_BackHairR1",
+			"Segments": [
+				0,
+				0,
+				0,
+				0.017,
+				0
+			]
+		},
+		{
+			"Target": "Parameter",
+			"Id": "Scnen2_Top",
+			"Segments": [
+				0,
+				0,
+				0,
+				0.017,
+				0
+			]
+		},
+		{
+			"Target": "Parameter",
+			"Id": "Scene2_EarL",
+			"Segments": [
+				0,
+				0,
+				0,
+				0.017,
+				0
+			]
+		},
+		{
+			"Target": "Parameter",
+			"Id": "Scene2_EarR",
+			"Segments": [
+				0,
+				0,
+				0,
+				0.017,
+				0
+			]
+		},
+		{
+			"Target": "Parameter",
+			"Id": "Scene2_HeadY",
+			"Segments": [
+				0,
+				0,
+				0,
+				0.017,
+				0
+			]
+		},
+		{
+			"Target": "Parameter",
+			"Id": "BlackMaskDis",
+			"Segments": [
+				0,
+				1,
+				0,
+				0.017,
+				1
+			]
+		},
+		{
+			"Target": "Parameter",
+			"Id": "Param_Angle_Scene2_SideHairL1_1_Rotation",
+			"Segments": [
+				0,
+				0,
+				0,
+				0.017,
+				0
+			]
+		},
+		{
+			"Target": "Parameter",
+			"Id": "Param_Angle_Scene2_SideHairL1_2_Rotation",
+			"Segments": [
+				0,
+				0,
+				0,
+				0.017,
+				0
+			]
+		},
+		{
+			"Target": "Parameter",
+			"Id": "Param_Angle_Scene2_SideHairL1_3_Rotation",
+			"Segments": [
+				0,
+				0,
+				0,
+				0.017,
+				0
+			]
+		}
+	]
+}

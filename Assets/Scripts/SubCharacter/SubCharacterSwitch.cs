@@ -1,13 +1,19 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Sirenix.OdinInspector;
 
-public class SubCharacterSwitch : MonoBehaviour
+/// <summary>
+/// 友方角色切換
+/// </summary>
+public class SubCharacterSwitch : SerializedMonoBehaviour
 {
+    public string currentSubCharacterNames;
     public System.Text.StringBuilder currentSubCharacterNamesSB = new System.Text.StringBuilder();
 
     public string[] subCharacterNames;
     public GameObject[] subCharacterObjs;
+    public Dictionary<string, GameObject> characterDic = new Dictionary<string, GameObject>();
 
     private SubCharacterStateMachine stateMachine;
 
@@ -19,8 +25,12 @@ public class SubCharacterSwitch : MonoBehaviour
     private void Awake()
     {
         stateMachine = GetComponent<SubCharacterStateMachine>();
-        StartSetCharacter(0);
+        StartSetCharacter("Niru");
+        //StartSetCharacter(0);
     }
+    /// <summary>
+    /// 初始化
+    /// </summary>
     public void StartSetCharacter(int characterId)
     {
         subControlCharacter.Add(subCharacterNames[characterId], subCharacterObjs[characterId]);
@@ -29,6 +39,16 @@ public class SubCharacterSwitch : MonoBehaviour
             currentSubCharacterNamesSB.Append(name.Key);
         }
     }
+    public void StartSetCharacter(string characterName)
+    {
+        subControlCharacter.Add(characterName, characterDic[characterName]);
+        foreach (KeyValuePair<string, GameObject> name in subControlCharacter)
+        {
+            currentSubCharacterNamesSB.Append(name.Key);
+        }
+        currentSubCharacterNames = currentSubCharacterNamesSB.ToString();
+    }
+
     public void StartPos(Vector3 startPos)
     {
         this.transform.position = startPos;
@@ -41,7 +61,8 @@ public class SubCharacterSwitch : MonoBehaviour
             subControlCharacter.Clear();
         }
 
-        subControlCharacter.Add(subCharacterNames[0], subCharacterObjs[0]);
+        //subControlCharacter.Add(subCharacterNames[0], subCharacterObjs[0]);
+        subControlCharacter.Add(currentSubCharacterNames, characterDic[currentSubCharacterNames]);
 
         foreach (KeyValuePair<string, GameObject> name in subControlCharacter)
         {
@@ -51,7 +72,9 @@ public class SubCharacterSwitch : MonoBehaviour
             }
             currentSubCharacterNamesSB.Append(name.Key);
         }
-        subCharacterObjs[0].SetActive(true);
+        currentSubCharacterNames = currentSubCharacterNamesSB.ToString();
+        //subCharacterObjs[0].SetActive(true);
+        subControlCharacter[currentSubCharacterNames].SetActive(true);
 
         stateMachine.ReIbitialize();
         stateMachine.SwitchState(typeof(SubCharacterState_Idle)); //切換角色狀態機

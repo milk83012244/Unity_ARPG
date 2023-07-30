@@ -14,7 +14,7 @@ public class PlayerInteractUI : MonoBehaviour
 
     private void Update()
     {
-        if (playerInteract.GetInteractableObject()!=null&& !GameManager.GetInstance().isInteractable)
+        if (playerInteract.GetInteractableObject()!=null && GameManager.Instance.GetCurrentPlayerBehaviourState() == PlayerBehaviourState.None)
         {
             Show();
         }
@@ -28,7 +28,8 @@ public class PlayerInteractUI : MonoBehaviour
     {
         if (playerInteract.GetInteractableObject() is NPCInteractable)
         {
-            playerInteract.GetInteractableObject().GetGameObject().GetComponentInChildren<PlayerInteractUI>().containerGameObject.gameObject.SetActive(true);
+            //playerInteract.GetInteractableObject().GetGameObject().GetComponentInChildren<PlayerInteractUI>().containerGameObject.gameObject.SetActive(true);
+            containerGameObject.gameObject.SetActive(true);
         }
 
     }

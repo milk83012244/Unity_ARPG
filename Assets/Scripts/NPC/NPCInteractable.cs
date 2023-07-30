@@ -8,20 +8,28 @@ using Yarn.Unity;
 /// </summary>
 public class NPCInteractable : MonoBehaviour, IInteractable
 {
-    [SerializeField] private Transform dialoguePos;
     [SerializeField] private DialogueRunner dialogueRunner;
     private Animator animator;
+
+    public string dialogueNode;
     private void Awake()
     {
         
     }
     /// <summary>
-    /// 與其他物件互動
+    /// 與玩家互動
     /// </summary>
-    public void Interact(Transform interactorTranform)
+    public void Interact(Transform interactorTranform,bool Dialogue=false)
     {
-        //對話 創建對話框
-        DialogueBubbleCreate.Create(dialogueRunner,this.transform, dialoguePos.localPosition +new Vector3(0,0.25f,0), "TestYarnScript");
+        if (Dialogue) //對話
+        {
+            if (dialogueRunner == null)
+            {
+                Debug.Log("沒有DialogueRunner組件");
+                return;
+            }
+            dialogueRunner.StartDialogue(dialogueNode);
+        }
     }
 
     public Transform GetTransform()

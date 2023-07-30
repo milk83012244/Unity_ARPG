@@ -15,6 +15,7 @@ public class DamageText : MonoBehaviour
     }
     private void OnDisable()
     {
+        this.transform.localPosition = new Vector3(1.2f, 1.2f, 1.2f);
         StopAllCoroutines();
     }
     /// <summary>
@@ -58,6 +59,7 @@ public class DamageText : MonoBehaviour
         if (isCritical)
         {
             criticalicon.enabled = true;
+            //this.transform.localPosition = new Vector3(1.2f, 1.2f, 1.2f);
         }
     }
     /// <summary>
@@ -66,6 +68,6 @@ public class DamageText : MonoBehaviour
     public IEnumerator Recycle()
     {
         yield return new WaitForSeconds(0.6f);
-        ObjectPool<DamageText>.GetInstance().Recycle(this);
+        ObjectPool<DamageText>.Instance.Recycle(this);
     }
 }

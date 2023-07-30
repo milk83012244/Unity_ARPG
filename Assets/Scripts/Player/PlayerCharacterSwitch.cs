@@ -8,6 +8,7 @@ using Sirenix.OdinInspector;
 /// </summary>
 public class PlayerCharacterSwitch : SerializedMonoBehaviour
 {
+    public PartyDataSO partyData;
     public string currentControlCharacterNames;
     public System.Text.StringBuilder currentControlCharacterNamesSB = new System.Text.StringBuilder();
 
@@ -18,32 +19,41 @@ public class PlayerCharacterSwitch : SerializedMonoBehaviour
 
     public static BattleCurrentCharacterNumber battleCurrentCharacterNumber;
 
+    public int currentUseCharacterID;
+
+    public AttackButtons attackButtons;
+    public CharacterSwitchButtons characterSwitchButtons;
+
     private PlayerInput input;
+    private PlayerController controller;
     private PlayerStateMachine stateMachine;
     private PlayerCharacterStats characterStats;
-    private PlayerPartyManager partyManager;
+    private PlayerCooldownController cooldownController;
+    private PlayerLevelSystem levelSystem;
+
+    [HideInInspector] public PlayerSkillManager currentSkillManager;
+
+    public delegate void PlayerSwitchHander(string characterName);
+
+    public event PlayerSwitchHander onNormalToBattleMode;
+    public event PlayerSwitchHander onBattleToNormalMode;
+    public event PlayerSwitchHander onCharacterSwitch;
 
     /// <summary>
     /// 當前控制角色
     /// </summary>
     private Dictionary<string, GameObject> currentControlCharacter = new Dictionary<string, GameObject>();
-    /// <summary>
-    /// AI控制友方角色
-    /// </summary>
-    public Dictionary<string, GameObject> subControlCharacter = new Dictionary<string, GameObject>();
 
     private void Awake()
     {
         input = GetComponent<PlayerInput>();
+        controller = GetComponent<PlayerController>();
         characterStats = GetComponent<PlayerCharacterStats>();
         stateMachine = GetComponent<PlayerStateMachine>();
-        partyManager = GetComponent<PlayerPartyManager>();
-        StartSetCharacter("Niru");
-        //if (!currentControlCharacter.ContainsKey("Niru"))
-        //{
-        //    SwitchMainCharacter();
-        //}
+        cooldownController = GetComponent<PlayerCooldownController>();
+        levelSystem = GetComponent<PlayerLevelSystem>();
 
+        StartSetCharacter("Niru");
     }
     private void Update()
     {
@@ -73,21 +83,42 @@ public class PlayerCharacterSwitch : SerializedMonoBehaviour
     /// </summary>
     public void SwitchCharacterInBattle(int number)
     {
-        if (number > partyManager.partys.Count)
+        if (!characterSwitchButtons.canSwitch)
+        {
+            Debug.Log("當前無法切換角色");
+            return;
+        }
+
+        if (number > partyData.currentParty.Count)
         {
             Debug.Log("隊伍編號" + number + "沒有角色");
             return;
         }
-        string characterName = partyManager.partys[(int)battleCurrentCharacterNumber];
+        if (!characterSwitchButtons.characterSwitchSlots[number].gameObject.activeSelf)
+        {
+            Debug.Log("欄位" + number + "沒有角色");
+            return;
+        }
+        string characterName = partyData.currentParty[(int)battleCurrentCharacterNumber];
+
         characterDic[characterName].SetActive(false);
 
         battleCurrentCharacterNumber = (BattleCurrentCharacterNumber)number;
-        characterName = partyManager.partys[(int)battleCurrentCharacterNumber];
+        characterName = partyData.currentParty[(int)battleCurrentCharacterNumber];
+
         currentControlCharacter.Clear();
-        currentControlCharacter.Add(characterName, characterDic[characterName]); //目前是固定的之後可以用一個常數儲存最後使用的角色
+        currentControlCharacter.Add(characterName, characterDic[characterName]); 
         //currentControlCharacter[characterName].SetActive(true);
         characterDic[characterName].SetActive(true);
-        characterStats.currentCharacterID = 0;
+
+        cooldownController.CharacterSwitchCooldownTrigger.Invoke(characterName); //角色切換CD計時
+        characterSwitchButtons.SetCurrnetUseCharacter(characterName);
+
+        currentSkillManager = characterDic[characterName].GetComponent<PlayerSkillManager>();
+        characterStats.SetCurrentCharacterID(characterName);
+        characterStats.ResetData();
+        controller.SetCharacterStats(characterStats);
+
         //獲取當前控制角色名稱
         foreach (KeyValuePair<string, GameObject> name in currentControlCharacter)
         {
@@ -98,6 +129,11 @@ public class PlayerCharacterSwitch : SerializedMonoBehaviour
             currentControlCharacterNamesSB.Append(name.Key);
             // currentControlCharacterNames = name.Key;
         }
+
+        onCharacterSwitch?.Invoke(currentControlCharacterNamesSB.ToString());
+
+        levelSystem.SetLevelSystemData();
+
         stateMachine.ReIbitialize();
         stateMachine.SwitchState(typeof(PlayerState_Idle)); //切換角色狀態機
     }
@@ -107,7 +143,7 @@ public class PlayerCharacterSwitch : SerializedMonoBehaviour
     /// </summary>
     public void SwitchMainCharacterInNormal()
     {
-        if (partyManager.partys.Count <= 0)
+        if (partyData.currentParty.Count <= 0)
         {
             Debug.Log("隊伍沒有成員無法切換至戰鬥模式");//可以改為UI顯示
         }
@@ -142,6 +178,12 @@ public class PlayerCharacterSwitch : SerializedMonoBehaviour
                 currentControlCharacterNamesSB.Append(name.Key);
             }
         }
+        characterStats.currentCharacterID = 0;
+
+        onBattleToNormalMode?.Invoke(currentControlCharacterNamesSB.ToString());
+        characterSwitchButtons.SetCurrnetUseCharacter("");
+
+        levelSystem.SetLevelSystemData();
 
         stateMachine.ReIbitialize();
         stateMachine.SwitchState(typeof(PlayerState_Idle)); //切換角色狀態機
@@ -153,16 +195,20 @@ public class PlayerCharacterSwitch : SerializedMonoBehaviour
     /// </summary>
     public void BattleModeStartSwitchCharacter()
     {
-        characterDic["Niru"].SetActive(false);
+        characterDic["Niru"].SetActive(false);//之後可以改成一般模式當前使用角色
 
         battleCurrentCharacterNumber = BattleCurrentCharacterNumber.First;
-        string characterName = partyManager.partys[(int)battleCurrentCharacterNumber];
+        string characterName = partyData.currentParty[(int)battleCurrentCharacterNumber];
 
         currentControlCharacter.Clear();
-        currentControlCharacter.Add(characterName, characterDic[characterName]); //目前是固定的之後可以用一個常數儲存最後使用的角色
+        currentControlCharacter.Add(characterName, characterDic[characterName]); 
          //currentControlCharacter[characterNames[1]].SetActive(true);
         characterDic[characterName].SetActive(true);
-        characterStats.currentCharacterID = 0;
+        currentSkillManager = characterDic[characterName].GetComponent<PlayerSkillManager>();
+        characterStats.SetCurrentCharacterID(characterName);
+        characterStats.InitData();
+        controller.SetCharacterStats(characterStats);
+
         //獲取當前控制角色名稱
         foreach (KeyValuePair<string, GameObject> name in currentControlCharacter)
         {
@@ -173,26 +219,45 @@ public class PlayerCharacterSwitch : SerializedMonoBehaviour
             currentControlCharacterNamesSB.Append(name.Key);
             // currentControlCharacterNames = name.Key;
         }
+
+        onNormalToBattleMode?.Invoke(currentControlCharacterNamesSB.ToString());
+        characterSwitchButtons.SetCurrnetUseCharacter(characterName);
+        characterSwitchButtons.characterSwitchSlotCanUseForStateAction.Invoke(true);
+
+        levelSystem.SetLevelSystemData();
+
         stateMachine.ReIbitialize();
         stateMachine.SwitchState(typeof(PlayerState_Idle)); //切換角色狀態機
 
     }
     private void SwitchBattleCharacterInput()
     {
-        if (GameManager.GetInstance().GetCurrentState() == (int)GameManager.GameState.Battle)
+        if (GameManager.Instance.GetCurrentState() == (int)GameState.Battle)
         {
-            if (input.ChangeCharacter1)
+            if (input.CharacterSwitch1)
             {
                 SwitchCharacterInBattle(1);
             }
-            else if (input.ChangeCharacter2)
+            else if (input.CharacterSwitch2)
             {
                 SwitchCharacterInBattle(2);
             }
-            else if (input.ChangeCharacter3)
+            else if (input.CharacterSwitch3)
             {
                 SwitchCharacterInBattle(3);
             }
+        }
+    }
+
+    public PlayerSkillManager GetSkillManager()
+    {
+        if (currentSkillManager != null)
+        {
+            return currentSkillManager;
+        }
+        else
+        {
+            return null;
         }
     }
 }

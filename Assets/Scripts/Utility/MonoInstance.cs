@@ -7,7 +7,14 @@ using UnityEngine;
 /// </summary>
 public class MonoInstance : MonoBehaviour
 {
-    public static MonoInstance instance;
+    private static MonoInstance instance;
+    public static MonoInstance Instance
+    {
+        get
+        {
+            return instance;
+        }
+    }
 
     private void Awake()
     {
@@ -15,17 +22,21 @@ public class MonoInstance : MonoBehaviour
         {
             instance = this;
         }
-    }
-    public static MonoInstance GetInstance()
-    {
-        if (instance == null)
-        {
-            Debug.LogError("沒有GameManager實例");
-            return instance;
-        }
         else
         {
-            return instance;
+            Destroy(this.gameObject);
         }
     }
+    //public static MonoInstance GetInstance()
+    //{
+    //    if (instance == null)
+    //    {
+    //        Debug.LogError("沒有MonoInstance實例");
+    //        return instance;
+    //    }
+    //    else
+    //    {
+    //        return instance;
+    //    }
+    //}
 }

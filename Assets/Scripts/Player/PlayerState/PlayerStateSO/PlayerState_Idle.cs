@@ -9,6 +9,7 @@ public class PlayerState_Idle : PlayerState
 
     public override void Enter()
     {
+        base.SwitchCharacterState(true);
         if (isInitial)
         {
             animator.Play(playerCharacterSwitch.currentControlCharacterNamesSB.ToString() + "_FrontIdle");
@@ -16,11 +17,11 @@ public class PlayerState_Idle : PlayerState
         }
         else
         {
-            if (GameManager.GetInstance().GetCurrentState() == (int)GameManager.GameState.Normel) //一般待機
+            if (GameManager.Instance.GetCurrentState() == (int)GameState.Normal) //一般待機
             {
                 animator.Play(playerCharacterSwitch.currentControlCharacterNamesSB.ToString() + "_FrontIdle");
             }
-            else if (GameManager.GetInstance().GetCurrentState() == (int)GameManager.GameState.Battle) //戰鬥待機
+            else if (GameManager.Instance.GetCurrentState() == (int)GameState.Battle) //戰鬥待機
             {
                 if (input.currentDirection == 1)
                 {
@@ -46,6 +47,11 @@ public class PlayerState_Idle : PlayerState
     }
     public override void LogicUpdate()
     {
+        if (player.isDamageing)
+        {
+            stateMachine.SwitchState(typeof(PlayerState_Damage));
+        }
+
         if (input.MoveX || input.MoveY)
         {
             stateMachine.SwitchState(typeof(PlayerState_Walk));
@@ -64,14 +70,14 @@ public class PlayerState_Idle : PlayerState
         {
             stateMachine.SwitchState(typeof(PlayerState_Attack));
         }
-        if (input.PressSkill1)
+
+        if (input.PressGuard)
         {
-            stateMachine.SwitchState(typeof(PlayerState_Skill1));
+            stateMachine.SwitchState(typeof(PlayerState_Guard));
         }
-        if (input.PressSkill2)
-        {
-            stateMachine.SwitchState(typeof(PlayerState_Skill2));
-        }
+
+        base.UseSkill();
+
     }
     public override void PhysicUpdate()
     {

@@ -7,46 +7,70 @@ public class PlayerState_Skill2 : PlayerState
 {
     [SerializeField] float MoSkill2Speed = 5f;
 
-    public static bool isMoSkill2;
+    public static bool isSkill2Enter;
     public override void Enter()
     {
+
         base.Enter();
-        isMoSkill2 = true;
-        if (input.PressSkill2 && input.currentDirection == 1)
-        {
-            animator.Play(playerCharacterSwitch.currentControlCharacterNamesSB.ToString() + "_SL_Skill2");
-        }
-        else if (input.PressSkill2 && input.currentDirection == 3)
-        {
-            animator.Play(playerCharacterSwitch.currentControlCharacterNamesSB.ToString() + "_SR_Skill2");
-        }
-        else if (input.PressSkill2 && input.currentDirection == 2)
-        {
-            animator.Play(playerCharacterSwitch.currentControlCharacterNamesSB.ToString() + "_F_Skill2");
-        }
-        else if (input.PressSkill2 && input.currentDirection == 4)
-        {
-            animator.Play(playerCharacterSwitch.currentControlCharacterNamesSB.ToString() + "_B_Skill2");
-        }
 
         switch (playerCharacterSwitch.currentControlCharacterNamesSB.ToString())
         {
             case "Mo":
+                isSkill2Enter = true;
+
+                if (input.PressSkill2 && input.currentDirection == 1)
+                {
+                    animator.Play(playerCharacterSwitch.currentControlCharacterNamesSB.ToString() + "_SL_Skill2");
+                }
+                else if (input.PressSkill2 && input.currentDirection == 3)
+                {
+                    animator.Play(playerCharacterSwitch.currentControlCharacterNamesSB.ToString() + "_SR_Skill2");
+                }
+                else if (input.PressSkill2 && input.currentDirection == 2)
+                {
+                    animator.Play(playerCharacterSwitch.currentControlCharacterNamesSB.ToString() + "_F_Skill2");
+                }
+                else if (input.PressSkill2 && input.currentDirection == 4)
+                {
+                    animator.Play(playerCharacterSwitch.currentControlCharacterNamesSB.ToString() + "_B_Skill2");
+                }
+
                 MoSkill2Move();
                 break;
+            case "Lia":
+                if (input.PressSkill2)
+                {
+                    animator.Play(playerCharacterSwitch.currentControlCharacterNamesSB.ToString() + "_F_Skill2");
+                }
+                break;
         }
+
+        base.SwitchCharacterState(false);
         //ßﬁØ‡CD
         playerCooldownController.Skill2CooldownTrigger.Invoke(playerCharacterSwitch.currentControlCharacterNamesSB.ToString());
     }
     public override void Exit()
     {
         MoveEnd();
-        isMoSkill2 = false;
+        isSkill2Enter = false;
     }
     public override void LogicUpdate()
     {
+        switch (playerCharacterSwitch.currentControlCharacterNamesSB.ToString())
+        {
+            case "Mo":
+                break;
+            case "Lia":
+                player.SetVelocityX(currentSpeedx);
+                player.SetVelocityY(currentSpeedy);
+                player.SetVelocityXY(0, 0);
+                break;
+        }
+
         if (IsAnimationFinished)
         {
+            base.SwitchCharacterState(true);
+
             stateMachine.SwitchState(typeof(PlayerState_Idle));
         }
     }

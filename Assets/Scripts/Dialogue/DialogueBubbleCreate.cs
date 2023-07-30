@@ -44,7 +44,7 @@ public class DialogueBubbleCreate : MonoBehaviour
     }
     public void Init()
     {
-        bubbleTransform = GameObject.Find("MainDialogueCanvas").transform;
+        //bubbleTransform = GameObject.Find("MainDialogueCanvas").transform;
         dialogueRunner = GameObject.FindObjectOfType<DialogueRunner>();
         //if (dialogueRunner.gameObject.activeSelf)
         //{

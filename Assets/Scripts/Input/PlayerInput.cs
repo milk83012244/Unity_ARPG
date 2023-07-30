@@ -2,19 +2,36 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.InputSystem.Interactions;
 
+public enum ControlMode
+{
+    KeyboardMouse,
+    Gamepad
+}
 /// <summary>
 /// 玩家輸入類 負責接收輸出按鍵輸入
 /// </summary>
 public class PlayerInput : MonoBehaviour
 {
     PlayerInputActions playerInputActions;
+    PlayerCharacterStats characterStats;
+    PlayerController playerController;
 
     public int currentDirection;
 
-   [HideInInspector] public bool canDodge;
-    [HideInInspector] public bool canSkill1;
-    [HideInInspector] public bool canSkill2;
+    [HideInInspector] public List<bool> canDodge = new List<bool>();
+    [HideInInspector] public List<bool> canSkill1 = new List<bool>();
+    [HideInInspector] public List<bool> canSkill2 = new List<bool>();
+    [HideInInspector] public List<bool> canUSkill = new List<bool>();
+
+    [HideInInspector] public List<bool> canSwitchFunctionkey = new List<bool>();
+
+    [HideInInspector] public List<bool> canCharacterSwitch = new List<bool>();
+
+    private bool isUsingGamepad = false;
+
+    private ControlMode currentControlMode = ControlMode.KeyboardMouse;
 
     #region 輸入相關變數
     public float AxisX => Axes.x;
@@ -23,31 +40,75 @@ public class PlayerInput : MonoBehaviour
 
     Vector2 Axes => playerInputActions.Gameplay.Axes.ReadValue<Vector2>();
 
+    public Vector2 AimAxes => playerInputActions.Gameplay.AimAxes.ReadValue<Vector2>();
+
     public bool MoveX => AxisX != 0f;
     public bool MoveY => AxisY != 0f;
 
     public bool PressRun => playerInputActions.Gameplay.Run.IsPressed() == true ;
-    public bool PressDodge => playerInputActions.Gameplay.Dodge.IsPressed() == true && canDodge && GameManager.GetInstance().GetCurrentState() == (int)GameManager.GameState.Battle;
-    public bool PressAttack => playerInputActions.Gameplay.Attack.IsPressed() && GameManager.GetInstance().CurrentGameState == GameManager.GameState.Battle;
-    public bool PressSkill1 => playerInputActions.Gameplay.Skill1.WasPressedThisFrame() && canSkill1&& GameManager.GetInstance().CurrentGameState == GameManager.GameState.Battle;
+    public bool PressDodge => playerInputActions.Gameplay.Dodge.IsPressed() == true && canDodge[characterStats.currentCharacterID] && GameManager.Instance.GetCurrentState() == (int)GameState.Battle;
+    public bool PressAttack => playerInputActions.Gameplay.Attack.IsPressed() && GameManager.Instance.CurrentGameState == GameState.Battle;
+    public bool PressGuard => playerInputActions.Gameplay.Guard.IsPressed() && GameManager.Instance.CurrentGameState == GameState.Battle;
+    public bool PressSkill1 => playerInputActions.Gameplay.Skill1.WasPressedThisFrame() &&canSkill1[characterStats.currentCharacterID] && GameManager.Instance.CurrentGameState == GameState.Battle && playerController.canUseSkill1;
+    public bool PressSkill1Release => playerInputActions.Gameplay.Skill1.WasReleasedThisFrame() && canSkill1[characterStats.currentCharacterID] && GameManager.Instance.CurrentGameState == GameState.Battle && playerController.canUseSkill1;
+    public bool PressingSkill1 => playerInputActions.Gameplay.Skill1.IsPressed() && canSkill1[characterStats.currentCharacterID] && GameManager.Instance.CurrentGameState == GameState.Battle && playerController.canUseSkill1;
 
-    public bool PressSkill2 => playerInputActions.Gameplay.Skill2.WasPressedThisFrame() && canSkill2 && GameManager.GetInstance().CurrentGameState == GameManager.GameState.Battle;
-    public bool ChangeCharacter1 => playerInputActions.Gameplay.SwitchCharacter1.WasPressedThisFrame() && GameManager.GetInstance().GetCurrentState() == (int)GameManager.GameState.Battle &&
-        GameManager.GetInstance().GetCurrentBattleCharacter() != (int)BattleCurrentCharacterNumber.First;
-    public bool ChangeCharacter2 => playerInputActions.Gameplay.SwitchCharacter2.WasPressedThisFrame() && GameManager.GetInstance().GetCurrentState() == (int)GameManager.GameState.Battle &&
-        GameManager.GetInstance().GetCurrentBattleCharacter() != (int) BattleCurrentCharacterNumber.Second;
-    public bool ChangeCharacter3 => playerInputActions.Gameplay.SwitchCharacter3.WasPressedThisFrame() && GameManager.GetInstance().GetCurrentState() == (int)GameManager.GameState.Battle &&
-    GameManager.GetInstance().GetCurrentBattleCharacter() != (int)BattleCurrentCharacterNumber.Third;
-    //public bool Attack => playerInputActions.Gameplay.Attack.WasPressedThisFrame();
+    public bool PressSkill2 => playerInputActions.Gameplay.Skill2.WasPressedThisFrame() && canSkill2[characterStats.currentCharacterID] && GameManager.Instance.CurrentGameState == GameState.Battle && playerController.canUseSkill2;
+    public bool PressSkill2Release => playerInputActions.Gameplay.Skill2.WasReleasedThisFrame() && canSkill2[characterStats.currentCharacterID] && GameManager.Instance.CurrentGameState == GameState.Battle && playerController.canUseSkill2;
+    public bool PressingSkill2 => playerInputActions.Gameplay.Skill2.IsPressed() && canSkill2[characterStats.currentCharacterID] && GameManager.Instance.CurrentGameState == GameState.Battle && playerController.canUseSkill2;
+
+    public bool PressUSkill => playerInputActions.Gameplay.USkill.WasPressedThisFrame() && canUSkill[characterStats.currentCharacterID] && GameManager.Instance.CurrentGameState == GameState.Battle && playerController.canUseUSkill;
+
+    public bool CharacterSwitch1 => playerInputActions.Gameplay.SwitchCharacter1.WasPressedThisFrame()&& canCharacterSwitch[0] && GameManager.Instance.GetCurrentState() == (int)GameState.Battle &&
+        GameManager.Instance.GetCurrentBattleCharacter() != (int)BattleCurrentCharacterNumber.First;
+    public bool CharacterSwitch2 => playerInputActions.Gameplay.SwitchCharacter2.WasPressedThisFrame() && canCharacterSwitch[1] && GameManager.Instance.GetCurrentState() == (int)GameState.Battle &&
+        GameManager.Instance.GetCurrentBattleCharacter() != (int) BattleCurrentCharacterNumber.Second;
+    public bool CharacterSwitch3 => playerInputActions.Gameplay.SwitchCharacter3.WasPressedThisFrame() && canCharacterSwitch[2] && GameManager.Instance.GetCurrentState() == (int)GameState.Battle &&
+    GameManager.Instance.GetCurrentBattleCharacter() != (int)BattleCurrentCharacterNumber.Third;
+
+    public bool SwitchFunctionkey1 => playerInputActions.Gameplay.SwitchFunctionkey1.WasPressedThisFrame() && canCharacterSwitch[0] && GameManager.Instance.GetCurrentState() == (int)GameState.Battle;
+    public bool SwitchFunctionkey2 => playerInputActions.Gameplay.SwitchFunctionkey2.WasPressedThisFrame() && canCharacterSwitch[1] && GameManager.Instance.GetCurrentState() == (int)GameState.Battle;
+    public bool SwitchFunctionkey3 => playerInputActions.Gameplay.SwitchFunctionkey3.WasPressedThisFrame() && canCharacterSwitch[2] && GameManager.Instance.GetCurrentState() == (int)GameState.Battle;
+    public bool SwitchFunctionkey4 => playerInputActions.Gameplay.SwitchFunctionkey4.WasPressedThisFrame() && canCharacterSwitch[3] && GameManager.Instance.GetCurrentState() == (int)GameState.Battle;
     #endregion
+
 
     private void Awake()
     {
-        canDodge = true;
-        canSkill1 = true;
-        canSkill2 = true;
+        characterStats = GetComponent<PlayerCharacterStats>();
+        playerController = GetComponent<PlayerController>();
+
+        for (int i = 0; i < 6; i++)
+        {
+            canDodge.Add(true);
+        }
+        for (int i = 0; i < 6; i++)
+        {
+            canSkill1.Add(true);
+        }
+        for (int i = 0; i < 6; i++)
+        {
+            canSkill2.Add(true);
+        }
+        for (int i = 0; i < 6; i++)
+        {
+            canUSkill.Add(true);
+        }
+        for (int i = 0; i < 3; i++)
+        {
+            canCharacterSwitch.Add(true);
+        }
+        for (int i = 0; i < 4; i++)
+        {
+            canSwitchFunctionkey.Add(true);
+        }
+
         playerInputActions = new PlayerInputActions();
         currentDirection = 0;
+    }
+    private void Start()
+    {
+        GetDefaultInputDevice();
     }
     private void Update()
     {
@@ -61,6 +122,19 @@ public class PlayerInput : MonoBehaviour
     public void DesableGamePlayInputs()
     {
         playerInputActions.Gameplay.Disable();
+    }
+
+    private InputDevice GetDefaultInputDevice()
+    {
+        // 檢查連接的手把
+        Gamepad gamepad = Gamepad.current;
+        if (gamepad != null)
+        {
+            return gamepad;
+        }
+
+        // 如果沒有連接的手把，預設使用滑鼠
+        return Mouse.current;
     }
     /// <summary>
     /// 玩家當前轉向(其他需要轉向的動作用)

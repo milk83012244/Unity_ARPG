@@ -5,7 +5,8 @@ using UnityEngine;
 [CreateAssetMenu(menuName = "Data/StateMachine/PlayerState/Run", fileName = "PlayerState_Run")]
 public class PlayerState_Run : PlayerState
 {
-    [SerializeField] float runSpeed = 5f;
+    [SerializeField] Dictionary<string, float> runSpeed = new Dictionary<string, float>();
+    [HideInInspector] public float currentRunSpeed;
     [SerializeField] float acceration = 5f; //移動時的加速度
 
     public override void Enter()
@@ -28,7 +29,18 @@ public class PlayerState_Run : PlayerState
         {
             animator.Play(playerCharacterSwitch.currentControlCharacterNamesSB.ToString() + "_F_Run");
         }
-
+        switch (playerCharacterSwitch.currentControlCharacterNamesSB.ToString())
+        {
+            case "Niru":
+                currentRunSpeed = runSpeed["Niru"];
+                break;
+            case "Mo":
+                currentRunSpeed = runSpeed["Mo"];
+                break;
+            case "Lia":
+                currentRunSpeed = runSpeed["Lia"];
+                break;
+        }
         //currentSpeedx = Mathf.MoveTowards(currentSpeedx, walkSpeed, acceration * Time.deltaTime);
         //currentSpeedy = Mathf.MoveTowards(currentSpeedy, walkSpeed, acceration * Time.deltaTime);
     }
@@ -60,29 +72,15 @@ public class PlayerState_Run : PlayerState
         {
             stateMachine.SwitchState(typeof(PlayerState_Attack));
         }
-        if (input.PressSkill1)
+        base.UseSkill();
+
+        if (input.PressGuard)
         {
-            stateMachine.SwitchState(typeof(PlayerState_Skill1));
-        }
-        if (input.PressSkill2)
-        {
-            stateMachine.SwitchState(typeof(PlayerState_Skill2));
+            stateMachine.SwitchState(typeof(PlayerState_Guard));
         }
     }
     public override void PhysicUpdate()
     {
-        player.Move(runSpeed);
-        //if (input.MoveX)
-        //{
-        //    player.Move(currentSpeedx);
-        //}
-        //else if (input.MoveY)
-        //{
-        //    player.Move(currentSpeedy);
-        //}
-        //if (input.MoveX && input.MoveY)
-        //{
-        //    player.MoveXY(currentSpeedx, currentSpeedy);
-        //}
+        player.Move(currentRunSpeed);
     }
 }

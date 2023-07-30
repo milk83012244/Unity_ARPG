@@ -415,8 +415,8 @@ AnimationClip:
   m_HasMotionFloatCurves: 0
   m_Events:
   - time: 0
-    functionName: GetCurrentDirection
-    data: 
+    functionName: StartSkill1AnimateEvent
+    data: B
     objectReferenceParameter: {fileID: 0}
     floatParameter: 0
     intParameter: 0

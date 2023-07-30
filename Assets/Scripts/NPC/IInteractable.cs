@@ -7,7 +7,7 @@ using UnityEngine;
 /// </summary>
 public interface IInteractable 
 {
-    void Interact(Transform interactTransform);
+    void Interact(Transform interactTransform,bool Dialogue=false);
     Transform GetTransform();
     GameObject GetGameObject();
 }

@@ -1,0 +1,200 @@
+{
+	"Version": 3,
+	"Parameters": [
+		{
+			"Id": "Scene1_AllDis",
+			"GroupId": "ParamGroup",
+			"Name": "Scene1_AllDis"
+		},
+		{
+			"Id": "Scene1_ArmRY",
+			"GroupId": "ParamGroup",
+			"Name": "Scene1_ArmRY"
+		},
+		{
+			"Id": "Scene1_ArmLY",
+			"GroupId": "ParamGroup",
+			"Name": "Scene1_ArmLY"
+		},
+		{
+			"Id": "Scene1_HairR",
+			"GroupId": "ParamGroup",
+			"Name": "Scene1_HairR"
+		},
+		{
+			"Id": "Scene1_HairL",
+			"GroupId": "ParamGroup",
+			"Name": "Scene1_HairL"
+		},
+		{
+			"Id": "Scene1_BackHairR",
+			"GroupId": "ParamGroup",
+			"Name": "Scene1_BackHairR"
+		},
+		{
+			"Id": "Scene1_ArmRClothShake",
+			"GroupId": "ParamGroup",
+			"Name": "Scene1_ArmRClothShake"
+		},
+		{
+			"Id": "Scene1_AllY",
+			"GroupId": "ParamGroup",
+			"Name": "Scene1_AllY"
+		},
+		{
+			"Id": "Scene1_ArmR1Rotate",
+			"GroupId": "ParamGroup",
+			"Name": "Scene1_ArmR1Rotate"
+		},
+		{
+			"Id": "Scene2_AllDis",
+			"GroupId": "ParamGroup2",
+			"Name": "Scene2_AllDis"
+		},
+		{
+			"Id": "Scene2_ImprintDis",
+			"GroupId": "ParamGroup2",
+			"Name": "Scene2_ImprintDis"
+		},
+		{
+			"Id": "Scene2_EyeRCrossDis",
+			"GroupId": "ParamGroup2",
+			"Name": "Scene2_EyeRCrossDis"
+		},
+		{
+			"Id": "Scene2_EyeLOpen",
+			"GroupId": "ParamGroup2",
+			"Name": "Scene2_EyeLOpen"
+		},
+		{
+			"Id": "Scene2_EyeROpen",
+			"GroupId": "ParamGroup2",
+			"Name": "Scene2_EyeROpen"
+		},
+		{
+			"Id": "Scene2_ArmR",
+			"GroupId": "ParamGroup2",
+			"Name": "Scene2_ArmR"
+		},
+		{
+			"Id": "Scene2_ArmRCloth",
+			"GroupId": "ParamGroup2",
+			"Name": "Scene2_ArmRCloth"
+		},
+		{
+			"Id": "Scene2_BangsR",
+			"GroupId": "ParamGroup2",
+			"Name": "Scene2_BangsR"
+		},
+		{
+			"Id": "Scnen2_BackHairL1",
+			"GroupId": "ParamGroup2",
+			"Name": "Scnen2_BackHairL1"
+		},
+		{
+			"Id": "Scnen2_BackHairL2",
+			"GroupId": "ParamGroup2",
+			"Name": "Scnen2_BackHairL2"
+		},
+		{
+			"Id": "Scnen2_BackHairR1",
+			"GroupId": "ParamGroup2",
+			"Name": "Scnen2_BackHairR1"
+		},
+		{
+			"Id": "Scnen2_Top",
+			"GroupId": "ParamGroup2",
+			"Name": "Scnen2_Top"
+		},
+		{
+			"Id": "Scene2_EarL",
+			"GroupId": "ParamGroup2",
+			"Name": "Scene2_EarL"
+		},
+		{
+			"Id": "Scene2_EarR",
+			"GroupId": "ParamGroup2",
+			"Name": "Scene2_EarR"
+		},
+		{
+			"Id": "Scene2_HeadY",
+			"GroupId": "ParamGroup2",
+			"Name": "Scene2_HeadY"
+		},
+		{
+			"Id": "BlackMaskDis",
+			"GroupId": "",
+			"Name": "BlackMaskDis"
+		},
+		{
+			"Id": "Param_Angle_Scene2_SideHairL1_1_Rotation",
+			"GroupId": "ParamGroup3",
+			"Name": "[0]Scene2_SideHairL1"
+		},
+		{
+			"Id": "Param_Angle_Scene2_SideHairL1_2_Rotation",
+			"GroupId": "ParamGroup3",
+			"Name": "[1]Scene2_SideHairL1"
+		},
+		{
+			"Id": "Param_Angle_Scene2_SideHairL1_3_Rotation",
+			"GroupId": "ParamGroup3",
+			"Name": "[2]Scene2_SideHairL1"
+		}
+	],
+	"ParameterGroups": [
+		{
+			"Id": "ParamGroup",
+			"GroupId": "",
+			"Name": "Scene1"
+		},
+		{
+			"Id": "ParamGroup2",
+			"GroupId": "",
+			"Name": "Scene2"
+		},
+		{
+			"Id": "ParamGroup3",
+			"GroupId": "",
+			"Name": "Scene2_SideHairL1"
+		}
+	],
+	"Parts": [
+		{
+			"Id": "Scene2",
+			"Name": "Scene2"
+		},
+		{
+			"Id": "Scene1",
+			"Name": "Scene1"
+		},
+		{
+			"Id": "Front",
+			"Name": "Front"
+		},
+		{
+			"Id": "Part",
+			"Name": "Part"
+		},
+		{
+			"Id": "Part2",
+			"Name": "Part"
+		},
+		{
+			"Id": "SideHairL_Skinning",
+			"Name": "SideHairL(蒙皮)"
+		},
+		{
+			"Id": "EyeL",
+			"Name": "EyeL"
+		},
+		{
+			"Id": "EyeR",
+			"Name": "EyeR"
+		},
+		{
+			"Id": "Blade2",
+			"Name": "Blade"
+		}
+	]
+}

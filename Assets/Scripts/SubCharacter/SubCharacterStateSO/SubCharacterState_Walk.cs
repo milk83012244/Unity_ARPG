@@ -26,13 +26,21 @@ public class SubCharacterState_Walk : SubCharacterState
     }
     public override void LogicUpdate()
     {
-        if (subCharacterController.Moveing ||( playerInput.MoveX || playerInput.MoveY))
+        if ((subCharacterController.Moveing ||( playerInput.MoveX || playerInput.MoveY)) && !subCharacterController.RunCheck())
         {
             stateMachine.SwitchState(typeof(SubCharacterState_Walk));
+        }
+        else if ((subCharacterController.Moveing || (playerInput.MoveX || playerInput.MoveY)) && subCharacterController.RunCheck())
+        {
+            stateMachine.SwitchState(typeof(SubCharacterState_Run));
         }
         else
         {
             stateMachine.SwitchState(typeof(SubCharacterState_Idle));
+        }
+        if (PlayerState_Attack.isAttack1)
+        {
+            stateMachine.SwitchState(typeof(SubCharacterState_Attack1));
         }
     }
     public override void PhysicUpdate()
