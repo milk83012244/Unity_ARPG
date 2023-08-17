@@ -78,6 +78,7 @@ public class LiaSkill2Effect : MonoBehaviour
                 lightElement = false;
                 darkElement = false;
                 elementTypes[(int)element].SetActive(true);
+                SetElementComponent(element);
                 break;
             case ElementType.Thunder:
                 fireElement = false;
@@ -129,6 +130,9 @@ public class LiaSkill2Effect : MonoBehaviour
                 Recycle();
                 break;
             case ElementType.Wind:
+                elementTypes[(int)element].SetActive(true);
+                yield return Yielders.GetWaitForSeconds(0.7f);
+                Recycle();
                 break;
             case ElementType.Thunder:
                 break;
@@ -145,6 +149,8 @@ public class LiaSkill2Effect : MonoBehaviour
                 ObjectPool<LiaSkill2Effect>.Instance.Recycle(this);
                 break;
             case ElementType.Wind:
+                elementTypes[(int)element].SetActive(false);
+                ObjectPool<LiaSkill2Effect>.Instance.Recycle(this);
                 break;
             case ElementType.Thunder:
                 break;

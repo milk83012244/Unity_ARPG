@@ -52,7 +52,7 @@ public class SceneContral
         //關閉所有面板
         UIManager.GetInstance().Pop(true);
 
-        SceneManager.LoadScene(sceneName);
+        SceneManager.LoadSceneAsync(sceneName);
         sceneBase.EnterScene();
     }
 }

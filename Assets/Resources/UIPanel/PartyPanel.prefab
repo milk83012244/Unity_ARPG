@@ -399,7 +399,6 @@ MonoBehaviour:
     - Name: 
       Entry: 8
       Data: 
-  attackButtons: {fileID: 0}
   partyData: {fileID: 11400000, guid: ff66867b41a20a14f90cf9edf975e4db, type: 2}
   partySlot:
   - {fileID: 0}
@@ -2475,10 +2474,10 @@ RectTransform:
   m_Father: {fileID: 9109956985254131958}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 150, y: -50}
+  m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &8324613889240006604
 CanvasRenderer:
@@ -2601,10 +2600,10 @@ RectTransform:
   m_Father: {fileID: 9109956985254131958}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 50, y: -50}
+  m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &7535902801361947375
 CanvasRenderer:
@@ -2938,7 +2937,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Content: {fileID: 9109956985254131958}
   m_Horizontal: 1
-  m_Vertical: 1
+  m_Vertical: 0
   m_MovementType: 1
   m_Elasticity: 0.1
   m_Inertia: 1

@@ -14,8 +14,12 @@ public class LiaSkill1Effect : MonoBehaviour
 
     public List<GameObject> elementTypes;
 
-    public GameObject iceSmoke;
+    public GameObject iceSmokeCollider;
     public GameObject[] iceSmokeEffects;
+
+    public GameObject windEffectCollider;
+    public GameObject windAttractCollider;
+    public GameObject[] windEffects;
 
     //是否有賦予屬性
     [HideInInspector] public bool fireElement;
@@ -84,6 +88,7 @@ public class LiaSkill1Effect : MonoBehaviour
                 lightElement = false;
                 darkElement = false;
                 elementTypes[(int)element].SetActive(true);
+                SetElementComponent(element);
                 break;
             case ElementType.Thunder:
                 fireElement = false;
@@ -139,16 +144,33 @@ public class LiaSkill1Effect : MonoBehaviour
                     iceSmokeEffects[i].SetActive(true);
                     yield return Yielders.GetWaitForSeconds(0.05f);
                 }
-                iceSmoke.SetActive(true);
+                iceSmokeCollider.SetActive(true);
                 yield return Yielders.GetWaitForSeconds(2.5f);
-                iceSmoke.SetActive(false);
+                iceSmokeCollider.SetActive(false);
                 Recycle();
                 break;
             case ElementType.Wind:
+                StartCoroutine(WindAttractEffect());
+                yield return Yielders.GetWaitForSeconds(0.35f);
+                for (int i = 0; i < windEffects.Length; i++)
+                {
+                    windEffects[i].SetActive(true);
+                    yield return Yielders.GetWaitForSeconds(0.05f);
+                }
+                windEffectCollider.SetActive(true);
+                yield return Yielders.GetWaitForSeconds(2.5f);
+                windEffectCollider.SetActive(false);
+                Recycle();
                 break;
             case ElementType.Thunder:
                 break;
         }
+    }
+    private IEnumerator WindAttractEffect()
+    {
+        windAttractCollider.SetActive(true);
+        yield return Yielders.GetWaitForSeconds(0.5f);
+        windAttractCollider.SetActive(false);
     }
 
     public void Recycle() //自己回收
@@ -162,14 +184,18 @@ public class LiaSkill1Effect : MonoBehaviour
                 {
                     iceSmokeEffects[i].SetActive(false);
                 }
-                elementTypes[(int)element].SetActive(false);
-                ObjectPool<LiaSkill1Effect>.Instance.Recycle(this);
                 break;
             case ElementType.Wind:
+                for (int i = 0; i < windEffects.Length; i++)
+                {
+                    windEffects[i].SetActive(false);
+                }
                 break;
             case ElementType.Thunder:
                 break;
         }
+        elementTypes[(int)element].SetActive(false);
+        ObjectPool<LiaSkill1Effect>.Instance.Recycle(this);
         //ObjectPool<LiaSkill1Effect>.GetInstance().Recycle(this);
     }
 }

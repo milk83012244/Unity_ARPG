@@ -4,7 +4,8 @@ using UnityEngine;
 using Sirenix.OdinInspector;
 
 /// <summary>
-/// 玩家狀態數值
+/// 玩家狀態機
+/// 負責:玩家移動,撥放動畫與傳遞事件,改變標示,不傳遞數值
 /// </summary>
 public class PlayerState : SerializedScriptableObject, IState
 {
@@ -151,5 +152,48 @@ public class PlayerState : SerializedScriptableObject, IState
     public virtual void SwitchCharacterState(bool canSwitch)
     {
         playerCharacterSwitch.characterSwitchButtons.characterSwitchSlotCanUseForStateAction.Invoke(canSwitch);
+    }
+    /// <summary>
+    /// 共用輸入功能按鈕
+    /// </summary>
+    public virtual void InputFunctionButtons()
+    {
+        switch (playerCharacterSwitch.currentControlCharacterNamesSB.ToString())
+        {
+            case "Lia":
+                if (input.SwitchFunctionkey1 && LiaElementSwitch.canSwitch)
+                {
+                    stateMachine.SwitchState(typeof(PlayerState_Function));
+                }
+                else if (input.SwitchFunctionkey2 && LiaElementSwitch.canSwitch)
+                {
+                    stateMachine.SwitchState(typeof(PlayerState_Function));
+                }
+                else if (input.SwitchFunctionkey3 && LiaElementSwitch.canSwitch)
+                {
+                    stateMachine.SwitchState(typeof(PlayerState_Function));
+                }
+                else if (input.SwitchFunctionkey4 && LiaElementSwitch.canSwitch)
+                {
+                    stateMachine.SwitchState(typeof(PlayerState_Function));
+                }
+                break;
+        }
+        //if (input.SwitchFunctionkey1)
+        //{
+        //    stateMachine.SwitchState(typeof(PlayerState_Function));
+        //}
+        //else if (input.SwitchFunctionkey2)
+        //{
+        //    stateMachine.SwitchState(typeof(PlayerState_Function));
+        //}
+        //else if (input.SwitchFunctionkey3)
+        //{
+        //    stateMachine.SwitchState(typeof(PlayerState_Function));
+        //}
+        //else if (input.SwitchFunctionkey4)
+        //{
+        //    stateMachine.SwitchState(typeof(PlayerState_Function));
+        //}
     }
 }

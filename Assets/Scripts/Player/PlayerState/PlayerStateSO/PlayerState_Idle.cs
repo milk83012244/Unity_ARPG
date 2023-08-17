@@ -78,6 +78,7 @@ public class PlayerState_Idle : PlayerState
 
         base.UseSkill();
 
+        base.InputFunctionButtons();
     }
     public override void PhysicUpdate()
     {

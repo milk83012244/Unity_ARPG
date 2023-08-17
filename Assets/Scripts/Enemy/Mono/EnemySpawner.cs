@@ -10,6 +10,17 @@ public class EnemySpawner : MonoBehaviour
     public List<GameObject> WayPointsType1 = new List<GameObject>();
     public List<GameObject> enemyType1Prefabs = new List<GameObject>();
 
+    public Transform TextPoolParent;
+    public GameObject damageTextPrafab; //傷害文字
+    public ObjectPool<DamageText> damageTextPool;
+
+    private void Start()
+    {
+
+        damageTextPool = ObjectPool<DamageText>.Instance;
+        damageTextPool.InitPool(damageTextPrafab, 10, TextPoolParent);
+    }
+
     public void SpawnEnemyType1(GameObject enemyPrefab,int pointIndex)
     {
         GameObject enemysInstance = Instantiate(enemyPrefab, spawnPoints[pointIndex]);
@@ -17,6 +28,7 @@ public class EnemySpawner : MonoBehaviour
 
         //設定巡邏點
         EnemyUnitType1 enemyUnitType1 = enemysInstance.GetComponent<EnemyUnitType1>();
+        enemyUnitType1.SetEnemySpawner(this);
         for (int i = 0; i < WayPointsType1[pointIndex].transform.childCount; i++)
         {
             enemyUnitType1.waypoints.Add(WayPointsType1[pointIndex].transform.GetChild(i));

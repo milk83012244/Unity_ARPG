@@ -2,11 +2,12 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Sirenix.OdinInspector;
+using Sirenix.Utilities;
 
 /// <summary>
 /// 玩家控制角色切換
 /// </summary>
-public class PlayerCharacterSwitch : SerializedMonoBehaviour
+public class PlayerCharacterSwitch : SerializedMonoBehaviour,IDataPersistence
 {
     public PartyDataSO partyData;
     public string currentControlCharacterNames;
@@ -21,7 +22,6 @@ public class PlayerCharacterSwitch : SerializedMonoBehaviour
 
     public int currentUseCharacterID;
 
-    public AttackButtons attackButtons;
     public CharacterSwitchButtons characterSwitchButtons;
 
     private PlayerInput input;
@@ -59,6 +59,36 @@ public class PlayerCharacterSwitch : SerializedMonoBehaviour
     {
         SwitchBattleCharacterInput();
     }
+    public void LoadData(GameData gameData)
+    {
+        if (gameData.partyData != null)
+        {
+            partyData.currentParty = gameData.partyData;
+        }
+        else
+        {
+            gameData.partyData.Add(1, "");
+            gameData.partyData.Add(2, "");
+            gameData.partyData.Add(3, "");
+            partyData.currentParty = gameData.partyData;
+        }
+
+        characterSwitchButtons.SetCharacterSlotIcon(partyData);
+    }
+
+    public void SaveData(GameData gameData)
+    {
+        for (int i = 1; i < partyData.currentParty.Keys.Count +1; i++)
+        {
+            gameData.partyData[i] = partyData.currentParty[i];
+        }
+        //foreach (KeyValuePair<int,string> pair in partyData.currentParty)
+        //{
+        //    gameData.partyData[pair.Key] = pair.Value;
+        //}
+        //gameData.partyData = this.partyData.currentParty;
+    }
+
     /// <summary>
     ///  初始化角色
     /// </summary>
@@ -112,6 +142,8 @@ public class PlayerCharacterSwitch : SerializedMonoBehaviour
         characterDic[characterName].SetActive(true);
 
         cooldownController.CharacterSwitchCooldownTrigger.Invoke(characterName); //角色切換CD計時
+
+        //角色按鈕狀態
         characterSwitchButtons.SetCurrnetUseCharacter(characterName);
 
         currentSkillManager = characterDic[characterName].GetComponent<PlayerSkillManager>();
@@ -129,7 +161,7 @@ public class PlayerCharacterSwitch : SerializedMonoBehaviour
             currentControlCharacterNamesSB.Append(name.Key);
             // currentControlCharacterNames = name.Key;
         }
-
+        //角色切換時啟動訂閱的事件
         onCharacterSwitch?.Invoke(currentControlCharacterNamesSB.ToString());
 
         levelSystem.SetLevelSystemData();
@@ -143,11 +175,6 @@ public class PlayerCharacterSwitch : SerializedMonoBehaviour
     /// </summary>
     public void SwitchMainCharacterInNormal()
     {
-        if (partyData.currentParty.Count <= 0)
-        {
-            Debug.Log("隊伍沒有成員無法切換至戰鬥模式");//可以改為UI顯示
-        }
-
         if (currentControlCharacter.Count > 0)
         {
             currentControlCharacter.Clear();
@@ -180,6 +207,9 @@ public class PlayerCharacterSwitch : SerializedMonoBehaviour
         }
         characterStats.currentCharacterID = 0;
 
+        //角色切換時啟動訂閱的事件
+        //onCharacterSwitch?.Invoke(currentControlCharacterNamesSB.ToString());
+        //回一般模式啟動訂閱的事件
         onBattleToNormalMode?.Invoke(currentControlCharacterNamesSB.ToString());
         characterSwitchButtons.SetCurrnetUseCharacter("");
 
@@ -219,10 +249,13 @@ public class PlayerCharacterSwitch : SerializedMonoBehaviour
             currentControlCharacterNamesSB.Append(name.Key);
             // currentControlCharacterNames = name.Key;
         }
-
+        //角色切換時啟動訂閱的事件
+        onCharacterSwitch?.Invoke(currentControlCharacterNamesSB.ToString());
+        //切換到戰鬥模式時啟動訂閱事件
         onNormalToBattleMode?.Invoke(currentControlCharacterNamesSB.ToString());
+        //角色按鈕狀態
         characterSwitchButtons.SetCurrnetUseCharacter(characterName);
-        characterSwitchButtons.characterSwitchSlotCanUseForStateAction.Invoke(true);
+        //characterSwitchButtons.characterSwitchSlotCanUseForStateAction.Invoke(true);
 
         levelSystem.SetLevelSystemData();
 

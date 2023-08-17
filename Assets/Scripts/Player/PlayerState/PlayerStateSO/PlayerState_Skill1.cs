@@ -8,6 +8,14 @@ public class PlayerState_Skill1 : PlayerState
     public static bool isSkill1Enter;
     public override void Enter()
     {
+        //各角色獨自有的狀態
+        switch (playerCharacterSwitch.currentControlCharacterNamesSB.ToString())
+        {
+            case "Lia":
+                LiaElementSwitch.canSwitch = false;
+                break;
+        }
+
         isSkill1Enter = true;
         base.Enter();
         AimRotate aimRotate = player.rangedAimObject.GetComponent<AimRotate>();
@@ -62,6 +70,14 @@ public class PlayerState_Skill1 : PlayerState
     }
     public override void Exit()
     {
+        //各角色獨自有的狀態
+        switch (playerCharacterSwitch.currentControlCharacterNamesSB.ToString())
+        {
+            case "Lia":
+                LiaElementSwitch.canSwitch = true;
+                break;
+        }
+
         isSkill1Enter = false;
     }
     public override void LogicUpdate()

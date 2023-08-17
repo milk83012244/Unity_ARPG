@@ -8,6 +8,14 @@ public class PlayerState_Attack : PlayerState
     public static bool isAttack1;
     public override void Enter()
     {
+        //各角色獨自有的狀態
+        switch (playerCharacterSwitch.currentControlCharacterNamesSB.ToString())
+        {
+            case "Lia":
+                LiaElementSwitch.canSwitch = false;
+                break;
+        }
+
         isAttack1 = true;
         base.Enter();
         if (characterStats.characterData[characterStats.currentCharacterID].attackType == AttackType.Melee)
@@ -58,6 +66,14 @@ public class PlayerState_Attack : PlayerState
     }
     public override void Exit()
     {
+        //各角色獨自有的狀態
+        switch (playerCharacterSwitch.currentControlCharacterNamesSB.ToString())
+        {
+            case "Lia":
+                LiaElementSwitch.canSwitch = true;
+                break;
+        }
+
         isAttack1 = false;
     }
     public override void LogicUpdate()

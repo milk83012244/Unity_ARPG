@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Sirenix.OdinInspector;
+using System;
 
 public enum GameState
 {
@@ -16,7 +17,7 @@ public enum PlayerBehaviourState //玩家行為邏輯狀態
     Interactive,
     Talking,
 }
-public class GameManager : SerializedMonoBehaviour
+public class GameManager : SerializedMonoBehaviour,IDataPersistence
 {
     // 定義GameManager的實例，以便在其他腳本中訪問它
     private static GameManager instance;
@@ -46,6 +47,10 @@ public class GameManager : SerializedMonoBehaviour
     public event PlayerBehaviourStateHander onInteractivePlayerBehaviourStateChanged;
     public event PlayerBehaviourStateHander onTalkingPlayerBehaviourStateChanged;
 
+    public DateTime saveTime;
+    private float playTime;
+    private float loadedPlayTime;
+
     private void Awake()
     {
         if (instance == null)
@@ -61,6 +66,32 @@ public class GameManager : SerializedMonoBehaviour
 
         DontDestroyOnLoad(gameObject);
     }
+    private void Start()
+    {
+        StartCoroutine(TrackPlayTime());
+    }
+
+    public void LoadData(GameData gameData)
+    {
+        if (gameData != null)
+        {
+            loadedPlayTime = gameData.playTime;
+        }
+        else
+        {
+            loadedPlayTime = 0;
+        }
+        playTime = loadedPlayTime;
+    }
+
+    public void SaveData(GameData gameData)
+    {
+        this.saveTime = new DateTime();
+        this.saveTime = DateTime.Now;
+        gameData.saveTime = this.saveTime.ToString();
+        gameData.playTime = playTime;
+    }
+
     public void SetState(GameState newGameState)
     {
         if (newGameState == CurrentGameState)
@@ -140,5 +171,16 @@ public class GameManager : SerializedMonoBehaviour
 
         // 設置遊戲狀態為遊戲進行中
         CurrentGameState = GameState.Normal;
+    }
+    /// <summary>
+    /// 計算遊玩時間
+    /// </summary>
+    private IEnumerator TrackPlayTime()
+    {
+        while (true)
+        {
+            playTime += Time.deltaTime;
+            yield return null;
+        }
     }
 }

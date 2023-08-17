@@ -21,10 +21,11 @@ public class AttackButtons : SerializedMonoBehaviour
     public Dictionary<string, Sprite> skill2SlotImages = new Dictionary<string, Sprite>();
     public Dictionary<string, Sprite> USkillSlotImages = new Dictionary<string, Sprite>();
 
+    //LiaÄÝ©Ê¤Á´«
     public Dictionary<ElementType, Sprite> LiaNormalAttackSlotElementImages = new Dictionary<ElementType, Sprite>();
     public Dictionary<ElementType, Sprite> LiaSkill1SlotElementImages = new Dictionary<ElementType, Sprite>();
     public Dictionary<ElementType, Sprite> LiaSkill2SlotElementImages = new Dictionary<ElementType, Sprite>();
-    public Dictionary<ElementType, Sprite> LiaUSkillSlotElementImages = new Dictionary<ElementType, Sprite>();
+    //public Dictionary<ElementType, Sprite> LiaUSkillSlotElementImages = new Dictionary<ElementType, Sprite>();
 
     //§Þ¯àicon
     public Image skill1IconCooldownMask;
@@ -638,11 +639,10 @@ public class AttackButtons : SerializedMonoBehaviour
     public void LiaSetSkillIcon(ElementType element)
     {
         normalAttackImages["Lia"] = LiaNormalAttackSlotElementImages[element];
-        skill1SlotImages["Lia"] = LiaSkill1SlotElementImages[element];
+        skill1SlotImages["Lia"] = LiaSkill1SlotElementImages[element];    
         skill2SlotImages["Lia"] = LiaSkill2SlotElementImages[element];
+        normalAttackIconSlot.sprite = normalAttackImages["Lia"];
         skill1IconSlot.sprite = skill1SlotImages["Lia"];
         skill2IconSlot.sprite = skill2SlotImages["Lia"];
     }
-
-
 }

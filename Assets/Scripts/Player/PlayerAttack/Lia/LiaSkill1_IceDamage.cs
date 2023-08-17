@@ -4,7 +4,14 @@ using UnityEngine;
 
 public class LiaSkill1_IceDamage : MonoBehaviour
 {
+    private Dictionary<Collider2D, bool> targetDic = new Dictionary<Collider2D, bool>(); //已觸發的目標列表
+
     public LiaSkill1Effect liaSkill1Effect;
+
+    private void OnDisable()
+    {
+        ClearTargetDic();
+    }
 
     private void DealDamage(IDamageable damageable, ElementType element)//造成一次傷害
     {
@@ -49,12 +56,24 @@ public class LiaSkill1_IceDamage : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// 清除觸發目標的容器
+    /// </summary>
+    public void ClearTargetDic()
+    {
+        targetDic.Clear();
+    }
+
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.gameObject.layer != LayerMask.NameToLayer("Player"))
         {
-            IDamageable damageable = collision.GetComponent<IDamageable>();
-            DealDamage(damageable, liaSkill1Effect.element);
+            if (!targetDic.ContainsKey(collision))
+            {
+                targetDic.Add(collision, false);
+                IDamageable damageable = collision.GetComponent<IDamageable>();
+                DealDamage(damageable, liaSkill1Effect.element);
+            }
         }
     }
 }

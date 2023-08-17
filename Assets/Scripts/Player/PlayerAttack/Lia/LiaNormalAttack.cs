@@ -23,6 +23,7 @@ public class LiaNormalAttack : MonoBehaviour
         controller = GetComponentInParent<PlayerController>();
         characterStats = GetComponentInParent<PlayerCharacterStats>();
         playerEffectSpawner = GetComponentInParent<PlayerEffectSpawner>();
+        elementSwitch = GetComponentInParent<LiaElementSwitch>();
     }
     private void Start()
     {

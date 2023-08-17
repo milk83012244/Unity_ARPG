@@ -25,8 +25,8 @@ TagManager:
   - CounterAttack
   - PlayerCollider
   - EnvironmentCollider
-  - 
-  - 
+  - Ground
+  - Obstacles
   - 
   - 
   - 
@@ -79,4 +79,7 @@ TagManager:
     locked: 0
   - name: Live2DAnimate
     uniqueID: 1285314843
+    locked: 0
+  - name: Live2DAnimateFrontEffect
+    uniqueID: 3920904983
     locked: 0

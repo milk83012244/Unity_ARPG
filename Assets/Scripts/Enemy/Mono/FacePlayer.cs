@@ -3,13 +3,30 @@ using System.Collections.Generic;
 using UnityEngine;
 public class FacePlayer : MonoBehaviour
 {
+    float stateStartTime;
+
     private OtherCharacterStats selfStats;
     private string selfName;
+    private Animator animator;
     public int currentDirection;
+
+    /// <summary>
+    /// 動畫結束標示
+    /// </summary>
+    protected bool IsAnimationFinished => StateDuration >= animator.GetCurrentAnimatorStateInfo(0).length;
+    /// <summary>
+    /// 狀態持續時間
+    /// </summary>
+    protected float StateDuration => Time.time - stateStartTime;
+    /// <summary>
+    /// 當前狀態時間
+    /// </summary>
+    protected float CurrentStateTime => animator.GetCurrentAnimatorStateInfo(0).normalizedTime;
 
     private void Start()
     {
         selfStats = GetComponent<OtherCharacterStats>();
+        animator = this.gameObject.GetComponentInChildren<Animator>();
         selfName = selfStats.enemyBattleData.characterName;
     }
     public int DirectionCheck(Vector3 self, Vector3 target)
@@ -46,7 +63,9 @@ public class FacePlayer : MonoBehaviour
         if (currentDirection == 0)
             return;
 
-        if (animationType == "idle")
+        stateStartTime = Time.time;
+
+        if (animationType == "Idle")
         {
             switch (currentDirection)
             {
@@ -70,7 +89,7 @@ public class FacePlayer : MonoBehaviour
                     break;
                 case 2:
                 case 3:
-                    animator.Play("Slime_Blue_SL_Move");
+                    animator.Play(selfName + "_SL_Move");
                     break;
             }
         }

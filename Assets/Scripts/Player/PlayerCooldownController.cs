@@ -107,6 +107,10 @@ public class PlayerCooldownController : SerializedMonoBehaviour
     {
         StartCoroutine(CharacterSwitchCoolDown());
     }
+
+    /// <summary>
+    /// ¤Á´«¨¤¦âCD­pºâ
+    /// </summary>
     private IEnumerator CharacterSwitchCoolDown()
     {
         for (int i = 0; i < playerInput.canCharacterSwitch.Count; i++)

@@ -11,6 +11,11 @@ public class LiaSkill2RotateEffect : MonoBehaviour
 
     public List<GameObject> elementTypes;
 
+    public GameObject[] fireRotateObjects;
+    public GameObject[] iceRotateObjects;
+    public GameObject[] windRotateObjects;
+    public GameObject[] thunderRotateObjects;
+
     public float damageDuration = 3f;
 
     //¬O§_¦³½á¤©ÄÝ©Ê
@@ -32,6 +37,27 @@ public class LiaSkill2RotateEffect : MonoBehaviour
     private IEnumerator ActiveCount()
     {
         yield return new WaitForSeconds(damageDuration);
+
+        switch (element)
+        {
+            case ElementType.Fire:
+                break;
+            case ElementType.Ice:
+                for (int i = 0; i < iceRotateObjects.Length; i++)
+                {
+                    iceRotateObjects[i].SetActive(false);
+                }
+                break;
+            case ElementType.Wind:
+                for (int i = 0; i < windRotateObjects.Length; i++)
+                {
+                    iceRotateObjects[i].SetActive(false);
+                }
+                break;
+            case ElementType.Thunder:
+                break;
+        }
+
         this.gameObject.SetActive(false);
     }
     public void GetCharacterStats(PlayerCharacterStats characterStats)
@@ -73,6 +99,10 @@ public class LiaSkill2RotateEffect : MonoBehaviour
                 lightElement = false;
                 darkElement = false;
                 elementTypes[(int)element].SetActive(true);
+                for (int i = 0; i < iceRotateObjects.Length; i++)
+                {
+                    iceRotateObjects[i].SetActive(true);
+                }
                 break;
             case ElementType.Wind:
                 fireElement = false;
@@ -82,6 +112,10 @@ public class LiaSkill2RotateEffect : MonoBehaviour
                 lightElement = false;
                 darkElement = false;
                 elementTypes[(int)element].SetActive(true);
+                for (int i = 0; i < iceRotateObjects.Length; i++)
+                {
+                    windRotateObjects[i].SetActive(true);
+                }
                 break;
             case ElementType.Thunder:
                 fireElement = false;

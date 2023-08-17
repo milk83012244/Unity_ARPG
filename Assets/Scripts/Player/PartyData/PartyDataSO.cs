@@ -8,9 +8,13 @@ public class PartyDataSO : SerializedScriptableObject
 {
     public Dictionary<int, string> currentParty = new Dictionary<int, string>();
 
+    private void Awake()
+    {
+        ResetPartyData();
+    }
     public void ResetPartyData()
     {
-        for (int i = 0; i < currentParty.Keys.Count; i++)
+        for (int i = 1; i < currentParty.Keys.Count +1; i++)
         {
             currentParty[i] = "";
         }

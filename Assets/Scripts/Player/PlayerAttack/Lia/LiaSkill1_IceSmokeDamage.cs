@@ -51,7 +51,7 @@ public class LiaSkill1_IceSmokeDamage : MonoBehaviour
                     liaSkill1Effect.characterStats.TakeSubDamage(liaSkill1Effect.characterStats, defander, ElementType.Ice);
                     enemyUnit.SpawnDamageText(liaSkill1Effect.characterStats.currentDamage, ElementType.Ice,isSub:true);
 
-                    //冰屬性賦予效果
+                    //添加賦予屬性值
                     defander.characterElementCounter.AddElementCount(liaSkill1Effect.element, 1);
 
                     if (enemyUnit.isMarked)
@@ -70,7 +70,7 @@ public class LiaSkill1_IceSmokeDamage : MonoBehaviour
                     enemyUnitType1.StartFlash();
                 }
             }
-            yield return new WaitForSeconds(damageInterval);
+            yield return Yielders.GetWaitForSeconds(damageInterval);
         }
     }
 

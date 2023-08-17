@@ -8,6 +8,14 @@ public class PlayerState_USkill : PlayerState
     public static bool isUSkillEnter;
     public override void Enter()
     {
+        //各角色獨自有的狀態
+        switch (playerCharacterSwitch.currentControlCharacterNamesSB.ToString())
+        {
+            case "Lia":
+                LiaElementSwitch.canSwitch = false;
+                break;
+        }
+
         isUSkillEnter = true;
         base.Enter();
 
@@ -28,6 +36,14 @@ public class PlayerState_USkill : PlayerState
 
     public override void Exit()
     {
+        //各角色獨自有的狀態
+        switch (playerCharacterSwitch.currentControlCharacterNamesSB.ToString())
+        {
+            case "Lia":
+                LiaElementSwitch.canSwitch = true;
+                break;
+        }
+
         isUSkillEnter = false;
     }
     public override void LogicUpdate()

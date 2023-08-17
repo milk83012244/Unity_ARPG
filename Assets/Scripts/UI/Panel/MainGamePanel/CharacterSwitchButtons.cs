@@ -37,6 +37,7 @@ public class CharacterSwitchButtons : SerializedMonoBehaviour
     private int currentSlot; //當前角色格
 
     private Coroutine characterSwitchCor;
+    private bool isCooldown;
 
     private void OnEnable()
     {
@@ -65,6 +66,10 @@ public class CharacterSwitchButtons : SerializedMonoBehaviour
     /// </summary>
     public void SetCharacterSwitchButtonForStateActive(bool active)
     {
+        if (isCooldown)
+        {
+            return;
+        }
         if (GameManager.Instance.CurrentGameState == GameState.Battle &&  currentCharacterName.IsNullOrWhitespace())
         {
             return;
@@ -118,6 +123,8 @@ public class CharacterSwitchButtons : SerializedMonoBehaviour
     /// </summary>
     private IEnumerator SwitchCDCount(string characterName)
     {
+        isCooldown = true;
+
         float currentTime = switchCooldownTime;
 
         for (int i = 1; i < partyData.currentParty.Count + 1; i++)
@@ -132,10 +139,10 @@ public class CharacterSwitchButtons : SerializedMonoBehaviour
             if (i!=currentSlot)
             {
                 Image slotImage = characterSwitchSlots[i].Find("CharacterIcon").GetComponent<Image>();
-                Color initialColor = slotImage.color;
-                initialColor = new Color(0.35f,0.35f,0.35f,0.7f);
+                //Color initialColor = slotImage.color;
+                //initialColor = new Color(0.35f,0.35f,0.35f,0.7f);
                 //initialColor.a = 0.5f;
-                slotImage.color = initialColor;
+                slotImage.color = new Color(0.35f, 0.35f, 0.35f, 0.7f);
             }
         }
         for (int i = 1; i < characterSwitchSlotCooldownTexts.Count; i++)
@@ -160,9 +167,9 @@ public class CharacterSwitchButtons : SerializedMonoBehaviour
             if (i != currentSlot)
             {
                 Image slotImage = characterSwitchSlots[i].Find("CharacterIcon").GetComponent<Image>();
-                Color initialColor = slotImage.color;
-                initialColor = new Color(1f, 1f, 1f, 1f);
-                slotImage.color = initialColor;
+                //Color initialColor = slotImage.color;
+                //initialColor = new Color(1f, 1f, 1f, 1f);
+                slotImage.color = new Color(1f, 1f, 1f, 1f);
             }
         }
         for (int i = 1; i < characterSwitchSlotCooldownTexts.Count; i++)
@@ -170,6 +177,8 @@ public class CharacterSwitchButtons : SerializedMonoBehaviour
             if (i != currentSlot)
                 characterSwitchSlotCooldownTexts[i].enabled = false;
         }
+
+        isCooldown = false;
     }
     /// <summary>
     /// 從隊伍資料切換角色icon

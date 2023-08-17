@@ -10,6 +10,13 @@ public class PlayerState_Skill2 : PlayerState
     public static bool isSkill2Enter;
     public override void Enter()
     {
+        //各角色獨自有的狀態
+        switch (playerCharacterSwitch.currentControlCharacterNamesSB.ToString())
+        {
+            case "Lia":
+                LiaElementSwitch.canSwitch = false;
+                break;
+        }
 
         base.Enter();
 
@@ -51,6 +58,14 @@ public class PlayerState_Skill2 : PlayerState
     }
     public override void Exit()
     {
+        //各角色獨自有的狀態
+        switch (playerCharacterSwitch.currentControlCharacterNamesSB.ToString())
+        {
+            case "Lia":
+                LiaElementSwitch.canSwitch = true;
+                break;
+        }
+
         MoveEnd();
         isSkill2Enter = false;
     }

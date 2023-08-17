@@ -10,6 +10,14 @@ public class PlayerState_Firing : PlayerState
 {
     public override void Enter()
     {
+        //各角色獨自有的狀態
+        switch (playerCharacterSwitch.currentControlCharacterNamesSB.ToString())
+        {
+            case "Lia":
+                LiaElementSwitch.canSwitch = false;
+                break;
+        }
+
         base.Enter();
 
         if (input.PressSkill1 && input.currentDirection == 1)
@@ -42,6 +50,14 @@ public class PlayerState_Firing : PlayerState
     }
     public override void Exit()
     {
+        //各角色獨自有的狀態
+        switch (playerCharacterSwitch.currentControlCharacterNamesSB.ToString())
+        {
+            case "Lia":
+                LiaElementSwitch.canSwitch = true;
+                break;
+        }
+
         player.SkillCursorObjectSetActive(false);
     }
     public override void LogicUpdate()

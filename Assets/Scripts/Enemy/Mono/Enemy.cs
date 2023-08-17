@@ -1,24 +1,24 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Sirenix.OdinInspector;
 
 /// <summary>
 /// 敵人基類 管理相同屬性
 /// </summary>
-public class Enemy : MonoBehaviour, IDamageable
+public class Enemy : SerializedMonoBehaviour, IDamageable
 {
     protected Coroutine markClearCountCor; //時間到自動消除印記
+    public EnemySpawner enemySpawner;
 
     public List<Transform> waypoints; //巡邏點
-    public float moveSpeed ; //移動速度
-    public float tempSpeed ; //暫存速度
+    public float moveSpeed; //移動速度
+    public float tempSpeed; //暫存速度
     public float maxFovRange; //最大索敵範圍
-    public float minFovRange ; //最小索敵範圍
-    public float attackRange ; //攻擊範圍
+    public float minFovRange; //最小索敵範圍
+    public float attackRange; //攻擊範圍
 
-    [SerializeField] Transform TextPoolParent;
-    [SerializeField] private GameObject damageTextPrafab; //傷害文字
-    private ObjectPool<DamageText> damageTextPool;
+    //生成傷害文字物件池已交給敵人生成器
 
     [SerializeField] private SpriteRenderer[] markSprites; //被賦予的印記圖片
 
@@ -39,8 +39,7 @@ public class Enemy : MonoBehaviour, IDamageable
     }
     public virtual void Start()
     {
-        damageTextPool = ObjectPool<DamageText>.Instance;
-        damageTextPool.InitPool(damageTextPrafab, 10, TextPoolParent);
+
     }
     public virtual void StopMove()
     {
@@ -51,12 +50,19 @@ public class Enemy : MonoBehaviour, IDamageable
         moveSpeed = tempSpeed;
     }
     /// <summary>
+    /// 獲得生成器
+    /// </summary>
+    public virtual void SetEnemySpawner(EnemySpawner enemySpawner)
+    {
+        this.enemySpawner = enemySpawner;
+    }
+    /// <summary>
     /// 生成傷害文字
     /// </summary>
     public virtual void SpawnDamageText(int takeDamage, bool isCritical = false, bool isSub = false)
     {
         Vector3 random = new Vector2(Random.Range(-0.1f, 0.1f), Random.Range(-0.3f, 0.3f));
-        DamageText damageText = damageTextPool.Spawn(transform.position + new Vector3(0, 0.1f) + random, TextPoolParent);
+        DamageText damageText = enemySpawner.damageTextPool.Spawn(transform.position + new Vector3(0, 0.1f) + random, enemySpawner.TextPoolParent);
         if (isSub)
             damageText.gameObject.transform.localScale = new Vector3(1, 1, 1);
         else
@@ -70,7 +76,7 @@ public class Enemy : MonoBehaviour, IDamageable
     public virtual void SpawnDamageText(int takeDamage, ElementType elementType, bool isCritical = false,bool isSub=false)
     {
         Vector3 random = new Vector2(Random.Range(-0.1f, 0.1f), Random.Range(-0.3f, 0.3f));
-        DamageText damageText = damageTextPool.Spawn(transform.position + new Vector3(0, 0.1f) + random, TextPoolParent);
+        DamageText damageText = enemySpawner.damageTextPool.Spawn(transform.position + new Vector3(0, 0.1f) + random, enemySpawner.TextPoolParent);
         if (isSub)
             damageText.gameObject.transform.localScale = new Vector3(1, 1, 1);
         else
@@ -84,7 +90,7 @@ public class Enemy : MonoBehaviour, IDamageable
     public virtual void SpawnMarkDamageText(int takeDamage, bool isCritical = false)
     {
         Vector3 random = new Vector2(Random.Range(-0.1f, 0.1f), Random.Range(-0.1f, 0.1f));
-        DamageText damageText = damageTextPool.Spawn(transform.position + new Vector3(0, 0.2f) + random, TextPoolParent);
+        DamageText damageText = enemySpawner.damageTextPool.Spawn(transform.position + new Vector3(0, 0.2f) + random, enemySpawner.TextPoolParent);
         damageText.SetDamageText(takeDamage, isCritical);
     }
 

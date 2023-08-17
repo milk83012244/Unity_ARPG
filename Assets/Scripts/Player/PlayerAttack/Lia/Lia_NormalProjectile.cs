@@ -209,6 +209,7 @@ public class Lia_NormalProjectile : MonoBehaviour
             {
                 characterStats.TakeDamage(characterStats, defander, ElementType.Wind);
                 enemyUnit.SpawnDamageText(characterStats.currentDamage, ElementType.Wind);
+                defander.characterElementCounter.AddElementCount(ElementType.Wind, 1);
             }
             else if (thunderElement)
             {

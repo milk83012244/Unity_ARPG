@@ -16,7 +16,7 @@ public class GameRoot : MonoBehaviour
     {
         if (instance == null)
         {
-            Debug.LogError("沒有UIManager實例");
+            Debug.LogError("沒有GameRoot實例");
             return instance;
         }
         else
@@ -45,8 +45,8 @@ public class GameRoot : MonoBehaviour
         UIManagerRoot.canvsObj = UIUtility.GetInstance().FindCanvas();
 
         //添加場景
-        MainScene mainScene = new MainScene();
-        SceneContralRoot.sceneDic.Add(mainScene.sceneName, mainScene);
+        MainMenu mainMenu = new MainMenu();
+        SceneContralRoot.sceneDic.Add(mainMenu.sceneName, mainMenu);
 
         //推入第一個面板
         UIManagerRoot.Push(new StartPanel());

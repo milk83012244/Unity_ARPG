@@ -61,7 +61,7 @@ MonoBehaviour:
       Data: 1
     - Name: $v
       Entry: 4
-      Data: 0
+      Data: 10
     - Name: 
       Entry: 8
       Data: 
@@ -73,7 +73,7 @@ MonoBehaviour:
       Data: 2
     - Name: $v
       Entry: 4
-      Data: 10
+      Data: 0
     - Name: 
       Entry: 8
       Data: 
@@ -119,14 +119,15 @@ MonoBehaviour:
     - Name: 
       Entry: 8
       Data: 
-  elementType: 1
+  elementType: 2
   attackRange: 1.5
   coolDown: 0.7
   minDamage: 5
   maxDamage: 10
   attackSpeed: 0
-  stunValue: 0.7
+  stunValue: 0
   knockbackValue: 0.7
+  USkillAddValue: 0
   skill1Multplier: 2
   skill1StunValueMultplier: 1.8
   skill1knockbackValueMultplier: 0.1

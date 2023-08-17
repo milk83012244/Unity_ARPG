@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
 using UnityEngine.InputSystem.Interactions;
 
@@ -19,6 +20,7 @@ public class PlayerInput : MonoBehaviour
     PlayerController playerController;
 
     public int currentDirection;
+    public LiaUnlockDataSO liaUnlockData;
 
     [HideInInspector] public List<bool> canDodge = new List<bool>();
     [HideInInspector] public List<bool> canSkill1 = new List<bool>();
@@ -29,6 +31,7 @@ public class PlayerInput : MonoBehaviour
 
     [HideInInspector] public List<bool> canCharacterSwitch = new List<bool>();
 
+    private bool isUsingFunctionButton = false;
     private bool isUsingGamepad = false;
 
     private ControlMode currentControlMode = ControlMode.KeyboardMouse;
@@ -47,7 +50,7 @@ public class PlayerInput : MonoBehaviour
 
     public bool PressRun => playerInputActions.Gameplay.Run.IsPressed() == true ;
     public bool PressDodge => playerInputActions.Gameplay.Dodge.IsPressed() == true && canDodge[characterStats.currentCharacterID] && GameManager.Instance.GetCurrentState() == (int)GameState.Battle;
-    public bool PressAttack => playerInputActions.Gameplay.Attack.IsPressed() && GameManager.Instance.CurrentGameState == GameState.Battle;
+    public bool PressAttack => playerInputActions.Gameplay.Attack.IsPressed() && !EventSystem.current.IsPointerOverGameObject() && GameManager.Instance.CurrentGameState == GameState.Battle;
     public bool PressGuard => playerInputActions.Gameplay.Guard.IsPressed() && GameManager.Instance.CurrentGameState == GameState.Battle;
     public bool PressSkill1 => playerInputActions.Gameplay.Skill1.WasPressedThisFrame() &&canSkill1[characterStats.currentCharacterID] && GameManager.Instance.CurrentGameState == GameState.Battle && playerController.canUseSkill1;
     public bool PressSkill1Release => playerInputActions.Gameplay.Skill1.WasReleasedThisFrame() && canSkill1[characterStats.currentCharacterID] && GameManager.Instance.CurrentGameState == GameState.Battle && playerController.canUseSkill1;
@@ -60,23 +63,29 @@ public class PlayerInput : MonoBehaviour
     public bool PressUSkill => playerInputActions.Gameplay.USkill.WasPressedThisFrame() && canUSkill[characterStats.currentCharacterID] && GameManager.Instance.CurrentGameState == GameState.Battle && playerController.canUseUSkill;
 
     public bool CharacterSwitch1 => playerInputActions.Gameplay.SwitchCharacter1.WasPressedThisFrame()&& canCharacterSwitch[0] && GameManager.Instance.GetCurrentState() == (int)GameState.Battle &&
-        GameManager.Instance.GetCurrentBattleCharacter() != (int)BattleCurrentCharacterNumber.First;
+        GameManager.Instance.GetCurrentBattleCharacter() != (int)BattleCurrentCharacterNumber.First && !isUsingFunctionButton;
     public bool CharacterSwitch2 => playerInputActions.Gameplay.SwitchCharacter2.WasPressedThisFrame() && canCharacterSwitch[1] && GameManager.Instance.GetCurrentState() == (int)GameState.Battle &&
-        GameManager.Instance.GetCurrentBattleCharacter() != (int) BattleCurrentCharacterNumber.Second;
+        GameManager.Instance.GetCurrentBattleCharacter() != (int) BattleCurrentCharacterNumber.Second && !isUsingFunctionButton;
     public bool CharacterSwitch3 => playerInputActions.Gameplay.SwitchCharacter3.WasPressedThisFrame() && canCharacterSwitch[2] && GameManager.Instance.GetCurrentState() == (int)GameState.Battle &&
-    GameManager.Instance.GetCurrentBattleCharacter() != (int)BattleCurrentCharacterNumber.Third;
+    GameManager.Instance.GetCurrentBattleCharacter() != (int)BattleCurrentCharacterNumber.Third && !isUsingFunctionButton;
 
-    public bool SwitchFunctionkey1 => playerInputActions.Gameplay.SwitchFunctionkey1.WasPressedThisFrame() && canCharacterSwitch[0] && GameManager.Instance.GetCurrentState() == (int)GameState.Battle;
-    public bool SwitchFunctionkey2 => playerInputActions.Gameplay.SwitchFunctionkey2.WasPressedThisFrame() && canCharacterSwitch[1] && GameManager.Instance.GetCurrentState() == (int)GameState.Battle;
-    public bool SwitchFunctionkey3 => playerInputActions.Gameplay.SwitchFunctionkey3.WasPressedThisFrame() && canCharacterSwitch[2] && GameManager.Instance.GetCurrentState() == (int)GameState.Battle;
-    public bool SwitchFunctionkey4 => playerInputActions.Gameplay.SwitchFunctionkey4.WasPressedThisFrame() && canCharacterSwitch[3] && GameManager.Instance.GetCurrentState() == (int)GameState.Battle;
+    public bool FunctionkeyReady => playerInputActions.Gameplay.ReadyFunctionKey.IsPressed() && GameManager.Instance.GetCurrentState() == (int)GameState.Battle;
+    public bool SwitchFunctionkey1 => playerInputActions.Gameplay.SwitchFunctionkey1.WasPressedThisFrame() && canSwitchFunctionkey[0] && GameManager.Instance.GetCurrentState() == (int)GameState.Battle;
+    public bool SwitchFunctionkey2 => playerInputActions.Gameplay.SwitchFunctionkey2.WasPressedThisFrame() && canSwitchFunctionkey[1] && GameManager.Instance.GetCurrentState() == (int)GameState.Battle;
+    public bool SwitchFunctionkey3 => playerInputActions.Gameplay.SwitchFunctionkey3.WasPressedThisFrame() && canSwitchFunctionkey[2] && GameManager.Instance.GetCurrentState() == (int)GameState.Battle;
+    public bool SwitchFunctionkey4 => playerInputActions.Gameplay.SwitchFunctionkey4.WasPressedThisFrame() && canSwitchFunctionkey[3] && GameManager.Instance.GetCurrentState() == (int)GameState.Battle;
     #endregion
 
-
+    private void OnEnable()
+    {
+        playerInputActions.Gameplay.ReadyFunctionKey.performed += ctx => FunctionKeyActive();
+        playerInputActions.Gameplay.ReadyFunctionKey.canceled += ctx => FunctionKeyDeactive();
+    }
     private void Awake()
     {
         characterStats = GetComponent<PlayerCharacterStats>();
         playerController = GetComponent<PlayerController>();
+
 
         for (int i = 0; i < 6; i++)
         {
@@ -122,6 +131,14 @@ public class PlayerInput : MonoBehaviour
     public void DesableGamePlayInputs()
     {
         playerInputActions.Gameplay.Disable();
+    }
+    public void FunctionKeyActive()
+    {
+        isUsingFunctionButton = true;
+    }
+    public void FunctionKeyDeactive()
+    {
+        isUsingFunctionButton = false;
     }
 
     private InputDevice GetDefaultInputDevice()

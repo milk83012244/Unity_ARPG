@@ -130,10 +130,17 @@ public class PlayerController : MonoBehaviour
     /// </summary>
     public void RotateAim(Transform aimTransform)
     {
+        //不是遠距攻擊角色
         if (characterStats.characterData[characterStats.currentCharacterID].attackType != AttackType.RangedAttack)
         {
             return;
         }
+        //發動攻擊時停止旋轉準心
+        if (PlayerState_Attack.isAttack1 || PlayerState_Attack2.isAttack2)
+        {
+            return;
+        }
+
         #region 滑鼠用
         Vector3 mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
         mousePosition.z = transform.position.z;

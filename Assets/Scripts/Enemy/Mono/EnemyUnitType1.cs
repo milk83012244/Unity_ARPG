@@ -3,7 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 using BehaviorDesigner.Runtime;
 
-
+/// <summary>
+/// 通用敵人1 負責接收狀態與觸發效果
+/// </summary>
 public class EnemyUnitType1 : Enemy
 {
     private Rigidbody2D rig2D;
@@ -30,12 +32,14 @@ public class EnemyUnitType1 : Enemy
     //硬直效果
     public bool canStun;
 
-    //屬性2階效果
-    public bool canIceStatus2;
-    public bool iceStatus2Active;
-    public float iceStatusDuration;
-
-    private Coroutine IceStatus2Cor;
+    //屬性2階效果是否可觸發
+    public Dictionary<ElementType, bool> canTriggerStatus2Dic = new Dictionary<ElementType, bool>();
+    //屬性2階效果作用中標示
+    public Dictionary<ElementType, bool> status2ActiveDic = new Dictionary<ElementType, bool>();
+    //屬性2階效果持續時間
+    public Dictionary<ElementType, float> status2Duration = new Dictionary<ElementType, float>();
+    //屬性2階效果作用中協程容器
+    [SerializeField] private Dictionary<ElementType, Coroutine> status2ActiveCor = new Dictionary<ElementType, Coroutine>();
 
     public override void OnEnable()
     {
@@ -44,6 +48,8 @@ public class EnemyUnitType1 : Enemy
 
         stats.stunValueIsMaxAction += StartStunned;
         stats.elementStates2Action += StartElementStatus2;
+        stats.elementStates2MixAction += StartElementStatus2MixEffect;
+
         stats.hpZeroEvent.AddListener(StartDeadCor);
 
         GameManager.Instance.onNormalGameStateChanged += OnGameStateChanged;
@@ -73,6 +79,17 @@ public class EnemyUnitType1 : Enemy
         stats = GetComponent<OtherCharacterStats>();
         elementStatus = GetComponentInChildren<ElementStatusEffect>();
         unitType1behaviorTree = GetComponent<BehaviorTree>();
+    }
+    public override void Start()
+    {
+        for (int i = 0; i < canTriggerStatus2Dic.Keys.Count; i++)
+        {
+            canTriggerStatus2Dic[(ElementType)i] = false;
+        }
+        for (int i = 0; i < status2ActiveDic.Keys.Count; i++)
+        {
+            status2ActiveDic[(ElementType)i] = false;
+        }
     }
 
     /// <summary>
@@ -113,6 +130,7 @@ public class EnemyUnitType1 : Enemy
         yield return Yielders.GetWaitForSeconds(stats.enemyBattleData.stunCooldownTime);
         canStun = true;
     }
+    #region 屬性2階效果相關
     /// <summary>
     /// 屬性2階效果
     /// </summary>
@@ -123,8 +141,8 @@ public class EnemyUnitType1 : Enemy
             case ElementType.Fire:
                 break;
             case ElementType.Ice:
-                if (canIceStatus2 && IceStatus2Cor ==null)
-                    IceStatus2Cor = StartCoroutine(IceElementStatus2());
+                if (canTriggerStatus2Dic[ElementType.Ice] == true && status2ActiveCor[ElementType.Ice] == null)
+                    status2ActiveCor[ElementType.Ice] = StartCoroutine(IceElementStatus2());
                 break;
             case ElementType.Wind:
                 break;
@@ -136,35 +154,93 @@ public class EnemyUnitType1 : Enemy
                 break;
         }
     }
+    /// <summary>
+    /// 冰2階 冰凍效果
+    /// </summary>
     private IEnumerator IceElementStatus2()
     {
         canStun = false;
-        iceStatus2Active = true;
+        status2ActiveDic[ElementType.Ice] = true;
         currentState = EnemyCurrentState.Stop;
-        canIceStatus2 = false;
-        yield return Yielders.GetWaitForSeconds(iceStatusDuration);
-        iceStatus2Active = false;
+        canTriggerStatus2Dic[ElementType.Ice] = false;
+        yield return Yielders.GetWaitForSeconds(status2Duration[ElementType.Ice]);
+        status2ActiveDic[ElementType.Ice] = false;
         elementStatus.SetElementActive(ElementType.Ice, false);
         currentState = EnemyCurrentState.Idle;
         canStun = true;
-        StartCoroutine(IceStatus2CoolDown());
+        StartCoroutine(IceStatus2CoolDown(ElementType.Ice));
     }
-    private IEnumerator IceStatus2CoolDown()
+    /// <summary>
+    /// 風2階 風切效果
+    /// </summary>
+    /// <returns></returns>
+    private IEnumerator WindElementStatus2()
     {
-        float cooldown = stats.enemyElementCountData.elementCoolDown[ElementType.Ice];
-        cooldown -= iceStatusDuration;
+        canTriggerStatus2Dic[ElementType.Wind] = false;
+        status2ActiveDic[ElementType.Wind] = true;
+        //造成傷害
 
-        yield return Yielders.GetWaitForSeconds(cooldown);
-        canIceStatus2 = true;
-        if (IceStatus2Cor != null)
-            IceStatus2Cor = null;
+        yield return Yielders.GetWaitForSeconds(status2Duration[ElementType.Wind]);
+        status2ActiveDic[ElementType.Wind] = false;
+        elementStatus.SetElementActive(ElementType.Wind, false);
     }
-    public void StopIceStatus2()
+    /// <summary>
+    /// 可再次進入2階的冷卻時間
+    /// </summary>
+    private IEnumerator IceStatus2CoolDown(ElementType elementType)
     {
-        StopCoroutine(IceStatus2Cor);
-        if (IceStatus2Cor != null)
-            IceStatus2Cor = null;
+        switch (elementType)
+        {
+            case ElementType.Fire:
+                break;
+            case ElementType.Ice:
+                float cooldown = stats.enemyElementCountData.elementCoolDown[ElementType.Ice];
+                cooldown -= status2Duration[ElementType.Ice];
+
+                yield return Yielders.GetWaitForSeconds(cooldown);
+                canTriggerStatus2Dic[ElementType.Ice] = true;
+                if (status2ActiveCor[ElementType.Ice] != null)
+                    status2ActiveCor[ElementType.Ice] = null;
+                break;
+            case ElementType.Wind:
+                break;
+            case ElementType.Thunder:
+                break;
+            case ElementType.Light:
+                break;
+            case ElementType.Dark:
+                break;
+        }
     }
+
+    public void StartElementStatus2MixEffect(ElementType elementType)
+    {
+
+    }
+
+    public void StopStatus2(ElementType elementType) //強制解除2階狀態
+    {
+        switch (elementType)
+        {
+            case ElementType.Fire:
+                break;
+            case ElementType.Ice:
+                StopCoroutine(status2ActiveCor[ElementType.Ice]);
+                if (status2ActiveCor[ElementType.Ice] != null)
+                    status2ActiveCor[ElementType.Ice] = null;
+                break;
+            case ElementType.Wind:
+                break;
+            case ElementType.Thunder:
+                break;
+            case ElementType.Light:
+                break;
+            case ElementType.Dark:
+                break;
+        }
+    }
+    #endregion
+
     public void StartFlash()
     {
         if (flashDurationCountEnd == false)
@@ -205,6 +281,8 @@ public class EnemyUnitType1 : Enemy
 
         yield return Yielders.GetWaitForSeconds(1f);
         this.gameObject.SetActive(false);
+        yield return Yielders.GetWaitForSeconds(0.5f);
+        Destroy(this.gameObject);
     }
     private void DropItem()
     {
@@ -213,7 +291,6 @@ public class EnemyUnitType1 : Enemy
     private void InitFlag()
     {
         canStun = true;
-        canIceStatus2 = true;
         isAttackState = false;
     }
     private void OnDrawGizmos()
