@@ -511,10 +511,14 @@ MonoBehaviour:
     - Name: 
       Entry: 8
       Data: 
-  elementCountDownCoolDown: 3
+  elementCountDownCoolDown: 5
+  currentState2: 
   addElementCountEvent:
     m_PersistentCalls:
       m_Calls: []
   removeElementCountEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  State2MixEffectTriggerEvent:
     m_PersistentCalls:
       m_Calls: []
