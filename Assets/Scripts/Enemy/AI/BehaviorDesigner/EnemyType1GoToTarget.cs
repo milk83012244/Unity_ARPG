@@ -31,10 +31,19 @@ namespace Sx.EnemyAI
                 state = TaskStatus.Failure;
                 return state;
             }
-            //尋路插件追逐目標
+            //尋路插件設定追逐目標
             aiDestinationSetter.target = player.transform;
             float dis = Vector3.Distance(transform.position, player.transform.position);
 
+            //太靠近拉開範圍
+            if (dis < enemyUnitType1.minFovRange)
+            {
+                StartAIPath();
+                Vector3 moveDirection = transform.position - player.transform.position;
+                moveDirection.Normalize();
+                transform.Translate(moveDirection * enemyUnitType1.moveSpeed * Time.deltaTime);
+                //transform.position = Vector3.MoveTowards(transform.position, -player.transform.position, enemyUnitType1.moveSpeed * Time.deltaTime);
+            }
             //檢測追逐範圍
             if (dis > enemyUnitType1.minFovRange && dis <= enemyUnitType1.maxFovRange)
             {

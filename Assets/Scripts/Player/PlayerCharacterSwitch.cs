@@ -38,6 +38,7 @@ public class PlayerCharacterSwitch : SerializedMonoBehaviour,IDataPersistence
     public event PlayerSwitchHander onNormalToBattleMode;
     public event PlayerSwitchHander onBattleToNormalMode;
     public event PlayerSwitchHander onCharacterSwitch;
+    public event PlayerSwitchHander onAwake;
 
     /// <summary>
     /// 當前控制角色
@@ -74,6 +75,7 @@ public class PlayerCharacterSwitch : SerializedMonoBehaviour,IDataPersistence
         }
 
         characterSwitchButtons.SetCharacterSlotIcon(partyData);
+        onAwake?.Invoke(currentControlCharacterNamesSB.ToString());
     }
 
     public void SaveData(GameData gameData)

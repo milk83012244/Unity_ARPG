@@ -26,5 +26,6 @@ public class MainMenuButtons : MonoBehaviour
         {
             partyPanelInstance.SetActive(true);
         }
+        //¼È°±¹CÀ¸
     }
 }

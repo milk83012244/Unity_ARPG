@@ -107,17 +107,17 @@ public class PlayerController : MonoBehaviour
     {
         this.characterStats = characterStats;
         SpriteRenderer rangedAimSprite = rangedAimObject.GetComponent<SpriteRenderer>();
-        SpriteRenderer meleeAimSprite = meleeAimObject.GetComponent<SpriteRenderer>();
+        //SpriteRenderer meleeAimSprite = meleeAimObject.GetComponent<SpriteRenderer>();
 
         if (this.characterStats.characterData[this.characterStats.currentCharacterID].attackType != AttackType.RangedAttack)
         {
             rangedAimSprite.enabled = false;
-            meleeAimSprite.enabled = true;
+            //meleeAimSprite.enabled = true;
         }
         else if (this.characterStats.characterData[this.characterStats.currentCharacterID].attackType == AttackType.RangedAttack)
         {
             rangedAimSprite.enabled = true;
-            meleeAimSprite.enabled = false;
+            //meleeAimSprite.enabled = false;
         }
     }
     public void SkillCursorObjectSetActive(bool isOpen)

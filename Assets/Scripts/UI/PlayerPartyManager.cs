@@ -183,5 +183,7 @@ public class PlayerPartyManager : SerializedMonoBehaviour
     {
         partyData.currentParty = party;
         characterSwitchButtons.SetCharacterSlotIcon(partyData);
+
+        //¸Ñ°£¼È°±
     }
 }

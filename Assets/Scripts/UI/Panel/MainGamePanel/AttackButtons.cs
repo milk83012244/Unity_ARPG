@@ -83,8 +83,12 @@ public class AttackButtons : SerializedMonoBehaviour
         skill2CanUseAction += SetSkill2ButtonActive;
         USkillCanUseAction += SetUSkillButtonActive;
 
+        playerCharacterSwitch.onAwake += SetSkillIcon;
+        playerCharacterSwitch.onAwake += SetSkillCountIcon;
         playerCharacterSwitch.onCharacterSwitch += SetSkillIcon;
         playerCharacterSwitch.onCharacterSwitch += SetSkillCountIcon;
+        playerCharacterSwitch.onBattleToNormalMode += SetSkillIcon;
+        playerCharacterSwitch.onBattleToNormalMode += SetSkillCountIcon;
         playerCharacterSwitch.onNormalToBattleMode += SetSkillIcon;
         playerCharacterSwitch.onNormalToBattleMode += SetSkillCountIcon;
     }
@@ -98,8 +102,12 @@ public class AttackButtons : SerializedMonoBehaviour
         skill2CanUseAction -= SetSkill2ButtonActive;
         USkillCanUseAction -= SetUSkillButtonActive;
 
+        playerCharacterSwitch.onAwake -= SetSkillIcon;
+        playerCharacterSwitch.onAwake -= SetSkillCountIcon;
         playerCharacterSwitch.onCharacterSwitch -= SetSkillIcon;
-        playerCharacterSwitch.onCharacterSwitch += SetSkillCountIcon;
+        playerCharacterSwitch.onCharacterSwitch-= SetSkillCountIcon;
+        playerCharacterSwitch.onBattleToNormalMode -= SetSkillIcon;
+        playerCharacterSwitch.onBattleToNormalMode -= SetSkillCountIcon;
         playerCharacterSwitch.onNormalToBattleMode -= SetSkillIcon;
         playerCharacterSwitch.onNormalToBattleMode -= SetSkillCountIcon;
 
