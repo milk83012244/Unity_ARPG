@@ -73,12 +73,14 @@ public class Enemy : SerializedMonoBehaviour, IDamageable
     /// <summary>
     /// 生成傷害文字(屬性傷害)
     /// </summary>
-    public virtual void SpawnDamageText(int takeDamage, ElementType elementType, bool isCritical = false,bool isSub=false)
+    public virtual void SpawnDamageText(int takeDamage, ElementType elementType, bool isCritical = false,bool isSub=false,bool isBig=false)
     {
         Vector3 random = new Vector2(Random.Range(-0.1f, 0.1f), Random.Range(-0.3f, 0.3f));
         DamageText damageText = enemySpawner.damageTextPool.Spawn(transform.position + new Vector3(0, 0.1f) + random, enemySpawner.TextPoolParent);
         if (isSub)
             damageText.gameObject.transform.localScale = new Vector3(1, 1, 1);
+        else if(isBig)
+            damageText.gameObject.transform.localScale = new Vector3(2f, 2f, 2f);
         else
             damageText.gameObject.transform.localScale = new Vector3(1.5f, 1.5f, 1.5f);
 

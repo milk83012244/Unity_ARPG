@@ -69,6 +69,7 @@ public class GameManager : SerializedMonoBehaviour,IDataPersistence
     private void Start()
     {
         StartCoroutine(TrackPlayTime());
+
     }
 
     public void LoadData(GameData gameData)

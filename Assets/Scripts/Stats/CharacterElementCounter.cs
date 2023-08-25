@@ -4,17 +4,22 @@ using UnityEngine;
 
 /// <summary>
 /// 賦予屬性疊加計算處理
-/// 負責:賦予屬性的計算與計時
+/// 負責:賦予屬性層數的計算與計時
 /// </summary>
 public class CharacterElementCounter : MonoBehaviour
 {
-    public OtherCharacterStats otherCharacterStats;
+    //使用者
+    public OtherCharacterStats otherCharacterStats; 
     public PlayerCharacterStats playerCharacterStats;
+    //賦予屬性狀態者
+    [HideInInspector] public OtherCharacterStats giverOtherCharacterStats;
+    [HideInInspector] public PlayerCharacterStats giverPlayerCharacterStats;
+
     [HideInInspector] public CharacterElementCountSO characterElementCountSO;
 
     float elementDefence;
     private bool isOtherCharacterStats;
-
+    private bool isMixElementActive;
 
     private void Awake()
     {
@@ -31,11 +36,18 @@ public class CharacterElementCounter : MonoBehaviour
             isOtherCharacterStats = false;
         }
     }
-    public void TriggerAddEvent()
+    /// <summary>
+    /// 觸發屬性2階事件
+    /// </summary>
+    public void Element2EventTrigger(ElementType elementType)
+    {
+        characterElementCountSO.State2EffectTriggerEvent?.Invoke(elementType);
+    }
+    public void TriggerAddUIEvent()
     {
         characterElementCountSO.addElementCountEvent.Invoke();
     }
-    public void TriggerRemoveEvent()
+    public void TriggerRemoveUIEvent()
     {
         characterElementCountSO.removeElementCountEvent.Invoke();
     }
@@ -43,14 +55,13 @@ public class CharacterElementCounter : MonoBehaviour
     /// <summary>
     /// 添加賦予屬性數
     /// </summary>
-    public void AddElementCount(ElementType elementType, int type)
+    public void AddElementCount(ElementType elementType, int type ,PlayerCharacterStats giverPlayer = null,OtherCharacterStats giverOther =null)
     {
         if (characterElementCountSO.canUseElement[elementType] == false)
         {
-            Debug.Log("未賦予屬性 還在冷卻中");
+            Debug.Log("未賦予" + elementType + "屬性 還在冷卻中");
             return;
         }
-        //接收賦予狀態者的能力值
 
         if (type == 1)
         {
@@ -65,7 +76,7 @@ public class CharacterElementCounter : MonoBehaviour
 
                 characterElementCountSO.elementCountDownDic[elementType] = coroutine;
 
-                TriggerAddEvent();
+                TriggerAddUIEvent();
             }
             else
             {
@@ -74,6 +85,16 @@ public class CharacterElementCounter : MonoBehaviour
         }
         else if (type == 2)
         {
+            //接收賦予狀態者的能力值 只有2階會觸發
+            if (giverPlayer != null)
+            {
+                giverPlayerCharacterStats = giverPlayer;
+            }
+            else if (giverOther != null)
+            {
+                giverOtherCharacterStats = giverOther;
+            }
+
             if (characterElementCountSO.elementCountDic[elementType] == 1)
             {
                 characterElementCountSO.elementCountDic[elementType] = type;
@@ -95,8 +116,13 @@ public class CharacterElementCounter : MonoBehaviour
                 int randomRate = Random.Range(0, 101);
                 if (triggerRate >= randomRate)
                 {
-                    TriggerAddEvent();
                     AddCurrentElement(elementType);
+
+                    if (isMixElementActive ==false)
+                    {
+                        TriggerAddUIEvent();
+                        Element2EventTrigger(elementType);
+                    }
                 }
                 else
                 {
@@ -109,18 +135,39 @@ public class CharacterElementCounter : MonoBehaviour
                 Debug.Log(elementType + " 屬性未達1層");
         }
     }
+    /// <summary>
+    /// 儲存組合用的層數
+    /// </summary>
+    /// <param name="elementType"></param>
     public void AddCurrentElement(ElementType elementType)
     {
+        isMixElementActive = false;
+
         if (characterElementCountSO.currentState2.Count == 0)
         {
             characterElementCountSO.currentState2.Add(elementType);
         }
-        else if (characterElementCountSO.currentState2.Count >= 1)
+        else if (characterElementCountSO.currentState2.Count == 1)
         {
-            Debug.Log("觸發2階" + elementType + "組合效果");
-            characterElementCountSO.State2MixEffectTriggerEvent?.Invoke(elementType);
-            RemoveElementCount(elementType);
-            ClearCurrentElement();
+            if (characterElementCountSO.currentState2[0] != elementType)
+            {
+                characterElementCountSO.currentState2.Add(elementType);
+                //4屬會觸發組合效果
+                if ((characterElementCountSO.currentState2[0] == ElementType.Fire || characterElementCountSO.currentState2[0] == ElementType.Ice || characterElementCountSO.currentState2[0] == ElementType.Wind || characterElementCountSO.currentState2[0] == ElementType.Thunder))
+                {
+                    if ((characterElementCountSO.currentState2[1] == ElementType.Fire || characterElementCountSO.currentState2[1] == ElementType.Ice || characterElementCountSO.currentState2[1] == ElementType.Wind || characterElementCountSO.currentState2[1] == ElementType.Thunder))
+                    {
+                        Debug.Log("觸發2階" + characterElementCountSO.currentState2[0] + "組合效果");
+                        isMixElementActive = true;
+                        characterElementCountSO.State2MixEffectTriggerEvent?.Invoke(characterElementCountSO.currentState2[0]);
+                    }
+                }
+                //光暗會互相覆蓋效果
+                else if (characterElementCountSO.currentState2[0] == ElementType.Light || characterElementCountSO.currentState2[0] == ElementType.Dark)
+                {
+                    Debug.Log("覆蓋" + elementType + "效果");
+                }
+            }
         }
     }
     public void ClearCurrentElement()
@@ -136,7 +183,7 @@ public class CharacterElementCounter : MonoBehaviour
         {
             characterElementCountSO.elementCountDic[elementType] = 0;
             ClearCurrentElement();
-            TriggerRemoveEvent();
+            TriggerRemoveUIEvent();
         }
         else
             Debug.Log(elementType + " 屬性已到最小層數");

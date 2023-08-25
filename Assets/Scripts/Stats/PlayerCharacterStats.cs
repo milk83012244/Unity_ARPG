@@ -275,7 +275,7 @@ public class PlayerCharacterStats : MonoBehaviour
     /// <summary>
     /// 造成屬性傷害(獲得敵方腳本扣生命值)
     /// </summary>
-    public void TakeDamage(PlayerCharacterStats attacker, OtherCharacterStats defender, ElementType elementType, bool isCritical = false, bool isSkill1 = false, bool isSkill2 = false, float freeMul = 0)
+    public void TakeDamage(PlayerCharacterStats attacker, OtherCharacterStats defender, ElementType elementType, bool isCritical = false, bool isSkill1 = false, bool isSkill2 = false,bool isStatus2 = false, bool isStatusMix = false, float freeMul = 0)
     {
         if (defender.isInvincible)
         {
@@ -304,6 +304,14 @@ public class PlayerCharacterStats : MonoBehaviour
         else if (freeMul != 0)
         {
             Debug.Log(string.Format("<color=yellow>{0}</color>", characterData[currentCharacterID].characterName + "額外倍率對" + defender.enemyBattleData.characterName + "造成" + elementType.ToString() + "屬性的傷害: " + currentDamage));
+        }
+        else if (isStatus2)
+        {
+            Debug.Log(string.Format("<color=yellow>{0}</color>", characterData[currentCharacterID].characterName + " 的屬性2階對 " + defender.enemyBattleData.characterName + "造成" + elementType.ToString() + "屬性的傷害: " + currentDamage));
+        }
+        else if (isStatusMix)
+        {
+            Debug.Log(string.Format("<color=yellow>{0}</color>", characterData[currentCharacterID].characterName + " 觸發屬性混合對 " + defender.enemyBattleData.characterName + "造成" + elementType.ToString() + "屬性的傷害: " + currentDamage));
         }
         else
         {

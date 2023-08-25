@@ -30,7 +30,7 @@ public class LiaSkill1_WindDamage : MonoBehaviour
                 liaSkill1Effect.characterStats.TakeDamage(liaSkill1Effect.characterStats, defander, ElementType.Wind, liaSkill1Effect.characterStats.isCritical, isSkill1: true);
                 enemyUnit.SpawnDamageText(liaSkill1Effect.characterStats.currentDamage, ElementType.Wind, liaSkill1Effect.characterStats.isCritical);
                 
-                defander.characterElementCounter.AddElementCount(liaSkill1Effect.element, 2);
+                defander.characterElementCounter.AddElementCount(liaSkill1Effect.element, 2, liaSkill1Effect.characterStats);
 
                 if (enemyUnit.isMarked)
                 {

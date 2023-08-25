@@ -22,7 +22,7 @@ public enum EnemyCurrentState
 public class OtherCharacterStats : MonoBehaviour
 {
     private ElementStatusEffect elementStatus;
-    [HideInInspector]public CharacterElementCounter characterElementCounter;
+    [HideInInspector] public CharacterElementCounter characterElementCounter;
 
     public CharacterBattleDataSO baseCharacterData;
     public CharacterAttackDataSO baseAttackData;
@@ -44,8 +44,8 @@ public class OtherCharacterStats : MonoBehaviour
 
     public Action<float> stunValueChangedAction;
     public Action<float> stunValueIsMaxAction;
-    public Action<ElementType> elementStates2Action; //屬性狀態2觸發事件
-    public Action<ElementType> elementStates2MixAction; //屬性狀態2混合觸發事件
+    //public Action<ElementType> elementStates2Action; //給單位用屬性狀態2觸發事件
+    //public Action<ElementType> elementStates2MixAction; //給單位用屬性狀態2混合觸發事件
 
     [HideInInspector] public UnityEvent hpZeroEvent;
 
@@ -168,7 +168,6 @@ public class OtherCharacterStats : MonoBehaviour
     {
         enemyElementCountData.addElementCountEvent.RemoveListener(SetCurrentElementStatusUIShow);
         enemyElementCountData.removeElementCountEvent.RemoveListener(SetCurrentElementStatusUIHide);
-        enemyElementCountData.State2MixEffectTriggerEvent.RemoveListener(MixElementStatusEffectShow);
 
         stunValueChangedAction -= StartStunCount;
     }
@@ -180,12 +179,13 @@ public class OtherCharacterStats : MonoBehaviour
          enemyBattleData = Instantiate(baseCharacterData);
          enemyAttackData = Instantiate(baseAttackData);
          enemyElementCountData = Instantiate(baseElementCountData);
+
+        elementStatus.SetCharacterElementCountSO(enemyElementCountData);
     }
     private void Start()
     {
         enemyElementCountData.addElementCountEvent.AddListener(SetCurrentElementStatusUIShow); //添加屬性事件監聽
         enemyElementCountData.removeElementCountEvent.AddListener(SetCurrentElementStatusUIHide); //添加屬性事件監聽
-        enemyElementCountData.State2MixEffectTriggerEvent.AddListener(MixElementStatusEffectShow); //添加2接觸發事件
     }
 
     #region 傷害計算
@@ -301,14 +301,14 @@ public class OtherCharacterStats : MonoBehaviour
             StunValueCountCor = null;
         }
     }
-
+    #region 屬性狀態
     /// <summary>
-    /// 設定自身現在的屬性賦予狀態
+    /// 設定自身現在的屬性賦予狀態 UI顯示
     /// 實際的效果作用在敵人自身類上
     /// </summary>
     public void SetCurrentElementStatusUIShow()
     {
-        foreach (KeyValuePair<ElementType,int> item in enemyElementCountData.elementCountDic)
+        foreach (KeyValuePair<ElementType, int> item in enemyElementCountData.elementCountDic)
         {
             switch (item.Key)
             {
@@ -332,8 +332,6 @@ public class OtherCharacterStats : MonoBehaviour
                     {
                         Debug.Log("觸發" + item.Key + "2階的冰凍效果");
                         elementCountParent.Find("Ice").gameObject.SetActive(false);
-                        elementStatus.SetElementActive(ElementType.Ice, true);
-                        elementStates2Action?.Invoke(ElementType.Ice);
                     }
                     break;
                 case ElementType.Wind:
@@ -345,8 +343,6 @@ public class OtherCharacterStats : MonoBehaviour
                     {
                         Debug.Log("觸發" + item.Key + "2階的風切效果");
                         elementCountParent.Find("Wind").gameObject.SetActive(false); //關閉一階圖示
-                        elementStatus.SetElementActive(ElementType.Wind, true);
-                        elementStates2Action?.Invoke(ElementType.Wind);
                     }
                     break;
                 case ElementType.Thunder:
@@ -437,29 +433,6 @@ public class OtherCharacterStats : MonoBehaviour
         }
     }
 
-    /// <summary>
-    /// 2階屬性組合觸發效果
-    /// </summary>
-    public void MixElementStatusEffectShow(ElementType elementType)
-    {
-        switch (elementType)
-        {
-            case ElementType.Fire:
-                Debug.Log("觸發" + elementType + "2階組合的爆炸效果");
-                break;
-            case ElementType.Ice:
-                Debug.Log("觸發" + elementType + "2階組合的碎冰效果");
-                elementStatus.SetElementActive(ElementType.Ice, false);
-                elementStates2Action?.Invoke(ElementType.Ice);
-                break;
-            case ElementType.Wind:
-                Debug.Log("觸發" + elementType + "2階組合的風爆效果");
-                elementStatus.SetElementActive(ElementType.Wind, false);
-                elementStates2Action?.Invoke(ElementType.Ice);
-                break;
-            case ElementType.Thunder:
-                Debug.Log("觸發" + elementType + "2階組合的落雷效果");
-                break;
-        }
-    }
+    #endregion
+
 }

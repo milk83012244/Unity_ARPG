@@ -2,25 +2,48 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Sirenix.OdinInspector;
+using UnityEngine.Events;
 
+/// <summary>
+/// 接收屬性階層資料 管理2階物件的顯示隱藏
+/// </summary>
 public class ElementStatusEffect : SerializedMonoBehaviour
 {
-    public CharacterElementCountSO currentElementCount;
+    public CharacterElementCountSO currentElementCountSO;
 
     public Dictionary<ElementType,GameObject> ElementEffectObject = new Dictionary<ElementType, GameObject>();
     public Dictionary<ElementType, GameObject> ElementEffectMixObject = new Dictionary<ElementType, GameObject>();
 
-    public float searchRadius;
-    public LayerMask enemiesLayer;
-
+    private void OnDestroy()
+    {
+        currentElementCountSO.State2MixEffectTriggerEvent.RemoveListener(MixElementStatusEffect);
+    }
     private void Start()
     {
-        foreach (KeyValuePair<ElementType, GameObject> item in ElementEffectObject)
+        SetAllElementDeactivate();
+
+        currentElementCountSO.State2MixEffectTriggerEvent.AddListener(MixElementStatusEffect);
+    }
+    public void SetCharacterElementCountSO(CharacterElementCountSO characterElementCountSO)
+    {
+        currentElementCountSO = characterElementCountSO;
+    }
+    /// <summary>
+    /// 關閉除了光暗所有2階物件
+    /// </summary>
+    public void ElementEffectObjectDeactivate()
+    {
+        for (int i = 0; i < ElementEffectObject.Keys.Count; i++)
         {
-            item.Value.SetActive(false);
+            if ((ElementType)i != ElementType.Light || (ElementType)i != ElementType.Dark)
+            {
+                if (ElementEffectObject[(ElementType)i] != null && ElementEffectObject[(ElementType)i].activeSelf)
+                {
+                    ElementEffectObject[(ElementType)i].SetActive(false);
+                }
+            }
         }
     }
-
     /// <summary>
     /// 2階演出物件開關
     /// </summary>
@@ -46,48 +69,37 @@ public class ElementStatusEffect : SerializedMonoBehaviour
                 break;
         }
     }
+    public void SetAllElementDeactivate()
+    {
+        for (int i = 0; i < ElementEffectObject.Keys.Count; i++)
+        {
+            if (ElementEffectObject[(ElementType)i]!= null)
+            {
+                ElementEffectObject[ElementType.Wind].SetActive(false);
+            }
+        }
+    }
+
     /// <summary>
-    /// 混合屬性觸發
+    /// 2階屬性組合觸發效果
     /// </summary>
-    public void ElementStatus2MixTrigger(ElementType elementType)
+    public void MixElementStatusEffect(ElementType elementType)
     {
         switch (elementType)
         {
             case ElementType.Fire:
+                Debug.Log("觸發" + elementType + "2階組合的爆炸效果");
                 break;
             case ElementType.Ice:
+                Debug.Log("觸發" + elementType + "2階組合的碎冰效果");
                 break;
             case ElementType.Wind:
+                Debug.Log("觸發" + elementType + "2階組合的風爆效果");
                 break;
             case ElementType.Thunder:
+                Debug.Log("觸發" + elementType + "2階組合的落雷效果");
                 break;
         }
-    }
-    private IEnumerator ElementStatus2MixIce()
-    {
-        ElementEffectObject[ElementType.Ice].SetActive(false);
-        ElementEffectMixObject[ElementType.Ice].SetActive(true);
-
-        yield return Yielders.GetWaitForSeconds(0.1f);
-        while (true)
-        {
-            Collider2D[] targets = Physics2D.OverlapCircleAll(transform.position, searchRadius, enemiesLayer);
-            foreach (Collider2D target in targets)
-            {
-                OtherCharacterStats otherCharacter = target.GetComponent<OtherCharacterStats>();
-                //篩選賦予一階冰的單位
-                if (otherCharacter.enemyElementCountData.elementCountDic[ElementType.Ice] == 1)
-                {
-
-                }
-            }
-            yield return null;
-        }
-    }
-
-    private void OnDrawGizmos()
-    {
-        Gizmos.color = UnityEngine.Color.green;
-        Gizmos.DrawWireSphere(transform.position, searchRadius);
+        ElementEffectMixObject[elementType].SetActive(true);
     }
 }

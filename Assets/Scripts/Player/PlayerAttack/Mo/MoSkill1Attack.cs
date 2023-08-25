@@ -67,7 +67,7 @@ public class MoSkill1Attack : MonoBehaviour
             {
                 characterStats.TakeSubDamage(characterStats, defander, liaSkill2RotateEffect.element, FromOthersName: liaSkill2RotateEffect.characterName);
                 enemyUnit.SpawnDamageText(characterStats.currentDamage, liaSkill2RotateEffect.element, isSub: true);
-                defander.characterElementCounter.AddElementCount(liaSkill2RotateEffect.element, 2);
+                defander.characterElementCounter.AddElementCount(liaSkill2RotateEffect.element, 2, characterStats);
             }
             if (activeMarkAttack)
             {

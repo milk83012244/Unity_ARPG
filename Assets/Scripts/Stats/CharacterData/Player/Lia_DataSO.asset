@@ -152,7 +152,7 @@ MonoBehaviour:
   attackType: 1
   PlayerNormalAttackCount: 2
   mexHealth: 100
-  currentHealth: 98
+  currentHealth: 69
   baseDefence: 5
   currentDefence: 5
   currentUSkillValue: 0

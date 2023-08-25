@@ -15,5 +15,6 @@ MonoBehaviour:
   hasFiring: 1
   skillFiringRange: 1
   skillLevel: 0
+  skillUseCount: 0
   skillDuration: 0
-  skillCoolDown: 5
+  skillCoolDown: 2

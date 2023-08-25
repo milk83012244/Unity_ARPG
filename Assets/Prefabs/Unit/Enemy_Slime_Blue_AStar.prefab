@@ -212,6 +212,377 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 395d736c94668eb43be486129d523521, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  serializationData:
+    SerializedFormat: 2
+    SerializedBytes: 
+    ReferencedUnityObjects: []
+    SerializedBytesString: 
+    Prefab: {fileID: 0}
+    PrefabModificationsReferencedUnityObjects: []
+    PrefabModifications: []
+    SerializationNodes:
+    - Name: canTriggerStatus2Dic
+      Entry: 7
+      Data: 0|System.Collections.Generic.Dictionary`2[[ElementType, Assembly-CSharp],[System.Boolean,
+        mscorlib]], mscorlib
+    - Name: comparer
+      Entry: 7
+      Data: 1|System.Collections.Generic.EnumEqualityComparer`1[[ElementType, Assembly-CSharp]],
+        mscorlib
+    - Name: 
+      Entry: 12
+      Data: 0
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 12
+      Data: 6
+    - Name: 
+      Entry: 7
+      Data: 
+    - Name: $k
+      Entry: 3
+      Data: 0
+    - Name: $v
+      Entry: 5
+      Data: false
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 
+    - Name: $k
+      Entry: 3
+      Data: 1
+    - Name: $v
+      Entry: 5
+      Data: false
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 
+    - Name: $k
+      Entry: 3
+      Data: 2
+    - Name: $v
+      Entry: 5
+      Data: false
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 
+    - Name: $k
+      Entry: 3
+      Data: 3
+    - Name: $v
+      Entry: 5
+      Data: false
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 
+    - Name: $k
+      Entry: 3
+      Data: 4
+    - Name: $v
+      Entry: 5
+      Data: false
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 
+    - Name: $k
+      Entry: 3
+      Data: 5
+    - Name: $v
+      Entry: 5
+      Data: false
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: status2ActiveDic
+      Entry: 7
+      Data: 2|System.Collections.Generic.Dictionary`2[[ElementType, Assembly-CSharp],[System.Boolean,
+        mscorlib]], mscorlib
+    - Name: comparer
+      Entry: 9
+      Data: 1
+    - Name: 
+      Entry: 12
+      Data: 6
+    - Name: 
+      Entry: 7
+      Data: 
+    - Name: $k
+      Entry: 3
+      Data: 0
+    - Name: $v
+      Entry: 5
+      Data: false
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 
+    - Name: $k
+      Entry: 3
+      Data: 1
+    - Name: $v
+      Entry: 5
+      Data: false
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 
+    - Name: $k
+      Entry: 3
+      Data: 2
+    - Name: $v
+      Entry: 5
+      Data: false
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 
+    - Name: $k
+      Entry: 3
+      Data: 3
+    - Name: $v
+      Entry: 5
+      Data: false
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 
+    - Name: $k
+      Entry: 3
+      Data: 4
+    - Name: $v
+      Entry: 5
+      Data: false
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 
+    - Name: $k
+      Entry: 3
+      Data: 5
+    - Name: $v
+      Entry: 5
+      Data: false
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: status2Duration
+      Entry: 7
+      Data: 3|System.Collections.Generic.Dictionary`2[[ElementType, Assembly-CSharp],[System.Single,
+        mscorlib]], mscorlib
+    - Name: comparer
+      Entry: 9
+      Data: 1
+    - Name: 
+      Entry: 12
+      Data: 6
+    - Name: 
+      Entry: 7
+      Data: 
+    - Name: $k
+      Entry: 3
+      Data: 0
+    - Name: $v
+      Entry: 4
+      Data: 5
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 
+    - Name: $k
+      Entry: 3
+      Data: 1
+    - Name: $v
+      Entry: 4
+      Data: 5
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 
+    - Name: $k
+      Entry: 3
+      Data: 2
+    - Name: $v
+      Entry: 4
+      Data: 5
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 
+    - Name: $k
+      Entry: 3
+      Data: 3
+    - Name: $v
+      Entry: 4
+      Data: 5
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 
+    - Name: $k
+      Entry: 3
+      Data: 4
+    - Name: $v
+      Entry: 4
+      Data: 0
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 
+    - Name: $k
+      Entry: 3
+      Data: 5
+    - Name: $v
+      Entry: 4
+      Data: 0
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: status2ActiveCor
+      Entry: 7
+      Data: 4|System.Collections.Generic.Dictionary`2[[ElementType, Assembly-CSharp],[UnityEngine.Coroutine,
+        UnityEngine.CoreModule]], mscorlib
+    - Name: comparer
+      Entry: 9
+      Data: 1
+    - Name: 
+      Entry: 12
+      Data: 6
+    - Name: 
+      Entry: 7
+      Data: 
+    - Name: $k
+      Entry: 3
+      Data: 0
+    - Name: $v
+      Entry: 6
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 
+    - Name: $k
+      Entry: 3
+      Data: 1
+    - Name: $v
+      Entry: 6
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 
+    - Name: $k
+      Entry: 3
+      Data: 2
+    - Name: $v
+      Entry: 6
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 
+    - Name: $k
+      Entry: 3
+      Data: 3
+    - Name: $v
+      Entry: 6
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 
+    - Name: $k
+      Entry: 3
+      Data: 4
+    - Name: $v
+      Entry: 6
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 
+    - Name: $k
+      Entry: 3
+      Data: 5
+    - Name: $v
+      Entry: 6
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
   enemySpawner: {fileID: 0}
   waypoints: []
   moveSpeed: 0.8
@@ -230,9 +601,12 @@ MonoBehaviour:
   spriteRenderer: {fileID: 2306568925028467022}
   originalColor: {r: 1, g: 1, b: 1, a: 1}
   canStun: 0
-  canIceStatus2: 0
-  iceStatus2Active: 0
-  iceStatusDuration: 3
+  isDamaging: 0
+  windDamageInterval: 1
+  searchRadius: 0.8
+  enemiesLayer:
+    serializedVersion: 2
+    m_Bits: 512
 --- !u!114 &2306568923370215023
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -277,8 +651,8 @@ MonoBehaviour:
         byteData: 
         byteDataArray: 
       Version: 1.7.5
-  gizmoViewMode: 2
-  showBehaviorDesignerGizmo: 1
+  gizmoViewMode: 0
+  showBehaviorDesignerGizmo: 0
 --- !u!114 &7332132182888685139
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -293,6 +667,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   otherCharacterStats: {fileID: 2306568923370215011}
   playerCharacterStats: {fileID: 0}
+  giverOtherCharacterStats: {fileID: 0}
+  giverPlayerCharacterStats: {fileID: 0}
   characterElementCountSO: {fileID: 0}
 --- !u!114 &6728727831083350
 MonoBehaviour:
@@ -1685,14 +2061,74 @@ PrefabInstance:
       propertyPath: serializationData.Prefab
       value: 
       objectReference: {fileID: 239291050015099169, guid: 2505c3815b4f53f4492ae806a7f57dd6, type: 3}
+    - target: {fileID: 239291050015099169, guid: 2505c3815b4f53f4492ae806a7f57dd6, type: 3}
+      propertyPath: serializationData.PrefabModifications.Array.size
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 239291050015099169, guid: 2505c3815b4f53f4492ae806a7f57dd6, type: 3}
+      propertyPath: serializationData.PrefabModifications.Array.data[0]
+      value: '"path":"ElementEffectMixObject.{1es}","value":$eref:0'
+      objectReference: {fileID: 0}
+    - target: {fileID: 239291050015099169, guid: 2505c3815b4f53f4492ae806a7f57dd6, type: 3}
+      propertyPath: serializationData.PrefabModifications.Array.data[1]
+      value: '"path":"ElementEffectMixObject.{2es}","value":$eref:1'
+      objectReference: {fileID: 0}
+    - target: {fileID: 239291050015099169, guid: 2505c3815b4f53f4492ae806a7f57dd6, type: 3}
+      propertyPath: serializationData.PrefabModifications.Array.data[2]
+      value: '"path":"ElementEffectObject.{1es}","value":$eref:2'
+      objectReference: {fileID: 0}
+    - target: {fileID: 239291050015099169, guid: 2505c3815b4f53f4492ae806a7f57dd6, type: 3}
+      propertyPath: serializationData.PrefabModifications.Array.data[3]
+      value: '"path":"ElementEffectObject.{2es}","value":$eref:3'
+      objectReference: {fileID: 0}
+    - target: {fileID: 239291050015099169, guid: 2505c3815b4f53f4492ae806a7f57dd6, type: 3}
+      propertyPath: serializationData.PrefabModificationsReferencedUnityObjects.Array.size
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 239291050015099169, guid: 2505c3815b4f53f4492ae806a7f57dd6, type: 3}
+      propertyPath: serializationData.PrefabModificationsReferencedUnityObjects.Array.data[0]
+      value: 
+      objectReference: {fileID: 1437503964680454381}
+    - target: {fileID: 239291050015099169, guid: 2505c3815b4f53f4492ae806a7f57dd6, type: 3}
+      propertyPath: serializationData.PrefabModificationsReferencedUnityObjects.Array.data[1]
+      value: 
+      objectReference: {fileID: 5453776547695251847}
+    - target: {fileID: 239291050015099169, guid: 2505c3815b4f53f4492ae806a7f57dd6, type: 3}
+      propertyPath: serializationData.PrefabModificationsReferencedUnityObjects.Array.data[2]
+      value: 
+      objectReference: {fileID: 2306568923572383175}
+    - target: {fileID: 239291050015099169, guid: 2505c3815b4f53f4492ae806a7f57dd6, type: 3}
+      propertyPath: serializationData.PrefabModificationsReferencedUnityObjects.Array.data[3]
+      value: 
+      objectReference: {fileID: 3241378186640141403}
     - target: {fileID: 239291050015099171, guid: 2505c3815b4f53f4492ae806a7f57dd6, type: 3}
       propertyPath: m_Name
       value: ElementStatusEffect
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 2505c3815b4f53f4492ae806a7f57dd6, type: 3}
+--- !u!1 &1437503964680454381 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 3504856021581827086, guid: 2505c3815b4f53f4492ae806a7f57dd6, type: 3}
+  m_PrefabInstance: {fileID: 2544733652323437795}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &2306568923122501059 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 239291050015099168, guid: 2505c3815b4f53f4492ae806a7f57dd6, type: 3}
+  m_PrefabInstance: {fileID: 2544733652323437795}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &2306568923572383175 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 239291049875611940, guid: 2505c3815b4f53f4492ae806a7f57dd6, type: 3}
+  m_PrefabInstance: {fileID: 2544733652323437795}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &3241378186640141403 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1129002246409429176, guid: 2505c3815b4f53f4492ae806a7f57dd6, type: 3}
+  m_PrefabInstance: {fileID: 2544733652323437795}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &5453776547695251847 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 7565767109163343204, guid: 2505c3815b4f53f4492ae806a7f57dd6, type: 3}
   m_PrefabInstance: {fileID: 2544733652323437795}
   m_PrefabAsset: {fileID: 0}
