@@ -44,7 +44,7 @@ public class EnemyUnitType1 : Enemy
     public Dictionary<ElementType, float> status2Duration = new Dictionary<ElementType, float>();
     //屬性2階效果作用中協程容器
     [SerializeField] private Dictionary<ElementType, Coroutine> status2ActiveCor = new Dictionary<ElementType, Coroutine>();
-    //擴散效果範圍
+    //2階擴散效果範圍
     public float searchRadius;
     public LayerMask enemiesLayer;
 
@@ -99,6 +99,14 @@ public class EnemyUnitType1 : Enemy
             status2ActiveCor[(ElementType)i] = null;
         }
     }
+    /// <summary>
+    /// 被玩家造成傷害觸發相關狀態
+    /// </summary>
+    public void DamageByPlayer()
+    {
+        isAttackState = true;
+        StartNoticeIconRiseUpCor();
+    }
     #region 擊退與硬直
     /// <summary>
     /// 擊退效果
@@ -126,7 +134,7 @@ public class EnemyUnitType1 : Enemy
         StartCoroutine(Stunned(stunTime));
     }
     /// <summary>
-    /// 轉換到硬直狀態並計算時間
+    /// 轉換到硬直狀態並計算持續時間
     /// </summary>
     private IEnumerator Stunned(float stunTime)
     {
@@ -348,6 +356,7 @@ public class EnemyUnitType1 : Enemy
     }
     #endregion
 
+    #region 閃爍效果
     public void StartFlash()
     {
         if (flashDurationCountEnd == false)
@@ -375,6 +384,8 @@ public class EnemyUnitType1 : Enemy
         yield return Yielders.GetWaitForSeconds(flashDuration);
         flashDurationCountEnd = false;
     }
+    #endregion
+
     public void StartDeadCor()
     {
         StartCoroutine(Dead());
@@ -400,14 +411,6 @@ public class EnemyUnitType1 : Enemy
         canStun = true;
         isAttackState = false;
     }
-    private void OnDrawGizmos()
-    {
-        Gizmos.color = UnityEngine.Color.yellow;
-        Gizmos.DrawWireSphere(transform.position, maxFovRange);
-
-        Gizmos.color = UnityEngine.Color.green;
-        Gizmos.DrawWireSphere(transform.position, searchRadius);
-    }
     /// <summary>
     /// 在特定遊戲狀態下啟用
     /// </summary>
@@ -415,6 +418,14 @@ public class EnemyUnitType1 : Enemy
     {
         if (unitType1behaviorTree != null)
             unitType1behaviorTree.enabled = newGameState == GameState.Normal || newGameState == GameState.Battle;
+    }
 
+    private void OnDrawGizmos()
+    {
+        Gizmos.color = UnityEngine.Color.yellow;
+        Gizmos.DrawWireSphere(transform.position, maxFovRange);
+
+        Gizmos.color = UnityEngine.Color.green;
+        Gizmos.DrawWireSphere(transform.position, searchRadius);
     }
 }

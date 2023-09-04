@@ -6,6 +6,7 @@ using UnityEngine;
 public class PlayerState_Skill2 : PlayerState
 {
     [SerializeField] float MoSkill2Speed = 5f;
+    [SerializeField] float MoSkill2Duration = 2f; //持續時間不能小於動畫時長
 
     public static bool isSkill2Enter;
     public override void Enter()
@@ -96,42 +97,49 @@ public class PlayerState_Skill2 : PlayerState
         if (input.currentDirection == 1)
         {
             MoveDir = Vector2.left;
-            player.MoSkill2Move(MoveDir, MoSkill2Speed);
+            //player.MoSkill2Move(MoveDir, MoSkill2Speed);
+            player.StartMoSkill2MoveCor(MoveDir, MoSkill2Speed, MoSkill2Duration);
         }
         else if (input.currentDirection == 2)
         {
             MoveDir = Vector2.down;
-            player.MoSkill2Move(MoveDir, MoSkill2Speed);
+            //player.MoSkill2Move(MoveDir, MoSkill2Speed);
+            player.StartMoSkill2MoveCor(MoveDir, MoSkill2Speed, MoSkill2Duration);
         }
         else if (input.currentDirection == 3)
         {
             MoveDir = Vector2.right;
-            player.MoSkill2Move(MoveDir, MoSkill2Speed);
+            //player.MoSkill2Move(MoveDir, MoSkill2Speed);
+            player.StartMoSkill2MoveCor(MoveDir, MoSkill2Speed, MoSkill2Duration);
         }
         else if (input.currentDirection == 4)
         {
             MoveDir = Vector2.up;
-            player.MoSkill2Move(MoveDir, MoSkill2Speed);
+            //player.MoSkill2Move(MoveDir, MoSkill2Speed);
+            player.StartMoSkill2MoveCor(MoveDir, MoSkill2Speed, MoSkill2Duration);
         }
         if (input.AxisX > 0 && input.AxisY > 0) //右上
         {
             MoveDir = new Vector2(1, 1);
-            player.MoSkill2MoveXY(MoveDir, MoSkill2Speed, MoSkill2Speed);
+            //player.MoSkill2MoveXY(MoveDir, MoSkill2Speed, MoSkill2Speed);
+            player.StartMoSkill2MoveXYCor(MoveDir, MoSkill2Speed, MoSkill2Speed, MoSkill2Duration);
         }
         else if (input.AxisX < 0 && input.AxisY < 0) //左下
         {
             MoveDir = new Vector2(-1, -1);
-            player.MoSkill2MoveXY(MoveDir, MoSkill2Speed, MoSkill2Speed);
+            //player.MoSkill2MoveXY(MoveDir, MoSkill2Speed, MoSkill2Speed);
+            player.StartMoSkill2MoveXYCor(MoveDir, MoSkill2Speed, MoSkill2Speed, MoSkill2Duration);
         }
         else if (input.AxisX > 0 && input.AxisY < 0) //右下
         {
             MoveDir = new Vector2(1, -1);
-            player.MoSkill2MoveXY(MoveDir, MoSkill2Speed, MoSkill2Speed);
+            player.StartMoSkill2MoveXYCor(MoveDir, MoSkill2Speed, MoSkill2Speed, MoSkill2Duration);
         }
         else if (input.AxisX < 0 && input.AxisY > 0) //左上
         {
             MoveDir = new Vector2(-1, 1);
-            player.MoSkill2MoveXY(MoveDir, MoSkill2Speed, MoSkill2Speed);
+            //player.MoSkill2MoveXY(MoveDir, MoSkill2Speed, MoSkill2Speed);
+            player.StartMoSkill2MoveXYCor(MoveDir, MoSkill2Speed, MoSkill2Speed, MoSkill2Duration);
         }
     }
     void MoveEnd()

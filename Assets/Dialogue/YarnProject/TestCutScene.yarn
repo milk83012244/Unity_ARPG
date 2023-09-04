@@ -1,0 +1,23 @@
+﻿///CutScene開始
+title: TestCutScene
+position: -63,-92
+---
+Lia:試玩者你好!這是作品Demo測試!
+Lia:主要展示這個作品的遊戲內容與功能
+Niru:遊戲中的對話系統是使用YarnSpinner插件製作
+///史萊姆出現
+
+///-> Niru
+    ///Niru:接下來介紹這個遊戲的戰鬥系統
+    ///<<jump Niru>>
+///-> Mo
+    ///Mo:接下來介紹這個遊戲的戰鬥系統
+     ///<<jump Mo>>
+===
+title: TestCutScene2
+---
+Mo:有怪物出現了...
+Mo:正好可以介紹戰鬥系統
+///CutScene結束
+///切換至戰鬥模式
+===

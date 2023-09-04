@@ -132,7 +132,7 @@ public class MoNormalAttack : MonoBehaviour
                     slashHitEffect.transform.localScale = new Vector3(-1, 1, 1);
                 }
                 //觸發敵人受擊狀態
-                enemyUnitType1.isAttackState = true;
+                enemyUnitType1.DamageByPlayer();
                 //敵人閃爍效果
                 enemyUnitType1.StartFlash();
                 //賦予敵人硬直值

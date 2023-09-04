@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Sirenix.OdinInspector;
+using DG.Tweening;
 
 /// <summary>
 /// 敵人基類 管理相同屬性
@@ -21,6 +22,9 @@ public class Enemy : SerializedMonoBehaviour, IDamageable
     //生成傷害文字物件池已交給敵人生成器
 
     [SerializeField] private SpriteRenderer[] markSprites; //被賦予的印記圖片
+    [SerializeField] private GameObject noticeIcon; //驚嘆號物件
+    protected Coroutine noticeIconRiseUpCor; //驚嘆號物件協程容器
+    public float noticeIconUpScale;
 
     public bool isMarked;
     private bool canMark = true;
@@ -148,6 +152,24 @@ public class Enemy : SerializedMonoBehaviour, IDamageable
         canMark = false;
         yield return Yielders.GetWaitForSeconds(3f);
         canMark = true;
+    }
+    public virtual void StartNoticeIconRiseUpCor()
+    {
+        if (noticeIconRiseUpCor == null)
+            noticeIconRiseUpCor = StartCoroutine(NoticeIconRiseUp());
+    }
+    /// <summary>
+    /// 上升驚嘆號
+    /// </summary>
+    protected virtual IEnumerator NoticeIconRiseUp()
+    {
+        noticeIcon.SetActive(true);
+        noticeIcon.transform.DOLocalMoveY(noticeIconUpScale,0.4f);
+        yield return Yielders.GetWaitForSeconds(0.4f);
+        yield return Yielders.GetWaitForSeconds(0.7f);
+        noticeIcon.SetActive(false);
+        noticeIcon.transform.DOLocalMoveY(0, 0f);
+        noticeIconRiseUpCor = null;
     }
 
     public virtual void DestroySelf()

@@ -13,6 +13,8 @@ public class YarnCharacter : MonoBehaviour
 
     public bool offsetUsesRotation = false;
 
+    public bool isOnEnableActive; //開啟物件時才註冊
+
     public Vector3 positionWithOffset
     {
         get
@@ -28,6 +30,11 @@ public class YarnCharacter : MonoBehaviour
         }
     }
 
+    private void OnEnable()
+    {
+        if (isOnEnableActive)
+            YarnCharacterBubbleView.instance.RegisterYarnCharacter(this);
+    }
     private void Start()
     {
         if (YarnCharacterBubbleView.instance == null)
@@ -36,7 +43,8 @@ public class YarnCharacter : MonoBehaviour
             return;
         }
 
-        YarnCharacterBubbleView.instance.RegisterYarnCharacter(this);
+        if (!isOnEnableActive)
+            YarnCharacterBubbleView.instance.RegisterYarnCharacter(this);
     }
     void OnDestroy()
     {

@@ -23,13 +23,13 @@ public class MoAnimationGlow : SerializedMonoBehaviour
         switch (AnimationState)
         {
             case "Idle":
-                Mo_SpriteRenderer.material.SetTexture("_MainTex", MainTex["Idle"]);
+                Mo_SpriteRenderer.sharedMaterial.SetTexture("_MainTex", MainTex["Idle"]);
                 break;
             case "CounterHitL":
-                Mo_SpriteRenderer.material.SetTexture("_MainTex", MainTex["CounterHitL"]);
+                Mo_SpriteRenderer.sharedMaterial.SetTexture("_MainTex", MainTex["CounterHitL"]);
                 break;
             case "CounterHitR":
-                Mo_SpriteRenderer.material.SetTexture("_MainTex", MainTex["CounterHitR"]);
+                Mo_SpriteRenderer.sharedMaterial.SetTexture("_MainTex", MainTex["CounterHitR"]);
                 break;
         }
     }
@@ -39,9 +39,9 @@ public class MoAnimationGlow : SerializedMonoBehaviour
     public void SwitchGlowTex(string AnimationState)
     {
         if (isUSkillState)
-            Mo_SpriteRenderer.material.SetTexture("_GlowTex", GlowTex[AnimationState]);
+            Mo_SpriteRenderer.sharedMaterial.SetTexture("_GlowTex", GlowTex[AnimationState]);
         else
-            Mo_SpriteRenderer.material.SetTexture("_GlowTex", GlowTex[AnimationState]);
+            Mo_SpriteRenderer.sharedMaterial.SetTexture("_GlowTex", GlowTex[AnimationState]);
     }
     /// <summary>
     /// 切換發光顏色(沒有被遮罩擋住的地方會發光)
@@ -51,20 +51,20 @@ public class MoAnimationGlow : SerializedMonoBehaviour
         switch (AnimationState)
         {
             case "CounterHitL":
-                Mo_SpriteRenderer.material.SetColor("_GlowColor", new Color(0.85f, 0.79f, 0.3f,0f));
+                Mo_SpriteRenderer.sharedMaterial.SetColor("_GlowColor", new Color(0.85f, 0.79f, 0.3f,0f));
                 break;
             case "CounterHitR":
-                Mo_SpriteRenderer.material.SetColor("_GlowColor", new Color(0.85f, 0.79f, 0.3f, 0f));
+                Mo_SpriteRenderer.sharedMaterial.SetColor("_GlowColor", new Color(0.85f, 0.79f, 0.3f, 0f));
                 break;
         }
         //Mo_SpriteRenderer.material.SetColor("_GlowColor", new Color(0.85f, 0.79f, 0.3f));
     }
     public void ClearGlowTex()
     {
-        Mo_SpriteRenderer.material.SetTexture("_GlowTex", null);
+        Mo_SpriteRenderer.sharedMaterial.SetTexture("_GlowTex", null);
     }
     public void ResetColor()
     {
-        Mo_SpriteRenderer.material.SetColor("_GlowColor", new Color(0f, 0f, 0f, 0f));
+        Mo_SpriteRenderer.sharedMaterial.SetColor("_GlowColor", new Color(0f, 0f, 0f, 0f));
     }
 }

@@ -43,6 +43,9 @@ public class PlayerController : MonoBehaviour
     public GameObject SkillCursorObject;
     public GameObject LiaProjectilePos;
 
+    private Coroutine DodgeMoveCor;
+    private Coroutine MoSkill2MoveCor;
+
     //移動控制
     public float MoveSpeedX => Mathf.Abs(rig2D.velocity.x);
     public float MoveSpeedY => Mathf.Abs(rig2D.velocity.y);
@@ -63,32 +66,39 @@ public class PlayerController : MonoBehaviour
     public bool canUseUSkill;
     public bool isDamageing;
 
-    private void OnDisable()
-    {
-        GameManager.Instance.onNormalGameStateChanged -= OnGameStateChanged;
-        GameManager.Instance.onBattleGameStateChanged -= OnGameStateChanged;
-        GameManager.Instance.onPasueGameStateChanged -= OnGameStateChanged;
-        GameManager.Instance.onGameOverGameStateChanged -= OnGameStateChanged;
-    }
+    private bool isEnable = true;
+
     private void OnDestroy()
     {
         GameManager.Instance.onNormalGameStateChanged -= OnGameStateChanged;
         GameManager.Instance.onBattleGameStateChanged -= OnGameStateChanged;
         GameManager.Instance.onPasueGameStateChanged -= OnGameStateChanged;
         GameManager.Instance.onGameOverGameStateChanged -= OnGameStateChanged;
+
+        GameManager.Instance.onNonePlayerBehaviourStateChanged -= OnPlayerBehaviourStateChanged;
+        GameManager.Instance.onInteractivePlayerBehaviourStateChanged -= OnPlayerBehaviourStateChanged;
+        GameManager.Instance.onTalkingPlayerBehaviourStateChanged -= OnPlayerBehaviourStateChanged;
+        GameManager.Instance.onInCutScenePlayerBehaviourStateChanged -= OnPlayerBehaviourStateChanged;
     }
     private void Awake()
     {
+        //遊戲狀態事件監聽註冊
+        GameManager.Instance.onNormalGameStateChanged += OnGameStateChanged;
+        GameManager.Instance.onBattleGameStateChanged += OnGameStateChanged;
+        GameManager.Instance.onPasueGameStateChanged += OnGameStateChanged;
+        GameManager.Instance.onGameOverGameStateChanged += OnGameStateChanged;
+
+        //玩家行為事件監聽註冊
+        GameManager.Instance.onNonePlayerBehaviourStateChanged += OnPlayerBehaviourStateChanged;
+        GameManager.Instance.onInteractivePlayerBehaviourStateChanged += OnPlayerBehaviourStateChanged;
+        GameManager.Instance.onTalkingPlayerBehaviourStateChanged += OnPlayerBehaviourStateChanged;
+        GameManager.Instance.onInCutScenePlayerBehaviourStateChanged += OnPlayerBehaviourStateChanged;
+
         input = GetComponent<PlayerInput>();
         rig2D = GetComponent<Rigidbody2D>();
         stateMachine = GetComponent<PlayerStateMachine>();
         characterSwitch = GetComponent<PlayerCharacterSwitch>();
         characterStats = GetComponent<PlayerCharacterStats>();
-
-        GameManager.Instance.onNormalGameStateChanged += OnGameStateChanged;
-        GameManager.Instance.onBattleGameStateChanged += OnGameStateChanged;
-        GameManager.Instance.onPasueGameStateChanged += OnGameStateChanged;
-        GameManager.Instance.onGameOverGameStateChanged += OnGameStateChanged;
     }
     private void Start()
     {
@@ -130,6 +140,9 @@ public class PlayerController : MonoBehaviour
     /// </summary>
     public void RotateAim(Transform aimTransform)
     {
+        if (!isEnable)
+            return;
+
         //不是遠距攻擊角色
         if (characterStats.characterData[characterStats.currentCharacterID].attackType != AttackType.RangedAttack)
         {
@@ -173,6 +186,9 @@ public class PlayerController : MonoBehaviour
     /// </summary>
     public void MoveSkillCursor(Transform skillCursorTransform)
     {
+        if (!isEnable)
+            return;
+
         if (characterSwitch.currentSkillManager.skills[0].hasFiring)
         {
             if (input.PressingSkill1)
@@ -207,45 +223,128 @@ public class PlayerController : MonoBehaviour
     #region 移動控制
     public void Move(float speed)
     {
+        if (!isEnable)
+            return;
+
         SetVelocityX(speed * input.AxisX);
         SetVelocityY(speed * input.AxisY);
     }
     public void MoveXY(float speedx, float speedy)
     {
+        if (!isEnable)
+            return;
+
         SetVelocityXY(speedx * input.AxisX, speedy * input.AxisY);
     }
     public void SetVelocity(Vector3 velocity)
     {
+        if (!isEnable)
+            return;
+
         rig2D.velocity = velocity;
     }
     public void SetVelocityX(float velocityX)
     {
+        if (!isEnable)
+            return;
+
         rig2D.velocity = new Vector3(velocityX, rig2D.velocity.y);
     }
     public void SetVelocityY(float velocityY)
     {
+        if (!isEnable)
+            return;
         rig2D.velocity = new Vector3(rig2D.velocity.x, velocityY);
     }
     public void SetVelocityXY(float speedX, float speedY)
     {
+        if (!isEnable)
+            return;
+
         float XY = Mathf.Sqrt(speedX * speedX + speedY * speedY);
         rig2D.velocity = new Vector3(speedX * Mathf.Sqrt(0.5f), speedY * Mathf.Sqrt(0.5f));
     }
-    public void DodgeMove(Vector2 dodgeDir, float speed)
+    //public void DodgeMove(Vector2 dodgeDir, float speed)
+    //{
+    //    rig2D.velocity = dodgeDir * speed * 1;
+    //}
+    //public void DodgeMoveXY(Vector2 dodgeDir, float speedX, float speedY)
+    //{
+    //    rig2D.velocity = new Vector3(speedX * Mathf.Sqrt(0.5f), speedY * Mathf.Sqrt(0.5f)) * dodgeDir;
+    //}
+    public void StartDodgeMoveCor(Vector2 dodgeDir, float speed, float moveDuration)
+    {
+        if (!isEnable)
+            return;
+
+        if (DodgeMoveCor != null)
+        {
+            return;
+        }
+
+        DodgeMoveCor = StartCoroutine(DodgeMove(dodgeDir, speed, moveDuration));
+    }
+    public void StartDodgeMoveXYCor(Vector2 dodgeDir, float speedX, float speedY, float moveDuration)
+    {
+        if (!isEnable)
+            return;
+
+        if (DodgeMoveCor != null)
+        {
+            return;
+        }
+
+        DodgeMoveCor = StartCoroutine(DodgeMoveXY(dodgeDir, speedX, speedY, moveDuration));
+    }
+    private IEnumerator DodgeMove(Vector2 dodgeDir, float speed, float moveDuration)
     {
         rig2D.velocity = dodgeDir * speed * 1;
+        yield return Yielders.GetWaitForSeconds(moveDuration);
+        rig2D.velocity = dodgeDir * 0;
+        DodgeMoveCor = null;
     }
-    public void DodgeMoveXY(Vector2 dodgeDir, float speedX, float speedY)
+    private IEnumerator DodgeMoveXY(Vector2 dodgeDir, float speedX, float speedY, float moveDuration)
     {
         rig2D.velocity = new Vector3(speedX * Mathf.Sqrt(0.5f), speedY * Mathf.Sqrt(0.5f)) * dodgeDir;
+        yield return Yielders.GetWaitForSeconds(moveDuration);
+        rig2D.velocity = dodgeDir * 0;
+        DodgeMoveCor = null;
     }
-    public void MoSkill2Move(Vector2 Dir, float speed)
+    public void StartMoSkill2MoveCor(Vector2 Dir, float speed, float moveDuration)
+    {
+        if (!isEnable)
+            return;
+
+        if (MoSkill2MoveCor != null)
+        {
+            return;
+        }
+        MoSkill2MoveCor = StartCoroutine(MoSkill2Move(Dir, speed, moveDuration));
+    }
+    public void StartMoSkill2MoveXYCor(Vector2 Dir, float speedX, float speedY, float moveDuration)
+    {
+        if (!isEnable)
+            return;
+
+        if (MoSkill2MoveCor != null)
+        {
+            return;
+        }
+        MoSkill2MoveCor = StartCoroutine(MoSkill2MoveXY(Dir, speedX, speedY, moveDuration));
+    }
+    private IEnumerator MoSkill2Move(Vector2 Dir, float speed,float moveDuration)
     {
         rig2D.velocity = Dir * speed * 1;
+        yield return Yielders.GetWaitForSeconds(moveDuration);
+        rig2D.velocity = Dir * 0;
+        MoSkill2MoveCor = null;
     }
-    public void MoSkill2MoveXY(Vector2 Dir, float speedX, float speedY)
+    private IEnumerator MoSkill2MoveXY(Vector2 Dir, float speedX, float speedY, float moveDuration)
     {
         rig2D.velocity = new Vector3(speedX * Mathf.Sqrt(0.5f), speedY * Mathf.Sqrt(0.5f)) * Dir;
+        yield return Yielders.GetWaitForSeconds(moveDuration);
+        rig2D.velocity = Dir * 0;
+        MoSkill2MoveCor = null;
     }
     #endregion
 
@@ -284,6 +383,13 @@ public class PlayerController : MonoBehaviour
     /// </summary>
     private void OnGameStateChanged(GameState newGameState)
     {
-        enabled = newGameState == GameState.Normal || newGameState == GameState.Battle;
+        isEnable = newGameState == GameState.Normal || newGameState == GameState.Battle;
+    }
+    /// <summary>
+    /// 在特定玩家行為狀態下啟用
+    /// </summary>
+    private void OnPlayerBehaviourStateChanged(PlayerBehaviourState playerBehaviourState)
+    {
+        isEnable = playerBehaviourState == PlayerBehaviourState.None;
     }
 }

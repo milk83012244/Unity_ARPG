@@ -33,7 +33,7 @@ public class LiaSkill2_Damage_Wind : MonoBehaviour
             }
             EnemyUnitType1 enemyUnitType1 = enemyUnit as EnemyUnitType1;
             //觸發敵人受擊狀態
-            enemyUnitType1.isAttackState = true;
+            enemyUnitType1.DamageByPlayer();
             //敵人閃爍效果
             enemyUnitType1.StartFlash();
             //造成敵人硬直

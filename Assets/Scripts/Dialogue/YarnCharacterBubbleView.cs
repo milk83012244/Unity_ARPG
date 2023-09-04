@@ -7,6 +7,9 @@ using UnityEngine.UI;
 using Yarn.Unity;
 using Febucci.UI.Core;
 
+/// <summary>
+/// 氣泡對話框的設定資料
+/// </summary>
 public class YarnCharacterBubbleView : DialogueViewBase
 {
     public static YarnCharacterBubbleView instance;
@@ -35,6 +38,9 @@ public class YarnCharacterBubbleView : DialogueViewBase
         instance = this;
         worldCamera = Camera.main;
     }
+    /// <summary>
+    /// 註冊Yarn對話用的角色
+    /// </summary>
     public void RegisterYarnCharacter(YarnCharacter newCharacter)
     {
         if (!YarnCharacterBubbleView.instance.allCharacters.Contains(newCharacter))
@@ -42,6 +48,9 @@ public class YarnCharacterBubbleView : DialogueViewBase
             allCharacters.Add(newCharacter);
         }
     }
+    /// <summary>
+    /// 解除註冊Yarn對話用的角色
+    /// </summary>
     public void ForgetYarnCharacter(YarnCharacter deletedCharacter)
     {
         if (YarnCharacterBubbleView.instance.allCharacters.Contains(deletedCharacter))
@@ -108,6 +117,9 @@ public class YarnCharacterBubbleView : DialogueViewBase
         return screenPos;
     }
 
+    /// <summary>
+    /// 執行對話內容
+    /// </summary>
     public override void RunLine(LocalizedLine dialogueLine, Action onDialogueLineFinished)
     {
         string characterName = dialogueLine.CharacterName;

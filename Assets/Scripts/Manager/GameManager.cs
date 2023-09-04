@@ -4,7 +4,7 @@ using UnityEngine;
 using Sirenix.OdinInspector;
 using System;
 
-public enum GameState
+public enum GameState //遊戲狀態
 {
     Normal,
     Battle,
@@ -16,6 +16,7 @@ public enum PlayerBehaviourState //玩家行為邏輯狀態
     None,
     Interactive,
     Talking,
+    InCutScene,
 }
 public class GameManager : SerializedMonoBehaviour,IDataPersistence
 {
@@ -46,6 +47,7 @@ public class GameManager : SerializedMonoBehaviour,IDataPersistence
     public event PlayerBehaviourStateHander onNonePlayerBehaviourStateChanged;
     public event PlayerBehaviourStateHander onInteractivePlayerBehaviourStateChanged;
     public event PlayerBehaviourStateHander onTalkingPlayerBehaviourStateChanged;
+    public event PlayerBehaviourStateHander onInCutScenePlayerBehaviourStateChanged;
 
     public DateTime saveTime;
     private float playTime;
@@ -89,8 +91,8 @@ public class GameManager : SerializedMonoBehaviour,IDataPersistence
     {
         this.saveTime = new DateTime();
         this.saveTime = DateTime.Now;
-        gameData.saveTime = this.saveTime.ToString();
-        gameData.playTime = playTime;
+        gameData.saveTime = this.saveTime.ToString(); //保存時間
+        gameData.playTime = playTime; //保存遊玩時間
     }
 
     public void SetState(GameState newGameState)
@@ -129,6 +131,9 @@ public class GameManager : SerializedMonoBehaviour,IDataPersistence
                 break;
             case PlayerBehaviourState.Talking:
                 onTalkingPlayerBehaviourStateChanged?.Invoke(playerState);
+                break;
+            case PlayerBehaviourState.InCutScene:
+                onInCutScenePlayerBehaviourStateChanged?.Invoke(playerState);
                 break;
         }
     }

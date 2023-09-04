@@ -6,7 +6,9 @@ using UnityEngine;
 public class PlayerState_Dodge : PlayerState
 {
     [SerializeField] Dictionary<string, float> dodgeSpeed = new Dictionary<string, float>();
+    [SerializeField] Dictionary<string, float> dodgeDuration = new Dictionary<string, float>();
     [HideInInspector] public float currentDodgeSpeed;
+    [HideInInspector] public float currentDodgeDuration;
 
     public static bool isDodge;
     public override void Enter()
@@ -48,12 +50,15 @@ public class PlayerState_Dodge : PlayerState
         {
             case "Niru":
                 currentDodgeSpeed = dodgeSpeed["Niru"];
+                currentDodgeDuration = dodgeDuration["Niru"];
                 break;
             case "Mo":
                 currentDodgeSpeed = dodgeSpeed["Mo"];
+                currentDodgeDuration = dodgeDuration["Mo"];
                 break;
             case "Lia":
                 currentDodgeSpeed = dodgeSpeed["Lia"];
+                currentDodgeDuration = dodgeDuration["Lia"];
                 break;
         }
         base.SwitchCharacterState(false);
@@ -84,42 +89,50 @@ public class PlayerState_Dodge : PlayerState
         if (input.currentDirection == 1)
         {
             dodgeDir = Vector2.left;
-            player.DodgeMove(dodgeDir, currentDodgeSpeed);
+            //player.DodgeMove(dodgeDir, currentDodgeSpeed);
+            player.StartDodgeMoveCor(dodgeDir, currentDodgeSpeed, currentDodgeDuration);
         }
         else if (input.currentDirection == 2)
         {
             dodgeDir = Vector2.down;
-            player.DodgeMove(dodgeDir, currentDodgeSpeed);
+            //player.DodgeMove(dodgeDir, currentDodgeSpeed);
+            player.StartDodgeMoveCor(dodgeDir, currentDodgeSpeed, currentDodgeDuration);
         }
         else if (input.currentDirection == 3)
         {
             dodgeDir = Vector2.right;
-            player.DodgeMove(dodgeDir, currentDodgeSpeed);
+            //player.DodgeMove(dodgeDir, currentDodgeSpeed);
+            player.StartDodgeMoveCor(dodgeDir, currentDodgeSpeed, currentDodgeDuration);
         }
         else if (input.currentDirection == 4)
         {
             dodgeDir = Vector2.up;
-            player.DodgeMove(dodgeDir, currentDodgeSpeed);
+            //player.DodgeMove(dodgeDir, currentDodgeSpeed);
+            player.StartDodgeMoveCor(dodgeDir, currentDodgeSpeed, currentDodgeDuration);
         }
         if (input.AxisX >0 && input.AxisY > 0) //右上
         {
             dodgeDir = new Vector2(1, 1);
-            player.DodgeMoveXY(dodgeDir, currentDodgeSpeed, currentDodgeSpeed);
+            //player.DodgeMoveXY(dodgeDir, currentDodgeSpeed, currentDodgeSpeed);
+            player.StartDodgeMoveXYCor(dodgeDir, currentDodgeSpeed, currentDodgeSpeed, currentDodgeDuration);
         }
         else if (input.AxisX < 0 && input.AxisY < 0) //左下
         {
             dodgeDir = new Vector2(-1, -1);
-            player.DodgeMoveXY(dodgeDir, currentDodgeSpeed, currentDodgeSpeed);
+            //player.DodgeMoveXY(dodgeDir, currentDodgeSpeed, currentDodgeSpeed);
+            player.StartDodgeMoveXYCor(dodgeDir, currentDodgeSpeed, currentDodgeSpeed, currentDodgeDuration);
         }
         else if (input.AxisX > 0 && input.AxisY < 0) //右下
         {
             dodgeDir = new Vector2(1, -1);
-            player.DodgeMoveXY(dodgeDir, currentDodgeSpeed, currentDodgeSpeed);
+            //player.DodgeMoveXY(dodgeDir, currentDodgeSpeed, currentDodgeSpeed);
+            player.StartDodgeMoveXYCor(dodgeDir, currentDodgeSpeed, currentDodgeSpeed, currentDodgeDuration);
         }
         else if (input.AxisX < 0 && input.AxisY >0) //左上
         {
             dodgeDir = new Vector2(-1, 1);
-            player.DodgeMoveXY(dodgeDir, currentDodgeSpeed, currentDodgeSpeed);
+            //player.DodgeMoveXY(dodgeDir, currentDodgeSpeed, currentDodgeSpeed);
+            player.StartDodgeMoveXYCor(dodgeDir, currentDodgeSpeed, currentDodgeSpeed, currentDodgeDuration);
         }
     }
 }
