@@ -35,7 +35,7 @@ public class LiaNormalAttack : MonoBehaviour
     public void SetProjectilePool()
     {
         projectileEffectPool = ObjectPool<Lia_NormalProjectile>.Instance; //¤l¼uªì©l¤Æ
-        projectileEffectPool.InitPool(projectilePrefab, 30, poolParent);
+        projectileEffectPool.InitPool(projectilePrefab, 20, poolParent);
     }
 
     /// <summary>

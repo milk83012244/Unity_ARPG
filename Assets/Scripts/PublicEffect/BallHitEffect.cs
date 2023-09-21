@@ -6,6 +6,10 @@ public class BallHitEffect : MonoBehaviour
 {
     public List<GameObject> BallHitEffectObjects;
 
+    private void OnDisable()
+    {
+        StopAllCoroutines(); 
+    }
     private void Start()
     {
         RandomSelectEffect();
@@ -13,7 +17,8 @@ public class BallHitEffect : MonoBehaviour
     }
     public IEnumerator Recycle() //自己回收
     {
-        yield return new WaitForSeconds(1f);
+        yield return Yielders.GetWaitForSeconds(1f);
+        BallHitEffectObjects[0].SetActive(false);
         ObjectPool<BallHitEffect>.Instance.Recycle(this);
     }
     private void RandomSelectEffect()

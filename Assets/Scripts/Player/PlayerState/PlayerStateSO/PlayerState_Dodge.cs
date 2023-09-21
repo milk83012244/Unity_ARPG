@@ -86,25 +86,25 @@ public class PlayerState_Dodge : PlayerState
     void DodgeMove()
     {
         Vector2 dodgeDir;
-        if (input.currentDirection == 1)
+        if (input.currentDirection == 1 && input.AxisY == 0)
         {
             dodgeDir = Vector2.left;
             //player.DodgeMove(dodgeDir, currentDodgeSpeed);
             player.StartDodgeMoveCor(dodgeDir, currentDodgeSpeed, currentDodgeDuration);
         }
-        else if (input.currentDirection == 2)
+        else if (input.currentDirection == 2 && input.AxisX == 0)
         {
             dodgeDir = Vector2.down;
             //player.DodgeMove(dodgeDir, currentDodgeSpeed);
             player.StartDodgeMoveCor(dodgeDir, currentDodgeSpeed, currentDodgeDuration);
         }
-        else if (input.currentDirection == 3)
+        else if (input.currentDirection == 3 && input.AxisY == 0)
         {
             dodgeDir = Vector2.right;
             //player.DodgeMove(dodgeDir, currentDodgeSpeed);
             player.StartDodgeMoveCor(dodgeDir, currentDodgeSpeed, currentDodgeDuration);
         }
-        else if (input.currentDirection == 4)
+        else if (input.currentDirection == 4 && input.AxisX == 0)
         {
             dodgeDir = Vector2.up;
             //player.DodgeMove(dodgeDir, currentDodgeSpeed);

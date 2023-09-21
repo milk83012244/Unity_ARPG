@@ -1,5 +1,7 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Reflection;
 using UnityEngine;
 
 /// <summary>
@@ -38,7 +40,7 @@ public class MoNormalAttack : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        characterStats.isCritical = Random.value < characterStats.attackData[characterStats.currentCharacterID].criticalChance;
+        characterStats.isCritical = UnityEngine.Random.value < characterStats.attackData[characterStats.currentCharacterID].criticalChance;
         IDamageable damageable = collision.GetComponent<IDamageable>();
         if (damageable != null)
         {
@@ -46,7 +48,9 @@ public class MoNormalAttack : MonoBehaviour
             if (defander != null)
             {
                 Enemy enemyUnit = defander.GetComponent<Enemy>();
-                EnemyUnitType1 enemyUnitType1 = enemyUnit as EnemyUnitType1;
+                EnemyUnitType1 enemyUnitType1 = new EnemyUnitType1();
+                EnemyUnitType2 enemyUnitType2 = new EnemyUnitType2();
+                EnemyBoss1Unit enemyBoss1Unit = new EnemyBoss1Unit();
 
                 if (PlayerState_Attack3.isAttack3)
                 {
@@ -131,32 +135,64 @@ public class MoNormalAttack : MonoBehaviour
                 {
                     slashHitEffect.transform.localScale = new Vector3(-1, 1, 1);
                 }
-                //觸發敵人受擊狀態
-                enemyUnitType1.DamageByPlayer();
-                //敵人閃爍效果
-                enemyUnitType1.StartFlash();
-                //賦予敵人硬直值
-                if (PlayerState_Attack3.isAttack3)
+
+                switch (enemyUnit.typeID)
                 {
-                    if (enemyUnitType1.canStun)
-                        characterStats.TakeStunValue(characterStats, defander, freeMul: 1.2f);
+                    case 1:
+                        enemyUnitType1 = enemyUnit as EnemyUnitType1;
+
+                        //觸發敵人受擊狀態
+                        enemyUnitType1.DamageByPlayer();
+                        //敵人閃爍效果
+                        enemyUnitType1.StartFlash();
+                        //賦予敵人硬直值
+                        if (PlayerState_Attack3.isAttack3)
+                            if (enemyUnitType1.canStun)
+                                characterStats.TakeStunValue(characterStats, defander, freeMul: 1.2f);
+                            else
+                            if (enemyUnitType1.canStun)
+                                characterStats.TakeStunValue(characterStats, defander);
+                        break;
+                    case 2:
+                        enemyUnitType2 = enemyUnit as EnemyUnitType2;
+
+                        //觸發敵人受擊狀態
+                        enemyUnitType2.DamageByPlayer();
+                        //敵人閃爍效果
+                        enemyUnitType2.StartFlash();
+                        //賦予敵人硬直值
+                        if (PlayerState_Attack3.isAttack3)
+                            if (enemyUnitType2.canStun)
+                                characterStats.TakeStunValue(characterStats, defander, freeMul: 1.2f);
+                            else
+                            if (enemyUnitType2.canStun)
+                                characterStats.TakeStunValue(characterStats, defander);
+                        break;
+                    case 1001: // boss_1
+
+                        break;
                 }
-                else
-                {
-                    if (enemyUnitType1.canStun)
-                        characterStats.TakeStunValue(characterStats, defander);
-                }
+
                 //造成敵人擊退
                 Vector2 knockbackDirection = (collision.transform.position - transform.position).normalized;
                 float knockbackValue = characterStats.attackData[characterStats.currentCharacterID].knockbackValue;
-                if (PlayerState_Attack3.isAttack3)
+
+                switch (enemyUnit.typeID)
                 {
-                    enemyUnitType1.StartKnockback(knockbackDirection, knockbackValue *= 1.2f);
+                    case 1:
+                        if (PlayerState_Attack3.isAttack3)
+                            enemyUnitType1.StartKnockback(knockbackDirection, knockbackValue *= 1.2f);
+                        else
+                            enemyUnitType1.StartKnockback(knockbackDirection, knockbackValue);
+                        break;
+                    case 2:
+                        if (PlayerState_Attack3.isAttack3)
+                            enemyUnitType2.StartKnockback(knockbackDirection, knockbackValue *= 1.2f);
+                        else
+                            enemyUnitType2.StartKnockback(knockbackDirection, knockbackValue);
+                        break;
                 }
-                else
-                {
-                    enemyUnitType1.StartKnockback(knockbackDirection, knockbackValue);
-                }
+
             }
         }
     }

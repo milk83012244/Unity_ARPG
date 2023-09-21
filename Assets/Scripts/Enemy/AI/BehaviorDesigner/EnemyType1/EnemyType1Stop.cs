@@ -6,7 +6,7 @@ using UnityEngine;
 namespace Sx.EnemyAI
 {
     /// <summary>
-    /// µwª½ª¬ºA
+    /// °±¤î¦æ°Êª¬ºA
     /// </summary>
     public class EnemyType1Stop : EnemyType1Action
     {
@@ -28,7 +28,7 @@ namespace Sx.EnemyAI
             }
             else if (enemyUnitType1.currentState == EnemyCurrentState.Stop)
             {
-                if (enemyUnitType1.status2ActiveDic[ElementType.Ice])
+                if (enemyUnitType1.status2ActiveDic[ElementType.Ice])//­áµ²ª¬ºA
                 {
                     //enemyUnitType1.StopMove();
                     StopAIPath();

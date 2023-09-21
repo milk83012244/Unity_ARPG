@@ -15,7 +15,7 @@ public class TestCutScene1 : MonoBehaviour
 
     public string dialogueNode;
 
-    public void StartDialogue()
+    public void StartDialogue(string dialogueNode)
     {
         if (dialogueRunner == null)
         {
@@ -27,6 +27,7 @@ public class TestCutScene1 : MonoBehaviour
         dialogueRunner.StartDialogue(dialogueNode);
         //playableDirector.Pause();
         playableDirector.playableGraph.GetRootPlayable(0).Pause();
+
     }
     private void DialogueEnd()
     {

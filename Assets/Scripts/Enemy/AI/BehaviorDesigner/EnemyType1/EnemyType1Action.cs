@@ -7,26 +7,12 @@ using Pathfinding;
 namespace Sx.EnemyAI
 {
     /// <summary>
-    /// 敵人事件節點用的資料 給事件節點繼承 並初始化敵人的組件 
+    /// 敵人行為樹事件節點用的資料 給事件節點繼承 並初始化敵人的組件 
     /// 類型1:不主動攻擊 受到攻擊才開始攻擊 超過追擊範圍就會停止攻擊回到預設位置
     /// </summary>
-    public class EnemyType1Action : Action
+    public class EnemyType1Action : EnemyPublicAction
     {
-        //尋路插件
-        protected EnemyType1PartolAI patrolAI; //巡邏
-        protected AIDestinationSetter aiDestinationSetter; //指定目標
-        protected AIPath aIPath; //路線移動
-
-        protected PlayerController player;
-        protected Rigidbody2D body;
-        protected Animator animator;
         protected EnemyUnitType1 enemyUnitType1;
-        protected FacePlayer facePlayer;
-        protected OtherCharacterStats selfStats;
-        protected string name;
-        protected TaskStatus state;
-
-        protected int currentDirection=0;
 
         public override void OnAwake()
         {
@@ -42,23 +28,9 @@ namespace Sx.EnemyAI
             patrolAI = GetComponent<EnemyType1PartolAI>();
             aIPath = GetComponent<AIPath>();
 
+            attackType = selfStats.enemyBattleData.attackType;
+
             name = selfStats.enemyBattleData.characterName;
-        }
-        /// <summary>
-        /// 開啟AI尋路移動功能並開始搜尋路徑
-        /// </summary>
-        public virtual void StartAIPath()
-        {
-            aIPath.isStopped = false;
-            aIPath.canSearch = true;
-        }
-        /// <summary>
-        /// 停止AI尋路移動功能且停止搜尋路徑
-        /// </summary>
-        public virtual void StopAIPath()
-        {
-            aIPath.isStopped = true;
-            aIPath.canSearch = false;
         }
     }
 }

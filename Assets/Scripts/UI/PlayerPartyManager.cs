@@ -6,6 +6,7 @@ using Sirenix.OdinInspector;
 using TMPro;
 using UnityEngine.Events;
 using Sirenix.Utilities;
+using DG.Tweening;
 
 /// <summary>
 /// 掛在隊伍panel上
@@ -13,12 +14,16 @@ using Sirenix.Utilities;
 public class PlayerPartyManager : SerializedMonoBehaviour
 {
     private CharacterSwitchButtons characterSwitchButtons;
+    [SerializeField]
+    private CanvasGroup canvasGroup;
+
+    private bool isEnableShowEnd = false;
 
     public PartyDataSO partyData;
     public Dictionary<int, string> party = new Dictionary<int, string>();
 
-    //角色背景圖
-    public Dictionary<string, Sprite> characterBackgroundSlotSlotImages = new Dictionary<string, Sprite>();
+    //角色立繪
+    public Dictionary<string, Sprite> characterBackgroundSlotImages = new Dictionary<string, Sprite>();
     //像素單位圖
     public Dictionary<string, Sprite> characterUnitSlotSlotImages = new Dictionary<string, Sprite>();
 
@@ -28,10 +33,17 @@ public class PlayerPartyManager : SerializedMonoBehaviour
     private void OnEnable()
     {
         InitPartyMenu();
+
+        isEnableShowEnd = false;
+        if (!isEnableShowEnd)
+        {
+            StartCoroutine(ShowPanelEffect());
+        }
     }
     private void OnDisable()
     {
         ExitPartyMenu();
+        StopAllCoroutines();
     }
     private void OnDestroy()
     {
@@ -136,16 +148,20 @@ public class PlayerPartyManager : SerializedMonoBehaviour
     public void SetPartySlot(int slotNumber,string characterName)
     {
         Image characterUnitImage = partySlot[slotNumber].Find("CharacterUnitImage").GetComponent<Image>();
+        Image characterBackgroundImage = partySlot[slotNumber].Find("CharacterBackgroundImage").GetComponent<Image>();
         TextMeshProUGUI nameText = partySlot[slotNumber].Find("StatusText").Find("Nametxt").GetComponent<TextMeshProUGUI>();
 
         characterUnitImage.sprite = characterUnitSlotSlotImages[characterName];
+        characterBackgroundImage.sprite = characterBackgroundSlotImages[characterName];
         nameText.text = characterName;
     }
     public void RemoveSlot(int slotNumber)
     {
         Image characterUnitImage = partySlot[slotNumber].Find("CharacterUnitImage").GetComponent<Image>();
+        Image characterBackgroundImage = partySlot[slotNumber].Find("CharacterBackgroundImage").GetComponent<Image>();
         TextMeshProUGUI nameText = partySlot[slotNumber].Find("StatusText").Find("Nametxt").GetComponent<TextMeshProUGUI>();
         characterUnitImage.sprite = null;
+        characterBackgroundImage.sprite = null;
         nameText.text = "";
     }
     /// <summary>
@@ -181,9 +197,19 @@ public class PlayerPartyManager : SerializedMonoBehaviour
     /// </summary>
     public void ExitPartyMenu()
     {
+        canvasGroup.DOFade(0, 0f);
+
         partyData.currentParty = party;
         characterSwitchButtons.SetCharacterSlotIcon(partyData);
 
-        //解除暫停
+        //退出暫停狀態
+        GameManager.Instance.SetState(GameState.Normal);
+    }
+
+    private IEnumerator ShowPanelEffect()
+    {
+        canvasGroup.DOFade(1, 0.5f);
+        yield return Yielders.GetWaitForSeconds(0.5f);
+        isEnableShowEnd = true;
     }
 }

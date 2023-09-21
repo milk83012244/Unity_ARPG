@@ -9,7 +9,8 @@ public enum GameState //遊戲狀態
     Normal,
     Battle,
     Paused,
-    GameOver
+    GameOver,
+    InMenu //只在主選單使用
 }
 public enum PlayerBehaviourState //玩家行為邏輯狀態
 {
@@ -29,6 +30,7 @@ public class GameManager : SerializedMonoBehaviour,IDataPersistence
             return instance;
         }
     }
+    public bool inMenu;
 
     public GameState CurrentGameState { get; private set; }
     public PlayerBehaviourState CurrentPlayerBehaviourState { get; private set; }
@@ -65,6 +67,11 @@ public class GameManager : SerializedMonoBehaviour,IDataPersistence
         }
         SetState(GameState.Normal);
         SetPlayerBehaviourState(PlayerBehaviourState.None);
+
+        if (inMenu)
+        {
+            SetState(GameState.InMenu);
+        }
 
         DontDestroyOnLoad(gameObject);
     }
@@ -162,21 +169,10 @@ public class GameManager : SerializedMonoBehaviour,IDataPersistence
                 return 0;
         }
     }
-    public void PauseGame()
+    public void MenuStartGame()
     {
-        // 暫停遊戲代碼
-        // ...
-
-        // 設置遊戲狀態為暫停
-        CurrentGameState = GameState.Paused;
-    }
-    public void ResumeGame()
-    {
-        // 繼續遊戲代碼
-        // ...
-
-        // 設置遊戲狀態為遊戲進行中
-        CurrentGameState = GameState.Normal;
+        inMenu = false;
+        SetState(GameState.Normal);
     }
     /// <summary>
     /// 計算遊玩時間

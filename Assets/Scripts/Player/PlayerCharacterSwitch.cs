@@ -7,7 +7,7 @@ using Sirenix.Utilities;
 /// <summary>
 /// 玩家控制角色切換
 /// </summary>
-public class PlayerCharacterSwitch : SerializedMonoBehaviour,IDataPersistence
+public class PlayerCharacterSwitch : SerializedMonoBehaviour, IDataPersistence
 {
     public PartyDataSO partyData;
     public string currentControlCharacterNames;
@@ -17,6 +17,9 @@ public class PlayerCharacterSwitch : SerializedMonoBehaviour,IDataPersistence
     //public List<string> characterNames = new List<string>();
     //public List<GameObject> characterObjs = new List<GameObject>();
     public Dictionary<string, GameObject> characterDic = new Dictionary<string, GameObject>();
+    //各角色碰撞器大小
+    public Dictionary<string, Vector2> characterColliderSize = new Dictionary<string, Vector2>();
+    public Dictionary<string, Vector2> characterColliderOffset = new Dictionary<string, Vector2>();
 
     public static BattleCurrentCharacterNumber battleCurrentCharacterNumber;
 
@@ -30,6 +33,7 @@ public class PlayerCharacterSwitch : SerializedMonoBehaviour,IDataPersistence
     private PlayerCharacterStats characterStats;
     private PlayerCooldownController cooldownController;
     private PlayerLevelSystem levelSystem;
+    private BoxCollider2D playerCollider2D;
 
     [HideInInspector] public PlayerSkillManager currentSkillManager;
 
@@ -53,6 +57,7 @@ public class PlayerCharacterSwitch : SerializedMonoBehaviour,IDataPersistence
         stateMachine = GetComponent<PlayerStateMachine>();
         cooldownController = GetComponent<PlayerCooldownController>();
         levelSystem = GetComponent<PlayerLevelSystem>();
+        playerCollider2D = GetComponent<BoxCollider2D>();
 
         StartSetCharacter("Niru");
     }
@@ -80,7 +85,7 @@ public class PlayerCharacterSwitch : SerializedMonoBehaviour,IDataPersistence
 
     public void SaveData(GameData gameData)
     {
-        for (int i = 1; i < partyData.currentParty.Keys.Count +1; i++)
+        for (int i = 1; i < partyData.currentParty.Keys.Count + 1; i++)
         {
             gameData.partyData[i] = partyData.currentParty[i];
         }
@@ -101,6 +106,7 @@ public class PlayerCharacterSwitch : SerializedMonoBehaviour,IDataPersistence
         {
             currentControlCharacterNamesSB.Append(name.Key);
         }
+        SetCharacterColliderSize();
     }
 
     /// <summary>
@@ -139,7 +145,7 @@ public class PlayerCharacterSwitch : SerializedMonoBehaviour,IDataPersistence
         characterName = partyData.currentParty[(int)battleCurrentCharacterNumber];
 
         currentControlCharacter.Clear();
-        currentControlCharacter.Add(characterName, characterDic[characterName]); 
+        currentControlCharacter.Add(characterName, characterDic[characterName]);
         //currentControlCharacter[characterName].SetActive(true);
         characterDic[characterName].SetActive(true);
 
@@ -167,6 +173,8 @@ public class PlayerCharacterSwitch : SerializedMonoBehaviour,IDataPersistence
         onCharacterSwitch?.Invoke(currentControlCharacterNamesSB.ToString());
 
         levelSystem.SetLevelSystemData();
+
+        SetCharacterColliderSize();
 
         stateMachine.ReIbitialize();
         stateMachine.SwitchState(typeof(PlayerState_Idle)); //切換角色狀態機
@@ -217,6 +225,8 @@ public class PlayerCharacterSwitch : SerializedMonoBehaviour,IDataPersistence
 
         levelSystem.SetLevelSystemData();
 
+        SetCharacterColliderSize();
+
         stateMachine.ReIbitialize();
         stateMachine.SwitchState(typeof(PlayerState_Idle)); //切換角色狀態機
         battleCurrentCharacterNumber = BattleCurrentCharacterNumber.None;
@@ -233,8 +243,8 @@ public class PlayerCharacterSwitch : SerializedMonoBehaviour,IDataPersistence
         string characterName = partyData.currentParty[(int)battleCurrentCharacterNumber];
 
         currentControlCharacter.Clear();
-        currentControlCharacter.Add(characterName, characterDic[characterName]); 
-         //currentControlCharacter[characterNames[1]].SetActive(true);
+        currentControlCharacter.Add(characterName, characterDic[characterName]);
+        //currentControlCharacter[characterNames[1]].SetActive(true);
         characterDic[characterName].SetActive(true);
         currentSkillManager = characterDic[characterName].GetComponent<PlayerSkillManager>();
         characterStats.SetCurrentCharacterID(characterName);
@@ -260,6 +270,7 @@ public class PlayerCharacterSwitch : SerializedMonoBehaviour,IDataPersistence
         //characterSwitchButtons.characterSwitchSlotCanUseForStateAction.Invoke(true);
 
         levelSystem.SetLevelSystemData();
+        SetCharacterColliderSize();
 
         stateMachine.ReIbitialize();
         stateMachine.SwitchState(typeof(PlayerState_Idle)); //切換角色狀態機
@@ -294,5 +305,33 @@ public class PlayerCharacterSwitch : SerializedMonoBehaviour,IDataPersistence
         {
             return null;
         }
+    }
+    public void HpZeroEvent()
+    {
+        if (GameManager.Instance.CurrentGameState == GameState.Normal) //一般模式只能控制主角
+        {
+            GameManager.Instance.SetState(GameState.GameOver); //直接遊戲結束
+        }
+        else if(GameManager.Instance.CurrentGameState == GameState.Normal)
+        {
+            //檢查隊伍還有沒有角色剩餘HP足夠可以更換 有則更換
+            if (true)
+            {
+                //遍歷隊伍列表
+                //檢查對應角色HP是否足夠
+                //有則更換
+                //沒有也進入遊戲結束
+            }
+            else  //沒有則進入遊戲結束狀態
+            {
+                GameManager.Instance.SetState(GameState.GameOver);
+            }
+
+        }
+    }
+    private void SetCharacterColliderSize()
+    {
+        this.playerCollider2D.size = characterColliderSize[currentControlCharacterNamesSB.ToString()];
+        this.playerCollider2D.offset = characterColliderOffset[currentControlCharacterNamesSB.ToString()];
     }
 }

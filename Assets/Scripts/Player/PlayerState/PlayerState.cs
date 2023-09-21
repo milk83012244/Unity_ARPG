@@ -87,7 +87,10 @@ public class PlayerState : SerializedScriptableObject, IState
 
     public virtual void LogicUpdate()
     {
-
+        if (characterStats.CurrnetHealth <= 0)
+        {
+            HPZeroState();
+        }
     }
 
     public virtual void PhysicUpdate()
@@ -195,5 +198,12 @@ public class PlayerState : SerializedScriptableObject, IState
         //{
         //    stateMachine.SwitchState(typeof(PlayerState_Function));
         //}
+    }
+    /// <summary>
+    /// HP¬°0ª¬ºA
+    /// </summary>
+    public virtual void HPZeroState()
+    {
+        stateMachine.SwitchState(typeof(PlayerState_Down));
     }
 }

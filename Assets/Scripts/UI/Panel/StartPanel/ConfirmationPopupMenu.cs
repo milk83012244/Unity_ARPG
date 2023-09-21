@@ -16,7 +16,7 @@ public class ConfirmationPopupMenu : PanelMenu
     [SerializeField] private Button cancelButton;
 
     /// <summary>
-    /// 打開菜單並設定內容
+    /// 打開菜單並設定內容以及註冊事件
     /// </summary>
     public void ActiveteMenu(string displayText,UnityAction confirmAction ,UnityAction cancelAction)
     {

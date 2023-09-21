@@ -7,7 +7,7 @@ public class PlayerState_Run : PlayerState
 {
     [SerializeField] Dictionary<string, float> runSpeed = new Dictionary<string, float>();
     [HideInInspector] public float currentRunSpeed;
-    [SerializeField] float acceration = 5f; //移動時的加速度
+    //[SerializeField] float acceration = 5f; //移動時的加速度
 
     public override void Enter()
     {

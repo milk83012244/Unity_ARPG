@@ -104,8 +104,11 @@ public class EnemyUnitType1 : Enemy
     /// </summary>
     public void DamageByPlayer()
     {
+        if (!isAttackState)
+        {
+            StartNoticeIconRiseUpCor();
+        }
         isAttackState = true;
-        StartNoticeIconRiseUpCor();
     }
     #region À»°h»Pµwª½
     /// <summary>

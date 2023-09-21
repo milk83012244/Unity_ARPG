@@ -20,6 +20,9 @@ public class SaveSlot : MonoBehaviour
     [SerializeField] private TextMeshProUGUI playTimeText;
     [SerializeField] private TextMeshProUGUI saveTimeText;
 
+    [Header("Images")]//圖片內容
+    [SerializeField] private Image niruIcon;
+
     //[Header("Buttons")]
     //[SerializeField] private Button clearButton;
 
@@ -42,6 +45,7 @@ public class SaveSlot : MonoBehaviour
             HasData = false;
             noDataContent.SetActive(true);
             hasDataContent.SetActive(false);
+            niruIcon.enabled = false;
             //clearButton.gameObject.SetActive(false);
         }
         else
@@ -49,6 +53,7 @@ public class SaveSlot : MonoBehaviour
             HasData = true;
             noDataContent.SetActive(false);
             hasDataContent.SetActive(true);
+            niruIcon.enabled = true;
             //clearButton.gameObject.SetActive(true);
 
             //處理總遊戲時間文字

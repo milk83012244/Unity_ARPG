@@ -37,11 +37,24 @@ namespace Sx.EnemyAI
             currentDirection = facePlayer.DirectionCheck(transform.position, player.transform.position);
             facePlayer.AnimationDirCheck(currentDirection, "Attack", animator);
             stateInfo = animator.GetCurrentAnimatorStateInfo(0);
+
+            if (facePlayer.CurrentStateTime > 0.95f) //攻擊動畫播放結束
+            {
+                facePlayer.AnimationDirCheck(currentDirection, "Idle", animator);
+                state = TaskStatus.Success;
+                return state;
+            }
+            if (facePlayer.CurrentStateTime> 0 && facePlayer.CurrentStateTime <0.95f && enemyUnitType1.currentState == EnemyCurrentState.Stunning) //攻擊中進入硬直
+            {
+                state = TaskStatus.Success;
+                return state;
+            }
+
             //enemyUnitType1.StartMove();
             //enemyUnitType1.currentState = CurrentState.Idle;
             //造成傷害在別的腳本檢測
 
-            state = TaskStatus.Success;
+            state = TaskStatus.Running;
             return state;
 
         }

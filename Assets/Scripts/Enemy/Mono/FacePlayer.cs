@@ -13,7 +13,7 @@ public class FacePlayer : MonoBehaviour
     /// <summary>
     /// 動畫結束標示
     /// </summary>
-    protected bool IsAnimationFinished => StateDuration >= animator.GetCurrentAnimatorStateInfo(0).length;
+    public bool IsAnimationFinished => StateDuration >= animator.GetCurrentAnimatorStateInfo(0).length;
     /// <summary>
     /// 狀態持續時間
     /// </summary>
@@ -21,7 +21,7 @@ public class FacePlayer : MonoBehaviour
     /// <summary>
     /// 當前狀態時間
     /// </summary>
-    protected float CurrentStateTime => animator.GetCurrentAnimatorStateInfo(0).normalizedTime;
+    public float CurrentStateTime => animator.GetCurrentAnimatorStateInfo(0).normalizedTime;
 
     private void Start()
     {
@@ -55,14 +55,11 @@ public class FacePlayer : MonoBehaviour
             return currentDirection;
         }
     }
-    /// <summary>
-    /// 負責轉向與播放移動待機動畫
-    /// </summary>
+  /// <summary>
+  /// 轉向與動畫
+  /// </summary>
     public void AnimationDirCheck(int currentDirection, string animationType, Animator animator)
     {
-        if (currentDirection == 0)
-            return;
-
         stateStartTime = Time.time;
 
         if (animationType == "Idle")
@@ -70,7 +67,7 @@ public class FacePlayer : MonoBehaviour
             switch (currentDirection)
             {
                 case 1:
-                    animator.Play(selfName +"_SR_idle");
+                    animator.Play(selfName + "_SR_idle");
                     break;
                 case 2:
                 case 3:
@@ -95,6 +92,9 @@ public class FacePlayer : MonoBehaviour
         }
         else if (animationType == "Attack")
         {
+            //if (!IsAnimationFinished)
+            //    return;
+
             switch (currentDirection)
             {
                 case 1:
@@ -108,6 +108,115 @@ public class FacePlayer : MonoBehaviour
                     break;
                 case 4:
                     animator.Play(selfName + "_B_Attack");
+                    break;
+            }
+        }
+    }
+
+    /// <summary>
+    /// Boss1用轉向與動畫
+    /// </summary>
+    public void Boss1AnimationDirCheck(int currentDirection, string animationType, Animator animator, int attackType = 1)
+    {
+        stateStartTime = Time.time;
+
+        if (animationType == "Idle")
+        {
+            switch (currentDirection)
+            {
+                case 1:
+                case 2:
+                case 3:
+                case 4:
+                    animator.Play(selfName + "_F_BattleIdle");
+                    break;
+            }
+        }
+        else if (animationType == "Walk")
+        {
+            switch (currentDirection)
+            {
+                case 1:
+                case 4:
+                    animator.Play(selfName + "_SR_Walk");
+                    break;
+                case 2:
+                case 3:
+                    animator.Play(selfName + "_SL_Walk");
+                    break;
+            }
+        }
+        else if (animationType == "Flying")
+        {
+            switch (currentDirection)
+            {
+                case 1:
+                case 2:
+                case 3:
+                case 4:
+                    animator.Play(selfName + "F_Flying");
+                    break;
+            }
+        }
+        else if (animationType == "Attack")
+        {
+            switch (currentDirection)
+            {
+                case 1:
+                    switch (attackType)
+                    {
+                        case 1:
+                            animator.Play(selfName + "_SR_Attack1");
+                            break;
+                        case 2:
+                            animator.Play(selfName + "_SR_Attack2");
+                            break;
+                        case 3:
+                            animator.Play(selfName + "_SR_Attack3");
+                            break;
+                    }
+                    break;
+                case 2:
+                    switch (attackType)
+                    {
+                        case 1:
+                            animator.Play(selfName + "_F_Attack1");
+                            break;
+                        case 2:
+                            animator.Play(selfName + "_F_Attack2");
+                            break;
+                        case 3:
+                            animator.Play(selfName + "_F_Attack3");
+                            break;
+                    }
+                    break;
+                case 3:
+                    switch (attackType)
+                    {
+                        case 1:
+                            animator.Play(selfName + "_SL_Attack1");
+                            break;
+                        case 2:
+                            animator.Play(selfName + "_SL_Attack2");
+                            break;
+                        case 3:
+                            animator.Play(selfName + "_SL_Attack3");
+                            break;
+                    }
+                    break;
+                case 4:
+                    switch (attackType)
+                    {
+                        case 1:
+                            animator.Play(selfName + "_B_Attack1");
+                            break;
+                        case 2:
+                            animator.Play(selfName + "_B_Attack2");
+                            break;
+                        case 3:
+                            animator.Play(selfName + "_B_Attack3");
+                            break;
+                    }
                     break;
             }
         }

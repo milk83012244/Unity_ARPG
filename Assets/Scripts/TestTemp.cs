@@ -8,6 +8,7 @@ using Sirenix.Utilities;
 public class TestTemp : MonoBehaviour
 {
     public Button Changebutton;
+    public TextMeshProUGUI ChangebuttonText;
     public TextMeshProUGUI stateText;
 
     public PartyDataSO partyData;
@@ -21,11 +22,20 @@ public class TestTemp : MonoBehaviour
     public SubCharacterSwitch subCharacterSwitch;
     private void Awake()
     {
-        Changebutton.onClick.AddListener(SwitchBattleModeDeBug);  
+        Changebutton.onClick.AddListener(SwitchBattleModeDeBug);
+
+        if (GameManager.Instance.CurrentGameState == GameState.Normal)
+        {
+            ChangebuttonText.text = "SwitchBattleMode";
+        }
+        else if (GameManager.Instance.CurrentGameState == GameState.Battle)
+        {
+            ChangebuttonText.text = "SwitchNormalMode";
+        }
     }
-    private void Start()
+    private void Update()
     {
-        
+        stateText.text = GameManager.Instance.CurrentGameState.ToString();
     }
     private void SwitchBattleModeDeBug()
     {
@@ -41,12 +51,12 @@ public class TestTemp : MonoBehaviour
             }
 
             GameManager.Instance.SetState(GameState.Battle);
-            stateText.text = GameManager.Instance.CurrentGameState.ToString();
+            ChangebuttonText.text = "SwitchNormalMode";
         }
         else if (GameManager.Instance.CurrentGameState == GameState.Battle)
         {
             GameManager.Instance.SetState(GameState.Normal);
-            stateText.text = GameManager.Instance.CurrentGameState.ToString();
+            ChangebuttonText.text = "SwitchBattleMode";
         }
 
         if (GameManager.Instance.CurrentGameState == GameState.Normal)

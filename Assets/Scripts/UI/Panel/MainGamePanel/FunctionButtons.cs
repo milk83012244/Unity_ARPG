@@ -40,8 +40,17 @@ public class FunctionButtons : SerializedMonoBehaviour
         switch (characterName)
         {
             case "Niru":
+                characterFunctionButtons[characterName].SetActive(false);
+                foreach (KeyValuePair<string, GameObject> item in characterFunctionButtons)
+                {
+                    characterFunctionButtons[item.Key].SetActive(false);
+                }
                 break;
             case "Mo":
+                foreach (KeyValuePair<string, GameObject> item in characterFunctionButtons)
+                {
+                    characterFunctionButtons[item.Key].SetActive(false);
+                }
                 break;
             case "Lia":
                 characterFunctionButtons[characterName].SetActive(true);

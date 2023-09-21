@@ -12,13 +12,13 @@ public class SubCharacterController : MonoBehaviour
     [SerializeField] private PlayerController playerController;
 
     [SerializeField] private float distance;
-    [SerializeField] public int currentDirection; //當前方向
-    [SerializeField] public int currentDirectionLeftRight; //當前方向(只有左右)
+    public int currentDirection; //當前方向
+    public int currentDirectionLeftRight; //當前方向(只有左右)
 
     public bool Moveing => currentDistance > distance;
 
-    [SerializeField] public float currentDistance;
-    [SerializeField] public float maskDistance;
+    public float currentDistance;
+    public float maskDistance;
 
     private void OnEnable()
     {

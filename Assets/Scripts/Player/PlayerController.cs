@@ -79,6 +79,8 @@ public class PlayerController : MonoBehaviour
         GameManager.Instance.onInteractivePlayerBehaviourStateChanged -= OnPlayerBehaviourStateChanged;
         GameManager.Instance.onTalkingPlayerBehaviourStateChanged -= OnPlayerBehaviourStateChanged;
         GameManager.Instance.onInCutScenePlayerBehaviourStateChanged -= OnPlayerBehaviourStateChanged;
+
+        characterStats.hpZeroEvent -= HpZeroEvent;
     }
     private void Awake()
     {
@@ -102,6 +104,9 @@ public class PlayerController : MonoBehaviour
     }
     private void Start()
     {
+        //HP歸0事件監聽
+        characterStats.hpZeroEvent += HpZeroEvent;
+
         SetNormalAttackCanUse(true);
         SetSkill1CanUse(true);
         SetSkill2CanUse(true);
@@ -317,7 +322,7 @@ public class PlayerController : MonoBehaviour
 
         if (MoSkill2MoveCor != null)
         {
-            return;
+            StopCoroutine(MoSkill2MoveCor);
         }
         MoSkill2MoveCor = StartCoroutine(MoSkill2Move(Dir, speed, moveDuration));
     }
@@ -328,7 +333,7 @@ public class PlayerController : MonoBehaviour
 
         if (MoSkill2MoveCor != null)
         {
-            return;
+            StopCoroutine(MoSkill2MoveCor);
         }
         MoSkill2MoveCor = StartCoroutine(MoSkill2MoveXY(Dir, speedX, speedY, moveDuration));
     }
@@ -377,6 +382,11 @@ public class PlayerController : MonoBehaviour
         isDamageing = start;
     }
     #endregion
+
+    private void HpZeroEvent()
+    {
+        isEnable = false;
+    }
 
     /// <summary>
     /// 在特定遊戲狀態下啟用

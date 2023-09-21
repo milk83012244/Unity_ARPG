@@ -40,7 +40,11 @@ public class SaveSlotsPanelMenu : PanelMenu
     /// </summary>
     public void OnSaveSlotClicked(SaveSlot saveSlot)
     {
-        DisableMenuButtons();
+        if (GameManager.Instance.CurrentGameState == GameState.InMenu)
+        {
+            DisableMenuButtons();
+        }
+
         //讀取檔案
         if (!isSavingGame)
         {
@@ -51,7 +55,7 @@ public class SaveSlotsPanelMenu : PanelMenu
             }
             else if (saveSlot.HasData)//創建新遊戲但是儲存槽有資料的情況
             {
-                confirmationPopupMenu.ActiveteMenu("將會覆蓋此儲存槽的存檔,要繼續嗎?",
+                confirmationPopupMenu.ActiveteMenu("將會讀取存檔,未保存的進度會消失,要繼續嗎?",
                     //按下Yes
                     () =>
                     {
@@ -99,16 +103,19 @@ public class SaveSlotsPanelMenu : PanelMenu
                 //保存檔案
                 DataPersistenceManager.Instance.SaveGame();
             }
-            Destroy(this.gameObject);
-            //this.gameObject.SetActive(false);
+            //Destroy(this.gameObject);
+            this.gameObject.SetActive(false);
         }
+
+        GameManager.Instance.MenuStartGame();
     }
     private void SaveGameAndLoadScene()
     {
         DataPersistenceManager.Instance.SaveGame();
 
         //異步加載場景
-        SceneManager.LoadSceneAsync("MainScene");
+        //SceneManager.LoadSceneAsync("MainScene");
+        SceneManager.LoadSceneAsync("DemoMainScene");
     }
 
     /// <summary>
@@ -185,7 +192,11 @@ public class SaveSlotsPanelMenu : PanelMenu
 
     public void OnBackButtonClicked()
     {
-        startPanelMenu.ActivateMenu();
+        if (GameManager.Instance.CurrentGameState == GameState.InMenu)
+        {
+            startPanelMenu.ActivateMenu();
+        }
+
         DeactivateMenu();
     }
     /// <summary>

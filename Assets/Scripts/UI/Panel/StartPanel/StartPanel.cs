@@ -33,6 +33,8 @@ public class StartPanel : BasePanel
     }
     private void OnStartButtonClicked()
     {
+        GameManager.Instance.MenuStartGame();
+
         if (startPanelMenu.saveSlotsPanelInstance == null)
             startPanelMenu.InstantiateSaveSlotPanel();
 
@@ -46,6 +48,8 @@ public class StartPanel : BasePanel
     }
     private void OnContinueButtonClicked()
     {
+        GameManager.Instance.MenuStartGame();
+
         startPanelMenu.DisableMenuButtons();
 
         DataPersistenceManager.Instance.SaveGame();

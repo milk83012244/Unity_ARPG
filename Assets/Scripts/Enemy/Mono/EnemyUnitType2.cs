@@ -17,7 +17,7 @@ public class EnemyUnitType2 : Enemy,ICharacterElement2Effect
 
     public EnemyCurrentState currentState;
 
-    public bool isAttackState;
+    public bool inAttackRange;
     //擊退效果
     private float knockbackDuration = 0.1f;
     private bool isKnockbackActive;
@@ -52,7 +52,7 @@ public class EnemyUnitType2 : Enemy,ICharacterElement2Effect
     public override void OnEnable()
     {
         currentState = EnemyCurrentState.Idle;
-        isAttackState = false;
+        inAttackRange = false;
     }
     public override void OnDisable()
     {
@@ -69,14 +69,9 @@ public class EnemyUnitType2 : Enemy,ICharacterElement2Effect
         //characterElementCounter = GetComponent<CharacterElementCounter>();
         unitType2behaviorTree = GetComponent<BehaviorTree>();
     }
-    public override void Start()
-    {
-
-    }
     private void InitFlag()
     {
         canStun = true;
-        isAttackState = false;
     }
     #region 擊退與硬直
     /// <summary>
@@ -154,7 +149,25 @@ public class EnemyUnitType2 : Enemy,ICharacterElement2Effect
     #region 屬性2階相關
     public void StartElementStatus2(ElementType elementType)
     {
-        throw new System.NotImplementedException();
+        switch (elementType)
+        {
+            case ElementType.Fire:
+                break;
+            case ElementType.Ice:
+                if (status2ActiveCor[elementType] == null)
+                    status2ActiveCor[elementType] = StartCoroutine(IceElementStatus2());
+                break;
+            case ElementType.Wind:
+                if (status2ActiveCor[elementType] == null)
+                    status2ActiveCor[elementType] = StartCoroutine(WindElementStatus2());
+                break;
+            case ElementType.Thunder:
+                break;
+            case ElementType.Light:
+                break;
+            case ElementType.Dark:
+                break;
+        }
     }
 
     public IEnumerator Status2CoolDown(ElementType elementType)
@@ -174,12 +187,41 @@ public class EnemyUnitType2 : Enemy,ICharacterElement2Effect
 
     public IEnumerator IceElementStatus2()
     {
-        throw new System.NotImplementedException();
+        Debug.Log("執行" + stats.baseCharacterData.characterName + "的冰凍效果");
+        canStun = false;
+        status2ActiveDic[ElementType.Ice] = true;
+        currentState = EnemyCurrentState.Stop;
+        elementStatusEffect.SetElementActive(ElementType.Ice, true);
+
+        yield return Yielders.GetWaitForSeconds(status2Duration[ElementType.Ice]);
+        status2ActiveDic[ElementType.Ice] = false;
+        elementStatusEffect.SetElementActive(ElementType.Ice, false);
+        currentState = EnemyCurrentState.Idle;
+        canStun = true;
+        Status2ActiveCorReset(ElementType.Ice);
     }
 
     public IEnumerator WindElementStatus2()
     {
-        throw new System.NotImplementedException();
+        if (characterElementCounter.giverPlayerCharacterStats == null)
+        {
+            Debug.LogError("沒有收到給予屬性者的資料");
+            yield break;
+        }
+        Debug.Log("執行" + stats.baseCharacterData.characterName + "的風切效果");
+
+        PlayerCharacterStats giver = characterElementCounter.giverPlayerCharacterStats;
+        isDamaging = true;
+
+        status2ActiveDic[ElementType.Wind] = true;
+        elementStatusEffect.SetElementActive(ElementType.Wind, true);
+        StartCoroutine(WindElementStatus2Damage(giver));
+        yield return Yielders.GetWaitForSeconds(status2Duration[ElementType.Wind]);
+
+        isDamaging = false;
+        status2ActiveDic[ElementType.Wind] = false;
+        elementStatusEffect.SetElementActive(ElementType.Wind, false);
+        Status2ActiveCorReset(ElementType.Wind);
     }
 
     public IEnumerator WindElementStatus2Damage(PlayerCharacterStats playerGiver = null, OtherCharacterStats otherGiver = null)
@@ -199,7 +241,31 @@ public class EnemyUnitType2 : Enemy,ICharacterElement2Effect
 
     public void Status2ActiveCorReset(ElementType elementType)
     {
-        throw new System.NotImplementedException();
+        switch (elementType)
+        {
+            case ElementType.Fire:
+                break;
+            case ElementType.Ice:
+                if (status2ActiveCor[ElementType.Ice] != null)
+                {
+                    StopCoroutine(status2ActiveCor[ElementType.Ice]);
+                    status2ActiveCor[ElementType.Ice] = null;
+                }
+                break;
+            case ElementType.Wind:
+                if (status2ActiveCor[ElementType.Wind] != null)
+                {
+                    StopCoroutine(status2ActiveCor[ElementType.Wind]);
+                    status2ActiveCor[ElementType.Wind] = null;
+                }
+                break;
+            case ElementType.Thunder:
+                break;
+            case ElementType.Light:
+                break;
+            case ElementType.Dark:
+                break;
+        }
     }
 
     public void StartElementStatus2MixEffect(ElementType elementType)
@@ -214,11 +280,37 @@ public class EnemyUnitType2 : Enemy,ICharacterElement2Effect
 
     public void StopStatus2(ElementType elementType)
     {
-        throw new System.NotImplementedException();
+        switch (elementType)
+        {
+            case ElementType.Fire:
+                break;
+            case ElementType.Ice:
+                StopCoroutine(status2ActiveCor[ElementType.Ice]);
+                if (status2ActiveCor[ElementType.Ice] != null)
+                    status2ActiveCor[ElementType.Ice] = null;
+                break;
+            case ElementType.Wind:
+                break;
+            case ElementType.Thunder:
+                break;
+            case ElementType.Light:
+                break;
+            case ElementType.Dark:
+                break;
+        }
     }
 
     #endregion
 
+
+    public void EncounterPlayer()
+    {
+        StartNoticeIconRiseUpCor();
+    }
+    public void DamageByPlayer()
+    {
+ 
+    }
     public void StartDeadCor()
     {
         StartCoroutine(Dead());
@@ -249,6 +341,11 @@ public class EnemyUnitType2 : Enemy,ICharacterElement2Effect
     {
         Gizmos.color = UnityEngine.Color.yellow;
         Gizmos.DrawWireSphere(transform.position, maxFovRange);
+        Gizmos.color = UnityEngine.Color.white;
+        Gizmos.DrawWireSphere(transform.position, minFovRange);
+
+        Gizmos.color = UnityEngine.Color.red;
+        Gizmos.DrawWireSphere(transform.position, attackRange);
 
         Gizmos.color = UnityEngine.Color.green;
         Gizmos.DrawWireSphere(transform.position, searchRadius);

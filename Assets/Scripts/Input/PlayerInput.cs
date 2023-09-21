@@ -31,6 +31,7 @@ public class PlayerInput : MonoBehaviour
 
     [HideInInspector] public List<bool> canCharacterSwitch = new List<bool>();
 
+    private bool isEnable = true;
     private bool isUsingFunctionButton = false;
     private bool isUsingGamepad = false;
 
@@ -45,10 +46,10 @@ public class PlayerInput : MonoBehaviour
 
     public Vector2 AimAxes => playerInputActions.Gameplay.AimAxes.ReadValue<Vector2>();
 
-    public bool MoveX => AxisX != 0f;
-    public bool MoveY => AxisY != 0f;
+    public bool MoveX => AxisX != 0f && isEnable;
+    public bool MoveY => AxisY != 0f && isEnable;
 
-    public bool PressRun => playerInputActions.Gameplay.Run.IsPressed() == true ;
+    public bool PressRun => playerInputActions.Gameplay.Run.IsPressed() == true && isEnable;
     public bool PressDodge => playerInputActions.Gameplay.Dodge.IsPressed() == true && canDodge[characterStats.currentCharacterID] && GameManager.Instance.GetCurrentState() == (int)GameState.Battle;
     public bool PressAttack => playerInputActions.Gameplay.Attack.IsPressed() && !EventSystem.current.IsPointerOverGameObject() && GameManager.Instance.CurrentGameState == GameState.Battle;
     public bool PressGuard => playerInputActions.Gameplay.Guard.IsPressed() && GameManager.Instance.CurrentGameState == GameState.Battle;
@@ -81,11 +82,24 @@ public class PlayerInput : MonoBehaviour
         playerInputActions.Gameplay.ReadyFunctionKey.performed += ctx => FunctionKeyActive();
         playerInputActions.Gameplay.ReadyFunctionKey.canceled += ctx => FunctionKeyDeactive();
     }
+    private void OnDestroy()
+    {
+        GameManager.Instance.onNormalGameStateChanged -= OnGameStateChanged;
+        GameManager.Instance.onBattleGameStateChanged -= OnGameStateChanged;
+        GameManager.Instance.onPasueGameStateChanged -= OnGameStateChanged;
+        GameManager.Instance.onGameOverGameStateChanged -= OnGameStateChanged;
+
+        GameManager.Instance.onNonePlayerBehaviourStateChanged -= OnPlayerBehaviourStateChanged;
+        GameManager.Instance.onInteractivePlayerBehaviourStateChanged -= OnPlayerBehaviourStateChanged;
+        GameManager.Instance.onTalkingPlayerBehaviourStateChanged -= OnPlayerBehaviourStateChanged;
+        GameManager.Instance.onInCutScenePlayerBehaviourStateChanged -= OnPlayerBehaviourStateChanged;
+
+        characterStats.hpZeroEvent -= HpZeroEvent;
+    }
     private void Awake()
     {
         characterStats = GetComponent<PlayerCharacterStats>();
         playerController = GetComponent<PlayerController>();
-
 
         for (int i = 0; i < 6; i++)
         {
@@ -114,9 +128,26 @@ public class PlayerInput : MonoBehaviour
 
         playerInputActions = new PlayerInputActions();
         currentDirection = 0;
+
+        //遊戲狀態事件監聽註冊
+        GameManager.Instance.onNormalGameStateChanged += OnGameStateChanged;
+        GameManager.Instance.onBattleGameStateChanged += OnGameStateChanged;
+        GameManager.Instance.onPasueGameStateChanged += OnGameStateChanged;
+        GameManager.Instance.onGameOverGameStateChanged += OnGameStateChanged;
+
+        //玩家行為事件監聽註冊
+        GameManager.Instance.onNonePlayerBehaviourStateChanged += OnPlayerBehaviourStateChanged;
+        GameManager.Instance.onInteractivePlayerBehaviourStateChanged += OnPlayerBehaviourStateChanged;
+        GameManager.Instance.onTalkingPlayerBehaviourStateChanged += OnPlayerBehaviourStateChanged;
+        GameManager.Instance.onInCutScenePlayerBehaviourStateChanged += OnPlayerBehaviourStateChanged;
+
+
     }
     private void Start()
     {
+        //HP歸0事件監聽
+        characterStats.hpZeroEvent += HpZeroEvent;
+
         GetDefaultInputDevice();
     }
     private void Update()
@@ -178,5 +209,23 @@ public class PlayerInput : MonoBehaviour
         {
             return currentDirection;
         }
+    }
+    private void HpZeroEvent()
+    {
+        isEnable = false;
+    }
+    /// <summary>
+    /// 在特定遊戲狀態下啟用
+    /// </summary>
+    private void OnGameStateChanged(GameState newGameState)
+    {
+        isEnable = newGameState == GameState.Normal || newGameState == GameState.Battle;
+    }
+    /// <summary>
+    /// 在特定玩家行為狀態下啟用
+    /// </summary>
+    private void OnPlayerBehaviourStateChanged(PlayerBehaviourState playerBehaviourState)
+    {
+        isEnable = playerBehaviourState == PlayerBehaviourState.None;
     }
 }

@@ -14,11 +14,12 @@ public class Lia_NormalProjectile : MonoBehaviour
     private Collider2D collider2d;
 
     public float speed;
+    public float speedMultiplier;
     private float tempSpeed;
     public float projectileAngle = 90;
-    private Vector3 targetPosition;
+    //private Vector3 targetPosition;
     private Vector3 direction;
-    private Rigidbody2D rb;
+    private Rigidbody2D rb2D;
 
     public List<GameObject> projectileTypes;
 
@@ -43,6 +44,8 @@ public class Lia_NormalProjectile : MonoBehaviour
         GameManager.Instance.onBattleGameStateChanged -= OnGameStateChanged;
         GameManager.Instance.onPasueGameStateChanged -= OnGameStateChanged;
         GameManager.Instance.onGameOverGameStateChanged -= OnGameStateChanged;
+
+        StopAllCoroutines();
     }
     private void OnDestroy()
     {
@@ -54,7 +57,7 @@ public class Lia_NormalProjectile : MonoBehaviour
 
     private void Awake()
     {
-        rb = GetComponent<Rigidbody2D>();
+        rb2D = GetComponent<Rigidbody2D>();
         collider2d = GetComponent<Collider2D>();
 
     }
@@ -63,10 +66,14 @@ public class Lia_NormalProjectile : MonoBehaviour
         StartCoroutine(Recycle());
         tempSpeed = speed;
     }
-    private void Update()
+    //private void Update()
+    //{
+    //    // 將子彈往目標位置移動
+    //    rb.velocity = direction * speed * Time.deltaTime;
+    //}
+    private void FixedUpdate()
     {
-        // 將子彈往目標位置移動
-        rb.velocity = direction * speed * Time.deltaTime;
+        rb2D.velocity = direction * speed * speedMultiplier;
     }
     /// <summary>
     /// 設定子彈方向與旋轉角度
@@ -82,6 +89,9 @@ public class Lia_NormalProjectile : MonoBehaviour
         // 將旋轉角度應用到子彈
         transform.rotation = Quaternion.AngleAxis(angle, Vector3.forward);
     }
+    /// <summary>
+    /// 獲得角色數值
+    /// </summary>
     public void GetCharacterStats(PlayerCharacterStats characterStats,PlayerEffectSpawner playerEffectSpawner)
     {
         this.characterStats = characterStats;

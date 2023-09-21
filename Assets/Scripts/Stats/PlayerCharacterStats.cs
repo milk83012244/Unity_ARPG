@@ -29,6 +29,8 @@ public class PlayerCharacterStats : MonoBehaviour
     public Action<float> stunValueIsMaxAction;
     public Action USkillValueIsMaxAction;
 
+    [HideInInspector] public UnityAction hpZeroEvent; //當前角色HP歸0事件
+
     Coroutine StunValueCountCor;
 
     #region 從ChatacterDataSO讀取值
@@ -58,6 +60,11 @@ public class PlayerCharacterStats : MonoBehaviour
         set
         {
             characterData[currentCharacterID].currentHealth = value;
+
+            if (characterData[currentCharacterID].currentHealth <= 0)
+            {
+                hpZeroEvent?.Invoke();
+            }
         }
     }
     public float BaseDefence
@@ -153,6 +160,11 @@ public class PlayerCharacterStats : MonoBehaviour
     private void OnEnable()
     {
         stunValueChangedAction += StartStunCount;
+
+        for (int i = 0; i < characterData.Count; i++) //重置硬直值
+        {
+            characterData[i].currentStunValue = 0;
+        }
     }
     private void OnDestroy()
     {

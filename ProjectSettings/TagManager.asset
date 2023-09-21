@@ -68,11 +68,11 @@ TagManager:
   - name: BattleEffect1
     uniqueID: 2646219023
     locked: 0
-  - name: UIFront
-    uniqueID: 4094093033
-    locked: 0
   - name: EnvironmentFront
     uniqueID: 3338489831
+    locked: 0
+  - name: UIFront
+    uniqueID: 4094093033
     locked: 0
   - name: BulidingFront
     uniqueID: 290507509

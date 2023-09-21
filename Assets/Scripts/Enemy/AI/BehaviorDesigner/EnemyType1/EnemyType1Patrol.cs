@@ -24,7 +24,7 @@ namespace Sx.EnemyAI
                 state = TaskStatus.Failure;
                 return state;
             }
-            if (selfStats.CurrnetHealth <= 0|| enemyUnitType1.isAttackState)
+            if (selfStats.CurrnetHealth <= 0)
             {
                 StopAIPath();
                 state = TaskStatus.Failure;

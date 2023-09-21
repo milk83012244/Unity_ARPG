@@ -18,7 +18,7 @@ public class PlayerInteract : MonoBehaviour
             if (interactable != null)
             {
                 //與可互動對象互動 未來擴充:可以依照互動類型來做分別
-                interactable.Interact(transform,true);
+                interactable.Interact(transform);
             }
         }
     }

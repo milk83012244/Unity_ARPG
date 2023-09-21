@@ -23,6 +23,7 @@ public enum AttackType
 {
     Melee = 0,
     RangedAttack,
+    Special,
 }
 /// <summary>
 /// 當前戰鬥角色

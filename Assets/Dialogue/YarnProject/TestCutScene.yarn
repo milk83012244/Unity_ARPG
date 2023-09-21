@@ -2,8 +2,8 @@
 title: TestCutScene
 position: -63,-92
 ---
-Lia:試玩者你好!這是作品Demo測試!
-Lia:主要展示這個作品的遊戲內容與功能
+Lia:這是Demo開場!
+Lia:使用Timeline展示對話過場
 Niru:遊戲中的對話系統是使用YarnSpinner插件製作
 ///史萊姆出現
 
@@ -17,7 +17,9 @@ Niru:遊戲中的對話系統是使用YarnSpinner插件製作
 title: TestCutScene2
 ---
 Mo:有怪物出現了...
-Mo:正好可以介紹戰鬥系統
+Mo:正好可以演示戰鬥模式
+<<set_animation Mo Mo_SR_BattleIdle>>
+Mo:開始吧
 ///CutScene結束
 ///切換至戰鬥模式
 ===

@@ -19,9 +19,11 @@ public class Enemy : SerializedMonoBehaviour, IDamageable
     public float minFovRange; //最小索敵範圍
     public float attackRange; //攻擊範圍
 
-    //生成傷害文字物件池已交給敵人生成器
+    public int typeID;//敵人類型(同一個type有多種類型的情況使用 預設0)
 
-    [SerializeField] private SpriteRenderer[] markSprites; //被賦予的印記圖片
+  //生成傷害文字物件池已交給敵人生成器
+
+  [SerializeField] private SpriteRenderer[] markSprites; //被賦予的印記圖片
     [SerializeField] private GameObject noticeIcon; //驚嘆號物件
     protected Coroutine noticeIconRiseUpCor; //驚嘆號物件協程容器
     public float noticeIconUpScale;
@@ -176,11 +178,11 @@ public class Enemy : SerializedMonoBehaviour, IDamageable
     {
         Destroy(this.gameObject, 1f);
     }
-    private void OnDrawGizmos()
-    {
-        Gizmos.color = UnityEngine.Color.yellow;
-        Gizmos.DrawWireSphere(transform.position, maxFovRange);
-    }
+    //private void OnDrawGizmos()
+    //{
+    //    Gizmos.color = UnityEngine.Color.yellow;
+    //    Gizmos.DrawWireSphere(transform.position, maxFovRange);
+    //}
 
     public virtual void DamageEffect()
     {
