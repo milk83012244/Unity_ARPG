@@ -146,6 +146,8 @@ public class PlayerCharacterSwitch : SerializedMonoBehaviour, IDataPersistence
 
         currentControlCharacter.Clear();
         currentControlCharacter.Add(characterName, characterDic[characterName]);
+
+        characterStats.SetCurrentCharacterID(characterName);
         //currentControlCharacter[characterName].SetActive(true);
         characterDic[characterName].SetActive(true);
 
@@ -155,7 +157,6 @@ public class PlayerCharacterSwitch : SerializedMonoBehaviour, IDataPersistence
         characterSwitchButtons.SetCurrnetUseCharacter(characterName);
 
         currentSkillManager = characterDic[characterName].GetComponent<PlayerSkillManager>();
-        characterStats.SetCurrentCharacterID(characterName);
         characterStats.ResetData();
         controller.SetCharacterStats(characterStats);
 
@@ -216,9 +217,9 @@ public class PlayerCharacterSwitch : SerializedMonoBehaviour, IDataPersistence
             }
         }
         characterStats.currentCharacterID = 0;
-
+        controller.SetCharacterStats(characterStats);
         //角色切換時啟動訂閱的事件
-        //onCharacterSwitch?.Invoke(currentControlCharacterNamesSB.ToString());
+        onCharacterSwitch?.Invoke(currentControlCharacterNamesSB.ToString());
         //回一般模式啟動訂閱的事件
         onBattleToNormalMode?.Invoke(currentControlCharacterNamesSB.ToString());
         characterSwitchButtons.SetCurrnetUseCharacter("");
@@ -244,10 +245,11 @@ public class PlayerCharacterSwitch : SerializedMonoBehaviour, IDataPersistence
 
         currentControlCharacter.Clear();
         currentControlCharacter.Add(characterName, characterDic[characterName]);
+
+        characterStats.SetCurrentCharacterID(characterName);
         //currentControlCharacter[characterNames[1]].SetActive(true);
         characterDic[characterName].SetActive(true);
         currentSkillManager = characterDic[characterName].GetComponent<PlayerSkillManager>();
-        characterStats.SetCurrentCharacterID(characterName);
         characterStats.InitData();
         controller.SetCharacterStats(characterStats);
 

@@ -48,9 +48,9 @@ public class MoNormalAttack : MonoBehaviour
             if (defander != null)
             {
                 Enemy enemyUnit = defander.GetComponent<Enemy>();
-                EnemyUnitType1 enemyUnitType1 = new EnemyUnitType1();
-                EnemyUnitType2 enemyUnitType2 = new EnemyUnitType2();
-                EnemyBoss1Unit enemyBoss1Unit = new EnemyBoss1Unit();
+                EnemyUnitType1 enemyUnitType1;
+                EnemyUnitType2 enemyUnitType2;
+                EnemyBoss1Unit enemyBoss1Unit;
 
                 if (PlayerState_Attack3.isAttack3)
                 {
@@ -180,12 +180,16 @@ public class MoNormalAttack : MonoBehaviour
                 switch (enemyUnit.typeID)
                 {
                     case 1:
+                        enemyUnitType1 = enemyUnit as EnemyUnitType1;
+
                         if (PlayerState_Attack3.isAttack3)
                             enemyUnitType1.StartKnockback(knockbackDirection, knockbackValue *= 1.2f);
                         else
                             enemyUnitType1.StartKnockback(knockbackDirection, knockbackValue);
                         break;
                     case 2:
+                        enemyUnitType2 = enemyUnit as EnemyUnitType2;
+
                         if (PlayerState_Attack3.isAttack3)
                             enemyUnitType2.StartKnockback(knockbackDirection, knockbackValue *= 1.2f);
                         else

@@ -125,7 +125,7 @@ MonoBehaviour:
   minDamage: 5
   maxDamage: 10
   attackSpeed: 0
-  stunValue: 0
+  stunValue: 3
   knockbackValue: 0.7
   USkillAddValue: 0
   skill1Multplier: 2

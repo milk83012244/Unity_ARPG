@@ -396,6 +396,7 @@ public class EnemyUnitType1 : Enemy
     private IEnumerator Dead()
     {
         currentState = EnemyCurrentState.Dead;
+        enemySpawner.enemies.Remove(this.gameObject);
         stats.enabled = false;
         selfcollider2D.enabled = false;
         StopAllCoroutines();

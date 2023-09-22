@@ -15,13 +15,13 @@ public class MainCharacterIcon : SerializedMonoBehaviour
 
     private void OnEnable()
     {
-        playerCharacterSwitch.onCharacterSwitch += SetSCharacterIcon;
+        playerCharacterSwitch.onCharacterSwitch += SetCharacterIcon;
     }
     private void OnDisable()
     {
-        playerCharacterSwitch.onCharacterSwitch -= SetSCharacterIcon;
+        playerCharacterSwitch.onCharacterSwitch -= SetCharacterIcon;
     }
-    public void SetSCharacterIcon(string characterName)
+    public void SetCharacterIcon(string characterName)
     {
         characterIconSlot.sprite = characterIconImages[characterName];
     }

@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class EnemySpawner : MonoBehaviour
 {
-    [HideInInspector] public List<GameObject> enemies = new List<GameObject>();
+    public List<GameObject> enemies = new List<GameObject>();
 
     public List<Transform> spawnPoints = new List<Transform>();
     public List<GameObject> WayPointsType = new List<GameObject>();
@@ -28,7 +28,7 @@ public class EnemySpawner : MonoBehaviour
     public void SpawnEnemyType1(GameObject enemyPrefab,int pointIndex)
     {
         GameObject enemysInstance = Instantiate(enemyPrefab, spawnPoints[pointIndex]);
-        enemies.Add(enemysInstance);
+
 
         //³]©w¨µÅÞÂI
         EnemyUnitType1 enemyUnitType1 = enemysInstance.GetComponent<EnemyUnitType1>();

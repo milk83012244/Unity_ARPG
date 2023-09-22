@@ -377,22 +377,22 @@ public class PlayerCharacterStats : MonoBehaviour
     public void TakeStunValue(PlayerCharacterStats attacker, OtherCharacterStats defender, bool isSkill1 = false, bool isSkill2 = false, float freeMul = 0)
     {
         float defenderStunValue = defender.CurrnetStunValue;
-        float attackStunValue;
+        float attackStunValue = attacker.attackData[currentCharacterID].stunValue;
         if (isSkill1)
         {
-            attackStunValue = attacker.attackData[currentCharacterID].stunValue *= attackData[currentCharacterID].skill1StunValueMultplier - defender.enemyBattleData.stunResistance;
+            attackStunValue *= attackData[currentCharacterID].skill1StunValueMultplier - defender.enemyBattleData.stunResistance;
         }
         else if (isSkill2)
         {
-            attackStunValue = attacker.attackData[currentCharacterID].stunValue *= attackData[currentCharacterID].skill2StunValueMultplier - defender.enemyBattleData.stunResistance;
+            attackStunValue *= attackData[currentCharacterID].skill2StunValueMultplier - defender.enemyBattleData.stunResistance;
         }
         else if (freeMul != 0)
         {
-            attackStunValue = attacker.attackData[currentCharacterID].stunValue *= freeMul - defender.enemyBattleData.stunResistance;
+            attackStunValue  *= freeMul - defender.enemyBattleData.stunResistance;
         }
         else
         {
-            attackStunValue = attacker.attackData[currentCharacterID].stunValue - defender.enemyBattleData.stunResistance;
+            attackStunValue  -= defender.enemyBattleData.stunResistance;
         }
 
         defenderStunValue += attackStunValue;

@@ -16,7 +16,8 @@ public class DemoEnemyCounter : MonoBehaviour
             {
                 Debug.Log("±Ò°ÊCutScene");
 
-                Destroy(this);
+                startCount = false;
+                Destroy(this.gameObject);
             }
         }
     }

@@ -61,6 +61,7 @@ public class Enemy : SerializedMonoBehaviour, IDamageable
     public virtual void SetEnemySpawner(EnemySpawner enemySpawner)
     {
         this.enemySpawner = enemySpawner;
+        enemySpawner.enemies.Add(this.gameObject);
     }
     /// <summary>
     /// ¥Í¦¨¶Ë®`¤å¦r
