@@ -13,7 +13,9 @@ public class CutSceneUniversalEvent : MonoBehaviour
     public UnityAction CutSceneEndEvent;
 
     public GameObject playerObj;
+    public GameObject supPlayerObj;
     public GameObject MainUICanvas;
+    public GameObject effectPoolParent;
 
     public void FollowPlayerPosition()
     {
@@ -28,6 +30,13 @@ public class CutSceneUniversalEvent : MonoBehaviour
     {
         ActiveMainUI(false);
         ActivePlayerGameObject(false);
+        for (int i = 0; i < effectPoolParent.transform.childCount; i++)
+        {
+            if (!effectPoolParent.transform.GetChild(i).gameObject.activeSelf)
+            {
+                effectPoolParent.transform.GetChild(i).gameObject.SetActive(false);
+            }
+        }
         GameManager.Instance.SetPlayerBehaviourState(PlayerBehaviourState.InCutScene);
         CutSceneStartEvent?.Invoke();
     }
@@ -53,5 +62,6 @@ public class CutSceneUniversalEvent : MonoBehaviour
     public void ActivePlayerGameObject(bool isActive)
     {
         playerObj.SetActive(isActive);
+        supPlayerObj.SetActive(isActive);
     }
 }

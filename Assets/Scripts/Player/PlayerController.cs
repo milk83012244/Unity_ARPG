@@ -6,7 +6,7 @@ using UnityEngine.InputSystem;
 /// <summary>
 /// 玩家控制器 負責玩家的移動控制
 /// </summary>
-public class PlayerController : MonoBehaviour
+public class PlayerController : MonoBehaviour, IDataPersistence
 {
     #region 單例
     private PlayerController()
@@ -401,5 +401,17 @@ public class PlayerController : MonoBehaviour
     private void OnPlayerBehaviourStateChanged(PlayerBehaviourState playerBehaviourState)
     {
         isEnable = playerBehaviourState == PlayerBehaviourState.None;
+    }
+
+    public void LoadData(GameData gameData)
+    {
+        //讀取玩家位置
+        this.transform.position = gameData.playerPosition;
+    }
+
+    public void SaveData(GameData gameData)
+    {
+        //儲存玩家位置
+        gameData.playerPosition = this.transform.position;
     }
 }

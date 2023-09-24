@@ -30,7 +30,6 @@ public class GameManager : SerializedMonoBehaviour,IDataPersistence
             return instance;
         }
     }
-    public bool inMenu;
 
     public GameState CurrentGameState { get; private set; }
     public PlayerBehaviourState CurrentPlayerBehaviourState { get; private set; }
@@ -54,6 +53,9 @@ public class GameManager : SerializedMonoBehaviour,IDataPersistence
     public DateTime saveTime;
     private float playTime;
     private float loadedPlayTime;
+
+    public bool inMenu;
+    public bool isNewGame; //Demo用檢測是否是新遊戲
 
     private void Awake()
     {

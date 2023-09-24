@@ -44,6 +44,7 @@ public class EnemyBoss1Unit : Enemy
     public float windDamageInterval;
 
     public float keepRange; //進入保守狀態範圍
+    public bool isPositiveRange; //積極狀態標示
 
     //屬性2階效果作用中標示
     public Dictionary<ElementType, bool> status2ActiveDic = new Dictionary<ElementType, bool>();

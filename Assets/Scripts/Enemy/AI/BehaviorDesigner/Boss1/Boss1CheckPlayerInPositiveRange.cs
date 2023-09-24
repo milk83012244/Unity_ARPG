@@ -22,7 +22,7 @@ namespace Sx.EnemyAI
 
             if (dis < enemyBoss1Unit.minFovRange)
             {
-                isPositiveRange = true;
+                enemyBoss1Unit.isPositiveRange = true;
                 state = TaskStatus.Success; //進入積極範圍行為
                 return state;
             }

@@ -13,7 +13,7 @@ namespace Sx.EnemyAI
     public class Boss1Action : EnemyPublicAction
     {
         protected EnemyBoss1Unit enemyBoss1Unit;
-        protected bool isPositiveRange;
+
         public override void OnAwake()
         {
             player = PlayerController.GetInstance();
@@ -30,6 +30,15 @@ namespace Sx.EnemyAI
             attackType = selfStats.enemyBattleData.attackType;
 
             name = selfStats.enemyBattleData.characterName;
+        }
+
+        protected virtual void StopAIMove()
+        {
+            aIPath.canMove = false;
+        }
+        protected virtual void StartAIMove()
+        {
+            aIPath.canMove = true;
         }
     }
 }

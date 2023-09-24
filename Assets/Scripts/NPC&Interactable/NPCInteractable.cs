@@ -11,10 +11,12 @@ public class NPCInteractable : MonoBehaviour, IInteractable
     public bool canDialogue; //可對話
     public bool canInteractable; //可與玩家互動
     public bool isSavePoint; //存檔點用
+    public bool isTeleport; //傳送點用
 
     public TipTextObject tipText;
 
     [SerializeField] private SavePoint savePoint;
+    [SerializeField] private TeleportPoint teleportPoint;
     [SerializeField] private DialogueRunner dialogueRunner;
     private Animator animator;
 
@@ -52,6 +54,10 @@ public class NPCInteractable : MonoBehaviour, IInteractable
                 savePoint.OpenSaveLoadMenu();
                 GameManager.Instance.SetState(GameState.Paused);
             }
+        }
+        if (isTeleport) //是傳送點
+        {
+            teleportPoint.Teleport(PlayerController.GetInstance().transform);
         }
     }
 

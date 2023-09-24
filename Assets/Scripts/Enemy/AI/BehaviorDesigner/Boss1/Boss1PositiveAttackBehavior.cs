@@ -17,10 +17,12 @@ namespace Sx.EnemyAI
 
         float distanceToTarget;
         float stoppingDistance = 0.2f;
-        float walkDistance = 0.7f;
-        float backOffDistance = 1f;
-        float nearDistance = 1f;
-        bool isMoving;
+        float walkDistance = 0.5f; //一次移動距離
+        float backOffDistance = 0.7f;
+        float nearDistance = 0.7f;
+        bool isMovingEnd;
+
+        private Coroutine coroutine;
 
         public override void OnStart()
         {
@@ -54,14 +56,16 @@ namespace Sx.EnemyAI
             distanceToTarget = Vector2.Distance(transform.position, player.transform.position);
 
             //執行攻擊指令
-            StartAttackBehaior();
-            stateInfo = animator.GetCurrentAnimatorStateInfo(0);
-            if (facePlayer.CurrentStateTime > 0.95f) //動畫播放結束
+            if (coroutine == null)
             {
-                facePlayer.Boss1AnimationDirCheck(currentDirection, "Idle", animator);
+                coroutine = StartCoroutine(StartAttackBehaior());
+            }
+            if (isMovingEnd)
+            {
                 state = TaskStatus.Success;
                 return state;
             }
+
             if (facePlayer.CurrentStateTime > 0 && facePlayer.CurrentStateTime < 0.95f && enemyBoss1Unit.currentState == EnemyCurrentState.Stunning) //攻擊中進入硬直
             {
                 state = TaskStatus.Success;
@@ -74,9 +78,9 @@ namespace Sx.EnemyAI
         /// <summary>
         /// 初始接收的攻擊指令
         /// </summary>
-        private IEnumerable StartAttackBehaior()
+        private IEnumerator StartAttackBehaior()
         {
-            isMoving = true;
+            StopAIMove();
 
             Vector2 moveDirection;
             moveDirection = (player.transform.position - transform.position).normalized;
@@ -90,47 +94,51 @@ namespace Sx.EnemyAI
                         if (distanceToTarget > stoppingDistance)
                         {
                             body.velocity = moveDirection * enemyBoss1Unit.moveSpeed * 3;
-                        }
-                        else
-                        {
-                            body.velocity = Vector2.zero;
+                            facePlayer.Boss1AnimationDirCheck(currentDirection, "Flying", animator);
                         }
                     }
-                    yield return new WaitWhile(() => distanceToTarget < stoppingDistance);
-
-                    if (Vector3.Distance(transform.position, player.transform.position) <= enemyBoss1Unit.attackRange)
+                    while (distanceToTarget < stoppingDistance)
                     {
-                        enemyBoss1Unit.currentState = EnemyCurrentState.Attack; //執行攻擊動作
-                        currentDirection = facePlayer.DirectionCheck(transform.position, player.transform.position);
-                        facePlayer.Boss1AnimationDirCheck(currentDirection, "Attack", animator, 1);
+                        yield return null;
                     }
+                    yield return Yielders.GetWaitForSeconds(0.5f);
+                    enemyBoss1Unit.currentState = EnemyCurrentState.Attack; //執行攻擊動作
+                    currentDirection = facePlayer.DirectionCheck(transform.position, player.transform.position);
+                    facePlayer.Boss1AnimationDirCheck(currentDirection, "Attack", animator, 1);
+                    //if (Vector3.Distance(transform.position, player.transform.position) <= enemyBoss1Unit.attackRange)
+                    //{
 
+                    //}
+                    yield return Yielders.GetWaitForSeconds(1f);
                     break;
                 case EnemyBoss1Unit.Boss1AttackBehavior.WalkL:
-                    if (distanceToTarget > 0)
-                        body.velocity = Vector2.left * enemyBoss1Unit.moveSpeed;
+                    body.velocity = Vector2.left * enemyBoss1Unit.moveSpeed * 0.7f;
                     currentDirection = facePlayer.DirectionCheck(transform.position, player.transform.position);
-                    facePlayer.Boss1AnimationDirCheck(currentDirection, "Walk", animator);
+                    facePlayer.Boss1AnimationDirCheck(3, "Walk", animator);
+                    yield return Yielders.GetWaitForSeconds(0.7f);
                     break;
                 case EnemyBoss1Unit.Boss1AttackBehavior.WalkR:
-                    if (distanceToTarget > 0)
-                        body.velocity = Vector2.right * enemyBoss1Unit.moveSpeed;
-
-                    facePlayer.Boss1AnimationDirCheck(currentDirection, "Walk", animator);
+                    body.velocity = Vector2.right * enemyBoss1Unit.moveSpeed * 0.7f;
+                    currentDirection = facePlayer.DirectionCheck(transform.position, player.transform.position);
+                    facePlayer.Boss1AnimationDirCheck(1, "Walk", animator);
+                    yield return Yielders.GetWaitForSeconds(0.7f);
                     break;
                 case EnemyBoss1Unit.Boss1AttackBehavior.BackOff:
-                    if (distanceToTarget > 0)
-                        body.velocity = -moveDirection * enemyBoss1Unit.moveSpeed *2;
+                    body.velocity = -moveDirection * enemyBoss1Unit.moveSpeed * 2;
                     facePlayer.Boss1AnimationDirCheck(currentDirection, "Flying", animator);
+                    yield return Yielders.GetWaitForSeconds(0.5f);
                     break;
                 case EnemyBoss1Unit.Boss1AttackBehavior.Near:
-                    if (distanceToTarget > 0)
-                        body.velocity = moveDirection * enemyBoss1Unit.moveSpeed * 2;
+                    body.velocity = moveDirection * enemyBoss1Unit.moveSpeed * 2;
                     facePlayer.Boss1AnimationDirCheck(currentDirection, "Flying", animator);
+                    yield return Yielders.GetWaitForSeconds(0.5f);
                     break;
             }
-            isMoving = false;
+            currentDirection = facePlayer.DirectionCheck(transform.position, player.transform.position);
+            facePlayer.Boss1AnimationDirCheck(currentDirection, "Idle", animator);
+            StartAIMove();
+            isMovingEnd = true;
+            coroutine = null;
         }
     }
 }
-

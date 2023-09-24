@@ -61,6 +61,7 @@ public class SaveSlotsPanelMenu : PanelMenu
                     {
                         DataPersistenceManager.Instance.LoadChangeSelectedProfileID(saveSlot.GetProfileId());
                         DataPersistenceManager.Instance.NewGame();
+                        GameManager.Instance.isNewGame = true;
                         SaveGameAndLoadScene();
                     },
                     //«ö¤UCancel
@@ -74,6 +75,7 @@ public class SaveSlotsPanelMenu : PanelMenu
             {
                 DataPersistenceManager.Instance.LoadChangeSelectedProfileID(saveSlot.GetProfileId());
                 DataPersistenceManager.Instance.NewGame();
+                GameManager.Instance.isNewGame = true;
                 SaveGameAndLoadScene();
             }
         }

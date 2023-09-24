@@ -37,8 +37,11 @@ public class TestTemp : MonoBehaviour
     {
         stateText.text = GameManager.Instance.CurrentGameState.ToString();
     }
-    private void SwitchBattleModeDeBug()
+    public void SwitchBattleModeDeBug()
     {
+        if (GameManager.Instance.CurrentGameState == GameState.Paused)
+            return;
+
         if (GameManager.Instance.CurrentGameState == GameState.Normal)
         {
             for (int i = 1; i < partyData.currentParty.Keys.Count + 1; i++)

@@ -3,13 +3,13 @@ using System.Collections.Generic;
 using BehaviorDesigner.Runtime.Tasks;
 using UnityEngine;
 
+
 namespace Sx.EnemyAI
 {
     /// <summary>
-    /// Boss1保守範圍檢測(Boss房全範圍索敵)
-    /// 保守行為:主動近身攻擊機率下降,低機率主動靠近玩家進攻,遠程攻擊機率上升
+    /// 超過索敵範圍的距離檢測
     /// </summary>
-    public class Boss1CheckPlayerInKeepRange : Boss1Action
+    public class Boss1NormalMoveFOVCheck : Boss1Action
     {
         public override TaskStatus OnUpdate()
         {
@@ -20,18 +20,20 @@ namespace Sx.EnemyAI
             }
 
             float dis = Vector3.Distance(transform.position, player.transform.position);
+            StopAIPath();
 
-            if (dis > enemyBoss1Unit.minFovRange && dis < enemyBoss1Unit.maxFovRange)
+            if (dis > enemyBoss1Unit.maxFovRange)
             {
-                enemyBoss1Unit.isPositiveRange = false;
-                state = TaskStatus.Success; //進入保守範圍行為
+                state = TaskStatus.Success; 
                 return state;
             }
-            else
+            else if (dis < enemyBoss1Unit.maxFovRange)
             {
                 state = TaskStatus.Failure;
                 return state;
             }
+            state = TaskStatus.Running;
+            return state;
         }
     }
 }

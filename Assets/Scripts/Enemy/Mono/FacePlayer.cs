@@ -154,7 +154,7 @@ public class FacePlayer : MonoBehaviour
                 case 2:
                 case 3:
                 case 4:
-                    animator.Play(selfName + "F_Flying");
+                    animator.Play(selfName + "_F_Flying");
                     break;
             }
         }

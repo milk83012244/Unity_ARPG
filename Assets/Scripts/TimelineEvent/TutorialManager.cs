@@ -3,59 +3,90 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Playables;
 using UnityEngine.UI;
+using UnityEngine.InputSystem;
 
 public class TutorialManager : MonoBehaviour
 {
     public GameObject TutorialUI;
+    public GameObject TutorialUI2;
     public Button switchModeBtn; 
     public Button[] tutorial1UnableButtons; //禁用同場景上的按鈕
     public PlayableDirector tutorialDirector;
 
-    private bool switchModeBtnClicked;
+    Mouse mouse = Mouse.current;
 
-    private void OnEnable()
-    {
-        for (int i = 0; i < tutorial1UnableButtons.Length; i++)
-        {
-            tutorial1UnableButtons[i].interactable = false;
-        }
-    }
+    private bool switchModeBtnClicked;
+    private bool isTutorial2;
+
     private void Start()
     {
         switchModeBtnClicked = false;
-        switchModeBtn.onClick.AddListener(StartSwitchModeBtnClickedCor);
+        isTutorial2 = false;
+
+        if (switchModeBtnClicked ==false)
+        {
+            switchModeBtn.onClick.AddListener(StartSwitchModeBtnClickedCor);
+        }
+    }
+    private void OnDisable()
+    {
+        switchModeBtn.onClick.RemoveListener(StartSwitchModeBtnClickedCor);
+    }
+    private void Update()
+    {
+        if (mouse.leftButton.wasPressedThisFrame && isTutorial2)
+        {
+            TutorialUI2.SetActive(false);
+
+            for (int i = 0; i < tutorial1UnableButtons.Length; i++)
+            {
+                tutorial1UnableButtons[i].interactable = true;
+            }
+
+            tutorialDirector.Stop();
+            isTutorial2 = false;
+            Time.timeScale = 1;
+        }
     }
     public void StartTutorialTimeline()
     {
-        tutorialDirector.playableGraph.GetRootPlayable(0).Play();
+        tutorialDirector.Play();
     }
 
     public void StartSwitchModeTutorial1()
     {
         TutorialUI.SetActive(true);
-        GameManager.Instance.SetState(GameState.Paused);
-        tutorialDirector.playableGraph.GetRootPlayable(0).Pause();
+
+        for (int i = 0; i < tutorial1UnableButtons.Length; i++)
+        {
+            tutorial1UnableButtons[i].interactable = false;
+        }
+
+        tutorialDirector.Pause();
+        Time.timeScale = 0;
     }
     public void StartSwitchModeBtnClickedCor()
     {
         StartCoroutine(SwitchModeBtnClicked());
     }
+
     private IEnumerator SwitchModeBtnClicked()
     {
         switchModeBtnClicked = true;
-        //解除暫停
-
-        switchModeBtn.interactable = false;
-        yield return Yielders.GetWaitForSeconds(1f);
-
-        //進到下一個指示
-        for (int i = 0; i < tutorial1UnableButtons.Length; i++)
-        {
-            tutorial1UnableButtons[i].interactable = true;
-        }
+        tutorialDirector.playableGraph.GetRootPlayable(0).Play();
+        Time.timeScale = 1;
+        TutorialUI.SetActive(false);
+        //switchModeBtn.interactable = false;
+        yield return Yielders.GetWaitForSeconds(0.5f);
 
         switchModeBtnClicked = false;
         Debug.Log("到下一個提示");
-        tutorialDirector.playableGraph.GetRootPlayable(0).Play();
+        StartSwitchModeTutorial2();
+    }
+    public void StartSwitchModeTutorial2()
+    {
+        isTutorial2 = true;
+        TutorialUI2.SetActive(true);
+        Time.timeScale = 0;
     }
 }

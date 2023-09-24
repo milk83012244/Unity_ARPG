@@ -8,7 +8,7 @@ namespace Sx.EnemyAI
     /// <summary>
     /// 計算行動的機率傳到攻擊行為
     /// </summary>
-    public class Boss1AttackBehaviorRandom : Boss1Action
+    public class Boss1PositiveRandom : Boss1Action
     {
         int randomValue = 0;
 
@@ -18,7 +18,7 @@ namespace Sx.EnemyAI
         }
         public override TaskStatus OnUpdate()
         {
-            if (isPositiveRange) //積極行為
+            if (enemyBoss1Unit.isPositiveRange) //積極行為
             {
                 if (randomValue > 24) //攻擊
                 {
@@ -40,6 +40,8 @@ namespace Sx.EnemyAI
                 {
                     enemyBoss1Unit.SetAttackBehavior(EnemyBoss1Unit.Boss1AttackBehavior.BackOff);
                 }
+                state = TaskStatus.Success;
+                return state;
             }
             else //保守行為
             {
@@ -56,7 +58,7 @@ namespace Sx.EnemyAI
 
                 }
             }
-            state = TaskStatus.Success;
+            state = TaskStatus.Running;
             return state;
         }
         private int SetRandom()

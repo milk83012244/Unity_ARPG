@@ -46,6 +46,13 @@ public class YarnCharacter : MonoBehaviour
         if (!isOnEnableActive)
             YarnCharacterBubbleView.instance.RegisterYarnCharacter(this);
     }
+    private void OnDisable()
+    {
+        if (YarnCharacterBubbleView.instance != null)
+        {
+            YarnCharacterBubbleView.instance.ForgetYarnCharacter(this);
+        }
+    }
     void OnDestroy()
     {
         if (YarnCharacterBubbleView.instance != null)

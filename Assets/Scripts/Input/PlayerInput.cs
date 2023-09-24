@@ -81,6 +81,31 @@ public class PlayerInput : MonoBehaviour
     {
         playerInputActions.Gameplay.ReadyFunctionKey.performed += ctx => FunctionKeyActive();
         playerInputActions.Gameplay.ReadyFunctionKey.canceled += ctx => FunctionKeyDeactive();
+
+        for (int i = 0; i < 6; i++)
+        {
+            canDodge.Add(true);
+        }
+        for (int i = 0; i < 6; i++)
+        {
+            canSkill1.Add(true);
+        }
+        for (int i = 0; i < 6; i++)
+        {
+            canSkill2.Add(true);
+        }
+        for (int i = 0; i < 6; i++)
+        {
+            canUSkill.Add(true);
+        }
+        for (int i = 0; i < 3; i++)
+        {
+            canCharacterSwitch.Add(true);
+        }
+        for (int i = 0; i < 4; i++)
+        {
+            canSwitchFunctionkey.Add(true);
+        }
     }
     private void OnDestroy()
     {

@@ -51,7 +51,7 @@ public class LiaSkill2RotateEffect : MonoBehaviour
             case ElementType.Wind:
                 for (int i = 0; i < windRotateObjects.Length; i++)
                 {
-                    iceRotateObjects[i].SetActive(false);
+                    windRotateObjects[i].SetActive(false);
                 }
                 break;
             case ElementType.Thunder:

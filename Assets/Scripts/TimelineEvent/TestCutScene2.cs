@@ -4,10 +4,7 @@ using UnityEngine;
 using Yarn.Unity;
 using UnityEngine.Playables;
 
-/// <summary>
-/// 測試過場對話用
-/// </summary>
-public class TestCutScene1 : MonoBehaviour
+public class TestCutScene2 : MonoBehaviour
 {
     [SerializeField] private DialogueRunner dialogueRunner;
 
