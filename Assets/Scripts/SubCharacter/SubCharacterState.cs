@@ -13,6 +13,8 @@ public class SubCharacterState : ScriptableObject, IState
     protected float currentSpeedy;
 
     protected PlayerInput playerInput;
+    protected PlayerCharacterStats characterStats;
+    protected PlayerCharacterSwitch characterSwitch;
     protected Animator animator;
     protected SubCharacterController subCharacterController;
     protected SubCharacterStateMachine stateMachine;
@@ -32,13 +34,24 @@ public class SubCharacterState : ScriptableObject, IState
     /// </summary>
     protected float CurrentStateTime => animator.GetCurrentAnimatorStateInfo(0).normalizedTime;
 
-    public void Initialize(PlayerInput playerInput,SubCharacterController subCharacterController, Animator animator, SubCharacterStateMachine stateMachine , SubCharacterSwitch subCharacterSwitch)
+    private void OnDestroy()
+    {
+        this.characterStats.hpZeroEvent -= PartnerHPZeroEvent;
+        this.characterSwitch.DownSwitchEnd -= DownEventEnd;
+    }
+    public void Initialize(PlayerInput playerInput,PlayerCharacterStats characterStats,PlayerCharacterSwitch characterSwitch,SubCharacterController subCharacterController, Animator animator, SubCharacterStateMachine stateMachine , SubCharacterSwitch subCharacterSwitch)
     {
         this.playerInput = playerInput;
+        this.characterStats = characterStats;
+        this.characterSwitch = characterSwitch;
         this.subCharacterController = subCharacterController;
         this.animator = animator;
         this.stateMachine = stateMachine;
         this.subCharacterSwitch = subCharacterSwitch;
+
+        this.characterStats.hpZeroEvent += PartnerHPZeroEvent;
+        this.characterSwitch.DownSwitchEnd += DownEventEnd;
+        this.characterSwitch.SwitchGameOverEvent += GameOverEvent;
     }
     /// <summary>
     /// 切換角色同時切換Animator
@@ -54,7 +67,7 @@ public class SubCharacterState : ScriptableObject, IState
 
     public virtual void Exit()
     {
-        
+
     }
 
     public virtual void LogicUpdate()
@@ -65,5 +78,20 @@ public class SubCharacterState : ScriptableObject, IState
     public virtual void PhysicUpdate()
     {
         
+    }
+    /// <summary>
+    /// 戰鬥模式我方角色HP歸零事件
+    /// </summary>
+    public void PartnerHPZeroEvent()
+    {
+        stateMachine.SwitchState(typeof(SubCharacterState_PartnerDown));
+    }
+    public void DownEventEnd()
+    {
+        stateMachine.SwitchState(typeof(SubCharacterState_Idle));
+    }
+    public void GameOverEvent()
+    {
+        stateMachine.SwitchState(typeof(SubCharacterState_Down));
     }
 }

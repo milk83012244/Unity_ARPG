@@ -33,7 +33,7 @@ public class TipTextObject : MonoBehaviour
         tipText.text = str;
         backCover.enabled = true;
         tipText.enabled = true;
-        backCover.DOFade(1f, 0.3f);
+        backCover.DOFade(0.5f, 0.3f);
         tipText.DOFade(1f, 0.5f);
         yield return Yielders.GetWaitForSeconds(2f);
         backCover.DOFade(0f, 1f);

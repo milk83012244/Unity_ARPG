@@ -93,8 +93,17 @@ public class LiaSkill2_RotateEffectDamage : MonoBehaviour
             if (damageable != null)
             {
                 Enemy enemyUnit = damageable as Enemy;
+                EnemyUnitType1 enemyUnitType1;
+                EnemyUnitType2 enemyUnitType2;
+                EnemyBoss1Unit enemyBoss1Unit;
+
+                if (enemyUnit == null)
+                {
+                    yield break;
+                }
                 OtherCharacterStats defander = enemyUnit.GetComponent<OtherCharacterStats>();
 
+                #region 可傷害敵人共通
                 liaSkill2RotateEffect.characterStats.TakeDamage(liaSkill2RotateEffect.characterStats, defander, liaSkill2RotateEffect.element);
                 currentDamage = liaSkill2RotateEffect.characterStats.currentDamage;
                 enemyUnit.SpawnDamageText(currentDamage, liaSkill2RotateEffect.element);
@@ -111,11 +120,32 @@ public class LiaSkill2_RotateEffectDamage : MonoBehaviour
 
                     enemyUnit.ClearMark();
                 }
-                //EnemyUnitType1 enemyUnitType1 = enemyUnit as EnemyUnitType1;
-                ////觸發敵人受擊狀態
-                //enemyUnitType1.isAttackState = true;
-                ////敵人閃爍效果
-                //enemyUnitType1.StartFlash();
+                #endregion
+
+                switch (enemyUnit.typeID)
+                {
+                    case 1:
+                         enemyUnitType1 = enemyUnit as EnemyUnitType1;
+                        //觸發敵人受擊狀態
+                        enemyUnitType1.DamageByPlayer();
+                        //敵人閃爍效果
+                        enemyUnitType1.StartFlash();
+                        break;
+                    case 2:
+                        enemyUnitType2 = enemyUnit as EnemyUnitType2;
+                        //觸發敵人受擊狀態
+                        enemyUnitType2.DamageByPlayer();
+                        //敵人閃爍效果
+                        enemyUnitType2.StartFlash();
+                        break;
+                    case 1001:
+                        enemyBoss1Unit = enemyUnit as EnemyBoss1Unit;
+                        //觸發敵人受擊狀態
+                        enemyBoss1Unit.DamageByPlayer();
+                        //敵人閃爍效果
+                        // enemyBoss1Unit.StartFlash();
+                         break;
+                }
             }
             yield return Yielders.GetWaitForSeconds(damageInterval);
         }

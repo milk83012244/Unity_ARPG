@@ -19,6 +19,13 @@ public enum PlayerBehaviourState //玩家行為邏輯狀態
     Talking,
     InCutScene,
 }
+public enum BattleFieldState //戰鬥區域類型
+{
+    None,
+    NormalBattle,
+    BossBattle,
+    EventBattle,
+}
 public class GameManager : SerializedMonoBehaviour,IDataPersistence
 {
     // 定義GameManager的實例，以便在其他腳本中訪問它
@@ -33,11 +40,14 @@ public class GameManager : SerializedMonoBehaviour,IDataPersistence
 
     public GameState CurrentGameState { get; private set; }
     public PlayerBehaviourState CurrentPlayerBehaviourState { get; private set; }
+    public BattleFieldState CurrentBattleFieldState { get; private set; }
 
     //遊戲狀態切換委派
     public delegate void GameStateHander(GameState newGameState);
     //玩家狀態切換委派
     public delegate void PlayerBehaviourStateHander(PlayerBehaviourState newGameState);
+    //場地狀態切換委派
+    public delegate void BattleFieldStateHander(BattleFieldState newGameState);
 
     //遊戲狀態切換事件監聽
     public event GameStateHander onNormalGameStateChanged;
@@ -49,6 +59,11 @@ public class GameManager : SerializedMonoBehaviour,IDataPersistence
     public event PlayerBehaviourStateHander onInteractivePlayerBehaviourStateChanged;
     public event PlayerBehaviourStateHander onTalkingPlayerBehaviourStateChanged;
     public event PlayerBehaviourStateHander onInCutScenePlayerBehaviourStateChanged;
+    //戰鬥場地狀態切換事件監聽
+    public event BattleFieldStateHander onNoneFieldStateChanged;
+    public event BattleFieldStateHander onNormalBattleFieldStateChanged;
+    public event BattleFieldStateHander onBossBattleFieldStateChanged;
+    public event BattleFieldStateHander onEventFieldStateChanged;
 
     public DateTime saveTime;
     private float playTime;
@@ -80,7 +95,6 @@ public class GameManager : SerializedMonoBehaviour,IDataPersistence
     private void Start()
     {
         StartCoroutine(TrackPlayTime());
-
     }
 
     public void LoadData(GameData gameData)
@@ -146,6 +160,24 @@ public class GameManager : SerializedMonoBehaviour,IDataPersistence
                 break;
         }
     }
+    public void SetBattleFieldState(BattleFieldState battleFieldState)
+    {
+        switch (battleFieldState)
+        {
+            case BattleFieldState.None:
+                onNoneFieldStateChanged?.Invoke(battleFieldState);
+                break;
+            case BattleFieldState.NormalBattle:
+                onNormalBattleFieldStateChanged?.Invoke(battleFieldState);
+                break;
+            case BattleFieldState.BossBattle:
+                onBossBattleFieldStateChanged?.Invoke(battleFieldState);
+                break;
+            case BattleFieldState.EventBattle:
+                onEventFieldStateChanged?.Invoke(battleFieldState);
+                break;
+        }
+    }
     public int GetCurrentState()
     {
         return (int)CurrentGameState;
@@ -153,6 +185,10 @@ public class GameManager : SerializedMonoBehaviour,IDataPersistence
     public PlayerBehaviourState GetCurrentPlayerBehaviourState()
     {
         return CurrentPlayerBehaviourState;
+    }
+    public BattleFieldState GetBattleFieldState()
+    {
+        return CurrentBattleFieldState;
     }
     /// <summary>
     /// 獲得當前控制角色號碼

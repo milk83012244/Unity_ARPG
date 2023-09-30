@@ -55,6 +55,10 @@ public class PlayerState : SerializedScriptableObject, IState
         //stateHash = Animator.StringToHash(stateName);
     }
 
+    private void OnDestroy()
+    {
+        this.characterStats.hpZeroEvent -= HPZeroState;
+    }
     public void Initialize(PlayerController player,PlayerCharacterSwitch playerCharacterSwitch, Animator animator,PlayerStateMachine stateMachine , PlayerInput input,PlayerCooldownController playerCooldownController, PlayerEffectSpawner playerEffectSpawner, PlayerCharacterStats characterStats)
     {
         this.player = player;
@@ -65,6 +69,8 @@ public class PlayerState : SerializedScriptableObject, IState
         this.playerCooldownController = playerCooldownController;
         this.playerEffectSpawner = playerEffectSpawner;
         this.characterStats = characterStats;
+
+        this.characterStats.hpZeroEvent += HPZeroState;
     }
     /// <summary>
     /// ¤Á´«¨¤¦â¦P®É¤Á´«Animator
@@ -82,15 +88,12 @@ public class PlayerState : SerializedScriptableObject, IState
 
     public virtual void Exit()
     {
-
+   
     }
 
     public virtual void LogicUpdate()
     {
-        if (characterStats.CurrnetHealth <= 0)
-        {
-            HPZeroState();
-        }
+
     }
 
     public virtual void PhysicUpdate()

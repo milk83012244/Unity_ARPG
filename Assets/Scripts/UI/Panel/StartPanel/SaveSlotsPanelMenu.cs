@@ -3,9 +3,11 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
+using TMPro;
 
 public class SaveSlotsPanelMenu : PanelMenu
 {
+    public TextMeshProUGUI title;
     [Header("Menu Navigation")]
     public StartPanelMenu startPanelMenu;
 
@@ -147,6 +149,11 @@ public class SaveSlotsPanelMenu : PanelMenu
     /// </summary>
     public void ActivateMenu(bool isLoadingGame, bool isSavingGame = false)
     {
+        if (isLoadingGame)
+            title.text = "Load";
+        else
+            title.text = "Save";
+
         this.gameObject.SetActive(true);
 
         this.isSavingGame = isSavingGame;

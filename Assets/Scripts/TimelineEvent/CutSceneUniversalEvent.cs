@@ -26,6 +26,11 @@ public class CutSceneUniversalEvent : MonoBehaviour
         playerObj.transform.position = gameObject.transform.position;
     }
 
+    public void SetPlayerInCutScenePlayerExist()
+    {
+        GameManager.Instance.SetPlayerBehaviourState(PlayerBehaviourState.InCutScene);
+        CutSceneStartEvent?.Invoke();
+    }
     public void SetPlayerBehaviourStateInCutScene()
     {
         ActiveMainUI(false);
@@ -54,6 +59,14 @@ public class CutSceneUniversalEvent : MonoBehaviour
         {
             GameManager.Instance.SetState((GameState)gameState);
         }
+    }
+    public void GameObjectSetActiveTure(GameObject gameObject)
+    {
+        gameObject.SetActive(true);
+    }
+    public void GameObjectSetActiveFalse(GameObject gameObject)
+    {
+        gameObject.SetActive(false);
     }
     public void ActiveMainUI(bool isActive)
     {

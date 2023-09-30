@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Sirenix.OdinInspector;
 using Sirenix.Utilities;
+using UnityEngine.Events;
 
 /// <summary>
 /// 玩家控制角色切換
@@ -26,8 +27,11 @@ public class PlayerCharacterSwitch : SerializedMonoBehaviour, IDataPersistence
     public int currentUseCharacterID;
 
     public CharacterSwitchButtons characterSwitchButtons;
+    public GameOverPanel gameOverPanel;
+    public TipTextObject tipTextObject;
 
     private PlayerInput input;
+    private PlayerState playerState;
     private PlayerController controller;
     private PlayerStateMachine stateMachine;
     private PlayerCharacterStats characterStats;
@@ -44,11 +48,19 @@ public class PlayerCharacterSwitch : SerializedMonoBehaviour, IDataPersistence
     public event PlayerSwitchHander onCharacterSwitch;
     public event PlayerSwitchHander onAwake;
 
+    [HideInInspector]public UnityAction DownSwitchEnd;
+    [HideInInspector] public UnityAction SwitchGameOverEvent;
+
     /// <summary>
     /// 當前控制角色
     /// </summary>
     private Dictionary<string, GameObject> currentControlCharacter = new Dictionary<string, GameObject>();
 
+    private void OnDestroy()
+    {
+        GameManager.Instance.onGameOverGameStateChanged -= OnGameOver;
+        characterStats.hpZeroEvent -= StartNormalModeHPZeroCor;
+    }
     private void Awake()
     {
         input = GetComponent<PlayerInput>();
@@ -60,6 +72,11 @@ public class PlayerCharacterSwitch : SerializedMonoBehaviour, IDataPersistence
         playerCollider2D = GetComponent<BoxCollider2D>();
 
         StartSetCharacter("Niru");
+    }
+    private void Start()
+    {
+        GameManager.Instance.onGameOverGameStateChanged += OnGameOver;
+        characterStats.hpZeroEvent += StartNormalModeHPZeroCor;
     }
     private void Update()
     {
@@ -123,12 +140,14 @@ public class PlayerCharacterSwitch : SerializedMonoBehaviour, IDataPersistence
     {
         if (!characterSwitchButtons.canSwitch)
         {
+            tipTextObject.startShowTextCor("當前無法切換角色");
             Debug.Log("當前無法切換角色");
             return;
         }
 
         if (number > partyData.currentParty.Count)
         {
+            tipTextObject.startShowTextCor("隊伍編號" + number + "沒有角色");
             Debug.Log("隊伍編號" + number + "沒有角色");
             return;
         }
@@ -137,6 +156,20 @@ public class PlayerCharacterSwitch : SerializedMonoBehaviour, IDataPersistence
             Debug.Log("欄位" + number + "沒有角色");
             return;
         }
+        //檢查要更換的角色HP是否為0
+        for (int j = 1; j < characterStats.characterData.Count; j++)
+        {
+            if (characterStats.characterData[j].characterName == partyData.currentParty[number])
+            {
+                if (characterStats.characterData[j].currentHealth <= 0)
+                {
+                    tipTextObject.startShowTextCor("欄位" + number + "角色HP為0無法戰鬥");
+                    Debug.Log("欄位" + number + "角色HP為0無法戰鬥");
+                    return;
+                }
+            }
+        }
+
         string characterName = partyData.currentParty[(int)battleCurrentCharacterNumber];
 
         characterDic[characterName].SetActive(false);
@@ -182,7 +215,7 @@ public class PlayerCharacterSwitch : SerializedMonoBehaviour, IDataPersistence
     }
 
     /// <summary>
-    /// 非戰鬥模式切換回主角
+    /// 從戰鬥模式切換回主角
     /// </summary>
     public void SwitchMainCharacterInNormal()
     {
@@ -234,13 +267,39 @@ public class PlayerCharacterSwitch : SerializedMonoBehaviour, IDataPersistence
     }
 
     /// <summary>
-    /// 戰鬥模式切換到戰鬥角色
+    /// 一般模式切換到戰鬥模式切換戰鬥角色
     /// </summary>
     public void BattleModeStartSwitchCharacter()
     {
         characterDic["Niru"].SetActive(false);//之後可以改成一般模式當前使用角色
 
-        battleCurrentCharacterNumber = BattleCurrentCharacterNumber.First;
+        //battleCurrentCharacterNumber = BattleCurrentCharacterNumber.First; //從第一個角色開始切換
+
+        //遍歷目前隊伍列表(找到隊伍角色名)
+        for (int i = 1; i < partyData.currentParty.Keys.Count + 1; i++)
+        {
+            if (!partyData.currentParty[i].IsNullOrWhitespace())
+            {
+                //檢查要更換的角色HP是否為0
+                for (int j = 1; j < characterStats.characterData.Count; j++)
+                {
+                    if (characterStats.characterData[j].characterName == partyData.currentParty[i])
+                    {
+                        if (characterStats.characterData[j].currentHealth <= 0)
+                        {
+                            continue;
+                        }
+                        else
+                        {
+                            battleCurrentCharacterNumber = (BattleCurrentCharacterNumber)i;
+                            break;
+                        }
+                    }
+                }
+                break;
+            }
+        }
+
         string characterName = partyData.currentParty[(int)battleCurrentCharacterNumber];
 
         currentControlCharacter.Clear();
@@ -308,32 +367,67 @@ public class PlayerCharacterSwitch : SerializedMonoBehaviour, IDataPersistence
             return null;
         }
     }
-    public void HpZeroEvent()
+    public void StartNormalModeHPZeroCor()
+    {
+        StartCoroutine(NormalModeHPZero());
+    }
+    private IEnumerator NormalModeHPZero()
     {
         if (GameManager.Instance.CurrentGameState == GameState.Normal) //一般模式只能控制主角
         {
+            yield return Yielders.GetWaitForSeconds(1f);
+            SwitchGameOverEvent?.Invoke();
             GameManager.Instance.SetState(GameState.GameOver); //直接遊戲結束
         }
-        else if(GameManager.Instance.CurrentGameState == GameState.Normal)
+    }
+    bool hasAnotherCharacter;
+    /// <summary>
+    /// 這裡控制遊戲結束GameManager狀態轉換
+    /// </summary>
+    public void DownStateEnd()
+    {
+        hasAnotherCharacter = false;
+        if(GameManager.Instance.CurrentGameState == GameState.Battle)
         {
             //檢查隊伍還有沒有角色剩餘HP足夠可以更換 有則更換
-            if (true)
+            //遍歷目前隊伍列表(找到隊伍角色名)
+            for (int i = 1; i < partyData.currentParty.Keys.Count + 1; i++)
             {
-                //遍歷隊伍列表
-                //檢查對應角色HP是否足夠
-                //有則更換
-                //沒有也進入遊戲結束
+                if (!partyData.currentParty[i].IsNullOrWhitespace())
+                {
+                    //檢查對應角色HP是否足夠(從0開始找,用名字來查找角色狀態SO)
+                    for (int j = 1; j < characterStats.characterData.Count; j++)
+                    {
+                        if (characterStats.characterData[j].characterName == partyData.currentParty[i])
+                        {
+                            hasAnotherCharacter = true;
+                            if (characterStats.characterData[j].currentHealth > 0)
+                            {
+                                //有則更換
+                                SwitchCharacterInBattle(i);
+                                DownSwitchEnd?.Invoke();
+                                return;
+                            }
+                        }
+                    }
+                }
             }
-            else  //沒有則進入遊戲結束狀態
+            if (!hasAnotherCharacter) //沒有角色可更換 遊戲結束
             {
-                GameManager.Instance.SetState(GameState.GameOver);
+                GameManager.Instance.SetState(GameState.GameOver); //遊戲結束
             }
-
         }
     }
     private void SetCharacterColliderSize()
     {
         this.playerCollider2D.size = characterColliderSize[currentControlCharacterNamesSB.ToString()];
         this.playerCollider2D.offset = characterColliderOffset[currentControlCharacterNamesSB.ToString()];
+    }
+    private void OnGameOver(GameState newGameState)
+    {
+        if (newGameState == GameState.GameOver)
+        {
+            gameOverPanel.gameObject.SetActive(true);
+        }
     }
 }

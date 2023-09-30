@@ -6,6 +6,7 @@ public class LiaAnimationEvent : MonoBehaviour
 {
     private PlayerCharacterStats characterStats;
     private PlayerEffectSpawner playerEffectSpawner;
+    private PlayerCharacterSwitch characterSwitch;
     public LiaNormalAttack normalAttack;
     public LiaSkill1Spawner liaSkill1Spawner;
     public LiaSkill2Spawner liaSkill2Spawner;
@@ -19,6 +20,7 @@ public class LiaAnimationEvent : MonoBehaviour
     {
         characterStats = GetComponentInParent<PlayerCharacterStats>();
         playerEffectSpawner = GetComponentInParent<PlayerEffectSpawner>();
+        characterSwitch = GetComponentInParent<PlayerCharacterSwitch>();
     }
 
     public void FireBullet()
@@ -29,10 +31,19 @@ public class LiaAnimationEvent : MonoBehaviour
     {
         characterStats.SetInvincible(true);
     }
+    public void StartDownEvent()
+    {
+        characterStats.SetInvincible(true);
+    }
     public void EndDodgeMove()
     {
         characterStats.SetInvincible(false);
         DodgeSmokeSpawn();
+    }
+    public void EndDownEvent()
+    {
+        characterStats.SetInvincible(false);
+        characterSwitch.DownStateEnd();
     }
     public void DodgeSmokeSpawn()
     {
@@ -51,4 +62,6 @@ public class LiaAnimationEvent : MonoBehaviour
         liaSkill2RotateEffect.GetCharacterStats(liaSkill2Spawner.characterStats);
         liaSkill2RotateEffectPrefab.SetActive(true);
     }
+
+
 }

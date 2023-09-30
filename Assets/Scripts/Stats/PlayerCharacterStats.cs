@@ -11,6 +11,7 @@ public class PlayerCharacterStats : MonoBehaviour
 {
     private PlayerUnit playerUnit;
     public AttackButtons attackButtons;
+    public CharacterSwitchButtons switchButtons;
 
     public int currentCharacterID;
 
@@ -61,9 +62,16 @@ public class PlayerCharacterStats : MonoBehaviour
         {
             characterData[currentCharacterID].currentHealth = value;
 
-            if (characterData[currentCharacterID].currentHealth <= 0)
+            if (!characterData[currentCharacterID].isDown && characterData[currentCharacterID].currentHealth <= 0) //HPÂk¹s®É
             {
+                characterData[currentCharacterID].currentHealth = 0;
+                characterData[currentCharacterID].isDown = true;
+                switchButtons.SetCharacterHPActive(currentCharacterID, false);
                 hpZeroEvent?.Invoke();
+            }
+            else if (characterData[currentCharacterID].isDown && characterData[currentCharacterID].currentHealth > 0) //´_¬¡®É
+            {
+                switchButtons.SetCharacterHPActive(currentCharacterID, true);
             }
         }
     }

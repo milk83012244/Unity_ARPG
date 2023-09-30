@@ -11,6 +11,10 @@ namespace Sx.EnemyAI
     /// </summary>
     public class Boss1CheckPlayerInPositiveRange : Boss1Action
     {
+        public override void OnStart()
+        {
+            enemyBoss1Unit.isKeepRange = false;
+        }
         public override TaskStatus OnUpdate()
         {
             if (enemyBoss1Unit.currentState == EnemyCurrentState.Stunning || enemyBoss1Unit.currentState == EnemyCurrentState.Stop || enemyBoss1Unit.currentState == EnemyCurrentState.Dead) //無法行動狀態

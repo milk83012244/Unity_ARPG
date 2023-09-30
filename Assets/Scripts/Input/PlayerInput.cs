@@ -18,6 +18,7 @@ public class PlayerInput : MonoBehaviour
     PlayerInputActions playerInputActions;
     PlayerCharacterStats characterStats;
     PlayerController playerController;
+    PlayerCharacterSwitch characterSwitch;
 
     public int currentDirection;
     public LiaUnlockDataSO liaUnlockData;
@@ -120,11 +121,13 @@ public class PlayerInput : MonoBehaviour
         GameManager.Instance.onInCutScenePlayerBehaviourStateChanged -= OnPlayerBehaviourStateChanged;
 
         characterStats.hpZeroEvent -= HpZeroEvent;
+        characterSwitch.DownSwitchEnd -= DownSwitchEndEvent;
     }
     private void Awake()
     {
         characterStats = GetComponent<PlayerCharacterStats>();
         playerController = GetComponent<PlayerController>();
+        characterSwitch = GetComponent<PlayerCharacterSwitch>();
 
         for (int i = 0; i < 6; i++)
         {
@@ -172,6 +175,7 @@ public class PlayerInput : MonoBehaviour
     {
         //HP歸0事件監聽
         characterStats.hpZeroEvent += HpZeroEvent;
+        characterSwitch.DownSwitchEnd += DownSwitchEndEvent;
 
         GetDefaultInputDevice();
     }
@@ -238,6 +242,10 @@ public class PlayerInput : MonoBehaviour
     private void HpZeroEvent()
     {
         isEnable = false;
+    }
+    private void DownSwitchEndEvent()
+    {
+        isEnable = true;
     }
     /// <summary>
     /// 在特定遊戲狀態下啟用

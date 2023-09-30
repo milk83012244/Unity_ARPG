@@ -113,6 +113,26 @@ public class CharacterSwitchButtons : SerializedMonoBehaviour
             }
         }
     }
+    /// <summary>
+    /// 依照角色HP狀態啟用或禁用
+    /// </summary>
+    public void SetCharacterHPActive(int slot,bool isActive)
+    {
+        if (!isActive)
+        {
+            Image slotImage = characterSwitchSlots[slot].Find("CharacterIcon").GetComponent<Image>();
+            Color initialColor = slotImage.color;
+            initialColor = new Color(0.35f, 0.35f, 0.35f, 0.7f);
+            slotImage.color = initialColor;
+        }
+        else
+        {
+            Image slotImage = characterSwitchSlots[slot].Find("CharacterIcon").GetComponent<Image>();
+            Color initialColor = slotImage.color;
+            initialColor = new Color(1f, 1f, 1f, 1f);
+            slotImage.color = initialColor;
+        }
+    }
     public void SetCurrnetUseCharacter(string characterName)
     {
         currentCharacterName = characterName;
@@ -192,6 +212,7 @@ public class CharacterSwitchButtons : SerializedMonoBehaviour
                 Image slotImage = characterSwitchSlots[i].Find("CharacterIcon").GetComponent<Image>();
                 slotImage.sprite = characterSwitchSlotImages[partyData.currentParty[i]];
                 characterSwitchSlots[i].gameObject.SetActive(true);
+                //查找當前角色HP狀態 如果為倒下狀態則壓黑圖示
             }
             else
             {

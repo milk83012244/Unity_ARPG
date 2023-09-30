@@ -36,6 +36,6 @@ public class TeleportPoint : MonoBehaviour
         yield return Yielders.GetWaitForSeconds(1f);
         blackMask.SetActive(false);
 
-        GameManager.Instance.SetState(GameState.Normal);
+        //GameManager.Instance.SetState(GameState.Normal);
     }
 }

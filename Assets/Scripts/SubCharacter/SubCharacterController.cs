@@ -9,6 +9,7 @@ public class SubCharacterController : MonoBehaviour
 {
     private Rigidbody2D rig2D;
     private SpriteRenderer spriteRenderer;
+    private EnemyBoss1Unit enemyBoss1Unit;
     [SerializeField] private PlayerController playerController;
 
     [SerializeField] private float distance;
@@ -62,7 +63,7 @@ public class SubCharacterController : MonoBehaviour
         maskDistance = Vector2.Distance(this.transform.position, playerController.transform.position);
         if (this.transform.position.y > playerController.transform.position.y)
         {
-            spriteRenderer.sortingOrder = 0;
+            spriteRenderer.sortingOrder = -1;
             spriteRenderer.color = new(spriteRenderer.color.r, spriteRenderer.color.g, spriteRenderer.color.b, 1f);
         }
         else if (this.transform.position.y <= playerController.transform.position.y)

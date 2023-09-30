@@ -83,7 +83,7 @@ public class OtherCharacterStats : MonoBehaviour
                 if (!isDeadEventEnd)
                 {
                     hpZeroEvent?.Invoke();
-                    RewardManager.Instance.onEnemyDefeatedEvent?.Invoke(characterReward);
+                    RewardManager.Instance.onEnemyDefeatedEvent?.Invoke(characterReward);//觸發獎勵事件
                     isDeadEventEnd = true;
                 }
             }
@@ -234,7 +234,7 @@ public class OtherCharacterStats : MonoBehaviour
 
         currentDamage = (int)Mathf.Round(damagefloat);
 
-        Debug.Log(string.Format("<color=yellow>{0}</color>", attacker.enemyBattleData.characterName + " 使用一般攻擊對 " + defender.characterData[defender.currentCharacterID].characterName + "造成" + elementType.ToString() + "屬性的傷害: " + currentDamage));
+        Debug.Log(string.Format("<color=yellow>{0}</color>", attacker.enemyBattleData.characterName + " 攻擊對 " + defender.characterData[defender.currentCharacterID].characterName + "造成" + elementType.ToString() + "屬性的傷害: " + currentDamage));
         //Debug.Log(string.Format("<color=yellow>{0}</color>", characterData.characterName + "計算後的屬性傷害: " + currentDamage));
 
         //造成傷害

@@ -422,6 +422,10 @@ public class EnemyUnitType1 : Enemy
     {
         if (unitType1behaviorTree != null)
             unitType1behaviorTree.enabled = newGameState == GameState.Normal || newGameState == GameState.Battle;
+        if (GameManager.Instance.CurrentGameState == GameState.GameOver)
+        {
+            currentState = EnemyCurrentState.Stop;
+        }
     }
 
     private void OnDrawGizmos()

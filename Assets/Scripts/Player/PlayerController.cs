@@ -81,6 +81,7 @@ public class PlayerController : MonoBehaviour, IDataPersistence
         GameManager.Instance.onInCutScenePlayerBehaviourStateChanged -= OnPlayerBehaviourStateChanged;
 
         characterStats.hpZeroEvent -= HpZeroEvent;
+        characterSwitch.DownSwitchEnd -= DownSwitchEndEvent;
     }
     private void Awake()
     {
@@ -106,6 +107,7 @@ public class PlayerController : MonoBehaviour, IDataPersistence
     {
         //HP歸0事件監聽
         characterStats.hpZeroEvent += HpZeroEvent;
+        characterSwitch.DownSwitchEnd += DownSwitchEndEvent;
 
         SetNormalAttackCanUse(true);
         SetSkill1CanUse(true);
@@ -387,6 +389,10 @@ public class PlayerController : MonoBehaviour, IDataPersistence
     {
         isEnable = false;
     }
+    private void DownSwitchEndEvent()
+    {
+        isEnable = true;
+    }
 
     /// <summary>
     /// 在特定遊戲狀態下啟用
@@ -394,6 +400,7 @@ public class PlayerController : MonoBehaviour, IDataPersistence
     private void OnGameStateChanged(GameState newGameState)
     {
         isEnable = newGameState == GameState.Normal || newGameState == GameState.Battle;
+        rig2D.velocity = Vector2.zero;
     }
     /// <summary>
     /// 在特定玩家行為狀態下啟用
@@ -401,6 +408,7 @@ public class PlayerController : MonoBehaviour, IDataPersistence
     private void OnPlayerBehaviourStateChanged(PlayerBehaviourState playerBehaviourState)
     {
         isEnable = playerBehaviourState == PlayerBehaviourState.None;
+        rig2D.velocity = Vector2.zero;
     }
 
     public void LoadData(GameData gameData)

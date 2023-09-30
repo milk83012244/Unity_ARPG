@@ -6,18 +6,20 @@ using UnityEngine;
 namespace Sx.EnemyAI
 {
     /// <summary>
-    /// 計算行動的機率傳到攻擊行為
+    /// 計算積極行動的機率傳到攻擊行為
     /// </summary>
     public class Boss1PositiveRandom : Boss1Action
     {
         int randomValue = 0;
 
-        public override void OnStart()
-        {
-            randomValue = SetRandom();
-        }
+        //public override void OnStart()
+        //{
+        //    randomValue = SetRandom();
+        //}
         public override TaskStatus OnUpdate()
         {
+            randomValue = SetRandom();
+
             if (enemyBoss1Unit.isPositiveRange) //積極行為
             {
                 if (randomValue > 24) //攻擊
@@ -43,21 +45,7 @@ namespace Sx.EnemyAI
                 state = TaskStatus.Success;
                 return state;
             }
-            else //保守行為
-            {
-                if (randomValue > 79) //遠距攻擊
-                {
-                    //遠距攻擊
-                }
-                else if(randomValue >9 && randomValue < 80) //左右移動
-                {
-
-                }
-                else //向玩家靠近並近身攻擊
-                {
-
-                }
-            }
+           
             state = TaskStatus.Running;
             return state;
         }

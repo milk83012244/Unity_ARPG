@@ -52,6 +52,7 @@ public class MoNormalAttack : MonoBehaviour
                 EnemyUnitType2 enemyUnitType2;
                 EnemyBoss1Unit enemyBoss1Unit;
 
+                #region 可傷害敵人共通
                 if (PlayerState_Attack3.isAttack3)
                 {
                     isMarkAttack = true;
@@ -118,7 +119,6 @@ public class MoNormalAttack : MonoBehaviour
                     }
                     enemyUnit.SpawnDamageText(characterStats.currentDamage, characterStats.isCritical);
                 }
-
                 //增加必殺技集氣值
                 characterStats.CurrnetUSkillValue += characterStats.attackData[characterStats.currentCharacterID].USkillAddValue;
 
@@ -128,13 +128,14 @@ public class MoNormalAttack : MonoBehaviour
                     enemyUnit.SpawnDamageText(characterStats.currentDamage, liaSkill2RotateEffect.element, isSub: true);
                     defander.characterElementCounter.AddElementCount(liaSkill2RotateEffect.element, 1);
                 }
-                CinemachineShake.GetInstance().ShakeCamera(0.3f, 0.1f);//攝影機震動
-                                                                       //生成擊中特效
+                CinemachineShake.GetInstance().ShakeCamera(0.4f, 0.2f);//攝影機震動
+                //生成擊中特效
                 SlashHitEffect slashHitEffect = playerEffectSpawner.SlashHitEffectPool.Spawn(collision.transform.position, playerEffectSpawner.effectParent);
                 if (input.currentDirection == 3)
                 {
                     slashHitEffect.transform.localScale = new Vector3(-1, 1, 1);
                 }
+                #endregion
 
                 switch (enemyUnit.typeID)
                 {
@@ -169,7 +170,19 @@ public class MoNormalAttack : MonoBehaviour
                                 characterStats.TakeStunValue(characterStats, defander);
                         break;
                     case 1001: // boss_1
+                        enemyBoss1Unit = enemyUnit as EnemyBoss1Unit;
 
+                        //觸發敵人受擊狀態
+                        enemyBoss1Unit.DamageByPlayer();
+                        ////敵人閃爍效果
+                        //enemyBoss1Unit.StartFlash();
+                        //賦予敵人硬直值
+                        if (PlayerState_Attack3.isAttack3)
+                            if (enemyBoss1Unit.canStun)
+                                characterStats.TakeStunValue(characterStats, defander, freeMul: 1.2f);
+                            else
+                            if (enemyBoss1Unit.canStun)
+                                characterStats.TakeStunValue(characterStats, defander);
                         break;
                 }
 
@@ -194,6 +207,13 @@ public class MoNormalAttack : MonoBehaviour
                             enemyUnitType2.StartKnockback(knockbackDirection, knockbackValue *= 1.2f);
                         else
                             enemyUnitType2.StartKnockback(knockbackDirection, knockbackValue);
+                        break;
+                    case 1001: // boss_1
+                        enemyBoss1Unit = enemyUnit as EnemyBoss1Unit;
+                        if (PlayerState_Attack3.isAttack3)
+                            enemyBoss1Unit.StartKnockback(knockbackDirection, knockbackValue *= 1.2f);
+                        else
+                            enemyBoss1Unit.StartKnockback(knockbackDirection, knockbackValue);
                         break;
                 }
 

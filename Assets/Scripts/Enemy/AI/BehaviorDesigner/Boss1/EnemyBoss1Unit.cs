@@ -26,10 +26,10 @@ public class EnemyBoss1Unit : Enemy
     private OtherCharacterStats stats;
     private ElementStatusEffect elementStatusEffect;
     private Collider2D selfcollider2D;
-    private BehaviorTree unitType2behaviorTree;
+    private BehaviorTree unitBossbehaviorTree;
     private CharacterElementCounter characterElementCounter;
     public EnemyCurrentState currentState;
-    public Boss1AttackBehavior currentAttackBehavior;
+    public Boss1AttackBehavior currentAttackBehavior { get; private set; }
 
     public bool inAttackRange;
 
@@ -45,6 +45,9 @@ public class EnemyBoss1Unit : Enemy
 
     public float keepRange; //進入保守狀態範圍
     public bool isPositiveRange; //積極狀態標示
+    public bool isKeepRange;
+
+    public bool isActive; //可用遊戲狀態控制啟動狀態
 
     //屬性2階效果作用中標示
     public Dictionary<ElementType, bool> status2ActiveDic = new Dictionary<ElementType, bool>();
@@ -57,10 +60,22 @@ public class EnemyBoss1Unit : Enemy
     {
         currentState = EnemyCurrentState.Idle;
         inAttackRange = false;
+        SetEnemySpawner();
+
+        stats.stunValueIsMaxAction += StartStunned;
+
+        GameManager.Instance.onNormalGameStateChanged += OnGameStateChanged;
+        GameManager.Instance.onBattleGameStateChanged += OnGameStateChanged;
+        GameManager.Instance.onPasueGameStateChanged += OnGameStateChanged;
+        GameManager.Instance.onGameOverGameStateChanged += OnGameStateChanged;
     }
     public override void OnDisable()
     {
         StopAllCoroutines();
+        GameManager.Instance.onNormalGameStateChanged -= OnGameStateChanged;
+        GameManager.Instance.onBattleGameStateChanged -= OnGameStateChanged;
+        GameManager.Instance.onPasueGameStateChanged -= OnGameStateChanged;
+        GameManager.Instance.onGameOverGameStateChanged -= OnGameStateChanged;
     }
     public override void Awake()
     {
@@ -71,11 +86,18 @@ public class EnemyBoss1Unit : Enemy
         stats = GetComponent<OtherCharacterStats>();
         elementStatusEffect = GetComponentInChildren<ElementStatusEffect>();
         //characterElementCounter = GetComponent<CharacterElementCounter>();
-        unitType2behaviorTree = GetComponent<BehaviorTree>();
+        unitBossbehaviorTree = GetComponent<BehaviorTree>();
     }
     private void InitFlag()
     {
         canStun = true;
+    }
+    /// <summary>
+    /// 不透過生成方式獲取敵人生成器(因為要使用敵人共用物件池)
+    /// </summary>
+    public  void SetEnemySpawner()
+    {
+        this.enemySpawner = FindObjectOfType<EnemySpawner>();
     }
     #region 擊退與硬直
     /// <summary>
@@ -87,7 +109,6 @@ public class EnemyBoss1Unit : Enemy
         {
             StartCoroutine(ApplyKnockback(direction, knockbackValue));
         }
-
     }
     /// <summary>
     /// 擊退方向
@@ -139,13 +160,35 @@ public class EnemyBoss1Unit : Enemy
         //StopAllCoroutines();
 
         yield return Yielders.GetWaitForSeconds(1f);
+        //Boss擊敗事件在動畫事件觸發
         //this.gameObject.SetActive(false);
-        yield return Yielders.GetWaitForSeconds(0.5f);
+        //yield return Yielders.GetWaitForSeconds(0.5f);
         //Destroy(this.gameObject);
+    }
+    public void DamageByPlayer()
+    {
+
     }
     public void SetAttackBehavior(Boss1AttackBehavior boss1AttackBehavior)
     {
         currentAttackBehavior = boss1AttackBehavior;
+    }
+    /// <summary>
+    /// 在特定遊戲狀態下啟用
+    /// </summary>
+    private void OnGameStateChanged(GameState newGameState)
+    {
+        if (!isActive)
+        {
+            return;
+        }
+
+        if (unitBossbehaviorTree != null)
+            unitBossbehaviorTree.enabled = newGameState == GameState.Normal || newGameState == GameState.Battle;
+        if (GameManager.Instance.CurrentGameState == GameState.GameOver)
+        {
+            currentState = EnemyCurrentState.Stop;
+        }
     }
     private void OnDrawGizmos()
     {

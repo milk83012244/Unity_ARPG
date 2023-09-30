@@ -71,9 +71,9 @@ public class Enemy : SerializedMonoBehaviour, IDamageable
         Vector3 random = new Vector2(Random.Range(-0.1f, 0.1f), Random.Range(-0.3f, 0.3f));
         DamageText damageText = enemySpawner.damageTextPool.Spawn(transform.position + new Vector3(0, 0.1f) + random, enemySpawner.TextPoolParent);
         if (isSub)
-            damageText.gameObject.transform.localScale = new Vector3(1, 1, 1);
+            damageText.gameObject.transform.localScale = new Vector3(1.2f, 1.2f, 1.2f);
         else
-            damageText.gameObject.transform.localScale = new Vector3(1.5f, 1.5f, 1.5f);
+            damageText.gameObject.transform.localScale = new Vector3(1.7f, 1.7f, 1.7f);
 
         damageText.SetDamageText(takeDamage, isCritical);
     }
@@ -85,11 +85,11 @@ public class Enemy : SerializedMonoBehaviour, IDamageable
         Vector3 random = new Vector2(Random.Range(-0.1f, 0.1f), Random.Range(-0.3f, 0.3f));
         DamageText damageText = enemySpawner.damageTextPool.Spawn(transform.position + new Vector3(0, 0.1f) + random, enemySpawner.TextPoolParent);
         if (isSub)
-            damageText.gameObject.transform.localScale = new Vector3(1, 1, 1);
+            damageText.gameObject.transform.localScale = new Vector3(1.2f, 1.2f, 1.2f);
         else if(isBig)
-            damageText.gameObject.transform.localScale = new Vector3(2f, 2f, 2f);
+            damageText.gameObject.transform.localScale = new Vector3(2.2f, 2.2f, 2.2f);
         else
-            damageText.gameObject.transform.localScale = new Vector3(1.5f, 1.5f, 1.5f);
+            damageText.gameObject.transform.localScale = new Vector3(1.7f, 1.7f, 1.7f);
 
         damageText.SetDamageText(takeDamage, elementType, isCritical);
     }

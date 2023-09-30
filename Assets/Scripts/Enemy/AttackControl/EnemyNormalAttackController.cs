@@ -30,6 +30,11 @@ public class EnemyNormalAttackController : MonoBehaviour
         characterStats.isCritical = Random.value < characterStats.enemyAttackData.criticalChance; //ÃzÀ»§PÂ_
         //§ðÀ»¥Ø¼Ð
         PlayerCharacterStats playerCharacterStats = collision.GetComponent<PlayerCharacterStats>();
+
+        if (playerCharacterStats == null)
+        {
+            return;
+        }
         //characterStats.TakeDamage(characterStats, playerCharacterStats);
         if (MoCounterCheck.guardCheckActive || MoCounterCheck.isGuardHit)
         {

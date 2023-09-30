@@ -51,8 +51,13 @@ public class MoSkill1Attack : MonoBehaviour
         if (damageable != null)
         {
             OtherCharacterStats defander = collision.GetComponent<OtherCharacterStats>();
-            Enemy enemyUnit = defander.GetComponent<Enemy>();
 
+            Enemy enemyUnit = defander.GetComponent<Enemy>();
+            EnemyUnitType1 enemyUnitType1;
+            EnemyUnitType2 enemyUnitType2;
+            EnemyBoss1Unit enemyBoss1Unit;
+
+            #region 可傷害敵人共通
             if (enemyUnit.isMarked)
             {
                 enemyUnit.ClearMark();
@@ -73,7 +78,7 @@ public class MoSkill1Attack : MonoBehaviour
             {
                 characterStats.TakeMarkDamage(characterStats, defander, characterStats.isCritical);
                 enemyUnit.SpawnMarkDamageText(characterStats.currentDamage, characterStats.isCritical);
-                characterStats.TakeDamage(characterStats, defander, characterStats.isCritical, isSkill1:true);
+                characterStats.TakeDamage(characterStats, defander, characterStats.isCritical, isSkill1: true);
             }
             else
             {
@@ -81,22 +86,71 @@ public class MoSkill1Attack : MonoBehaviour
             }
             enemyUnit.SpawnDamageText(characterStats.currentDamage, characterStats.isCritical);
 
+            CinemachineShake.GetInstance().ShakeCamera(0.45f, 0.15f);//攝影機震動
+
             SlashHitEffect slashHitEffect = playerEffectSpawner.SlashHitEffectPool.Spawn(collision.transform.position, playerEffectSpawner.effectParent);
             if (playerInput.currentDirection == 3)
             {
                 slashHitEffect.transform.localScale = new Vector3(-1, 1, 1);
             }
-            EnemyUnitType1 enemyUnitType1 = enemyUnit as EnemyUnitType1;
-            //觸發敵人受擊狀態
-            enemyUnitType1.DamageByPlayer();
-            //敵人閃爍效果
-            enemyUnitType1.StartFlash();
-            //造成敵人硬直
-            characterStats.TakeStunValue(characterStats, defander, isSkill1: true);
+            #endregion
+            switch (enemyUnit.typeID)
+            {
+                case 1:
+                    enemyUnitType1 = enemyUnit as EnemyUnitType1;
+
+                    //觸發敵人受擊狀態
+                    enemyUnitType1.DamageByPlayer();
+                    //敵人閃爍效果
+                    enemyUnitType1.StartFlash();
+                    //賦予敵人硬直值
+                    if (enemyUnitType1.canStun)
+                        characterStats.TakeStunValue(characterStats, defander, isSkill1: true);
+                    break;
+                case 2:
+                    enemyUnitType2 = enemyUnit as EnemyUnitType2;
+
+                    //觸發敵人受擊狀態
+                    enemyUnitType2.DamageByPlayer();
+                    //敵人閃爍效果
+                    enemyUnitType2.StartFlash();
+                    //賦予敵人硬直值
+                    if (enemyUnitType2.canStun)
+                        characterStats.TakeStunValue(characterStats, defander, isSkill1: true);
+                    break;
+                case 1001:
+                    enemyBoss1Unit = enemyUnit as EnemyBoss1Unit;
+                    //觸發敵人受擊狀態
+                    enemyBoss1Unit.DamageByPlayer();
+                    ////敵人閃爍效果
+                    //enemyBoss1Unit.StartFlash();
+                    //賦予敵人硬直值
+                    if (enemyBoss1Unit.canStun)
+                        characterStats.TakeStunValue(characterStats, defander, isSkill1: true);
+                    break;
+            }
             //造成敵人擊退
             Vector2 knockbackDirection = (collision.transform.position - transform.position).normalized;
             float knockbackValue = characterStats.attackData[characterStats.currentCharacterID].knockbackValue;
-            enemyUnitType1.StartKnockback(knockbackDirection, knockbackValue *= characterStats.attackData[characterStats.currentCharacterID].skill1StunValueMultplier);
+
+            switch (enemyUnit.typeID)
+            {
+                case 1:
+                    enemyUnitType1 = enemyUnit as EnemyUnitType1;
+
+                    enemyUnitType1.StartKnockback(knockbackDirection, knockbackValue *= characterStats.attackData[characterStats.currentCharacterID].skill1knockbackValueMultplier);
+                    break;
+                case 2:
+                    enemyUnitType2 = enemyUnit as EnemyUnitType2;
+
+                    enemyUnitType2.StartKnockback(knockbackDirection, knockbackValue *= characterStats.attackData[characterStats.currentCharacterID].skill1StunValueMultplier);
+                    break;
+                case 1001:
+                    enemyBoss1Unit = enemyUnit as EnemyBoss1Unit;
+
+                    enemyBoss1Unit.StartKnockback(knockbackDirection, knockbackValue *= characterStats.attackData[characterStats.currentCharacterID].skill1StunValueMultplier);
+                    break;
+            }
         }
     }
 

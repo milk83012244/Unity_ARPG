@@ -12,9 +12,10 @@ public class CharacterBattleDataSO : SerializedScriptableObject
     [Header("角色資訊")]
     public string characterName = "";
     public int characterID;//角色唯一ID
-    public CharacterDamageType damageType; //受傷類型
+    public CharacterDamageType damageType; //受傷害類型
     public AttackType attackType;
     public int PlayerNormalAttackCount; //角色普攻次數
+    public bool isDown; //HP是否為0
 
     [Header("基礎能力值")]
     public int mexHealth;

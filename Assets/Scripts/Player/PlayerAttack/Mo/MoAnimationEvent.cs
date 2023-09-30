@@ -9,9 +9,15 @@ public class MoAnimationEvent : SerializedMonoBehaviour
     public MoCounterCheck counterCheck;
     public MoCounterAttack CounterAttack;
     public MoAnimationGlow animationGlow;
-    public Collider2D playerCollider;
+    private PlayerCharacterSwitch characterSwitch;
+    private PlayerCharacterStats characterStats;
     private int currentDirection;
 
+    private void Awake()
+    {
+        characterStats = GetComponentInParent<PlayerCharacterStats>();
+        characterSwitch = GetComponentInParent<PlayerCharacterSwitch>();
+    }
     #region 動畫開始事件
     public void StartIdleAnimateEvent()
     {
@@ -77,6 +83,10 @@ public class MoAnimationEvent : SerializedMonoBehaviour
                 animationGlow.SwitchGlowTex("DodgeR");
                 break;
         }
+    }
+    public void DodgeEvent2()
+    {
+        characterStats.SetInvincible(true);
     }
     public void StartAttack1AnimateEvent(string direction)
     {
@@ -154,7 +164,7 @@ public class MoAnimationEvent : SerializedMonoBehaviour
     }
     public void StartSkill2AnimateEvent(string direction)
     {
-        playerCollider.enabled = false;
+        characterStats.SetInvincible(false);
 
         switch (direction)
         {
@@ -220,6 +230,10 @@ public class MoAnimationEvent : SerializedMonoBehaviour
                 break;
         }
     }
+    public void StartDownEvent()
+    {
+        characterStats.SetInvincible(true);
+    }
     #endregion
 
     #region 動畫結束事件
@@ -229,11 +243,20 @@ public class MoAnimationEvent : SerializedMonoBehaviour
     }
     public void EndSkill2AnimateEvent()
     {
-        playerCollider.enabled = true;
+        characterStats.SetInvincible(true);
+    }
+    public void EndDodgeEvent()
+    {
+        characterStats.SetInvincible(true);
     }
     public void EndCounterAttackEvent()
     {
         counterCheck.ResetState();
+    }
+    public void EndDownEvent()
+    {
+        characterStats.SetInvincible(true);
+        characterSwitch.DownStateEnd();
     }
     #endregion
 

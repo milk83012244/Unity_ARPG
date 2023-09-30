@@ -122,10 +122,10 @@ MonoBehaviour:
   elementType: 2
   attackRange: 1
   coolDown: 1
-  minDamage: 6
-  maxDamage: 6
+  minDamage: 12
+  maxDamage: 48
   attackSpeed: 0
-  stunValue: 10
+  stunValue: 20
   knockbackValue: 0
   USkillAddValue: 0
   skill1Multplier: 0

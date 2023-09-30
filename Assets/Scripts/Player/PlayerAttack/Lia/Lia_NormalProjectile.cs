@@ -59,7 +59,6 @@ public class Lia_NormalProjectile : MonoBehaviour
     {
         rb2D = GetComponent<Rigidbody2D>();
         collider2d = GetComponent<Collider2D>();
-
     }
     private void Start()
     {
@@ -198,12 +197,26 @@ public class Lia_NormalProjectile : MonoBehaviour
     /// </summary>
     private void DealDamage(IDamageable damageable, Collider2D collision)
     {
+        if (damageable == null)
+        {
+            return;
+        }
         characterStats.isCritical = Random.value < characterStats.attackData[characterStats.currentCharacterID].criticalChance;
         if (damageable != null)
         {
             Enemy enemyUnit = damageable as Enemy;
+            EnemyUnitType1 enemyUnitType1;
+            EnemyUnitType2 enemyUnitType2;
+            EnemyBoss1Unit enemyBoss1Unit;
+
+            if (enemyUnit == null)
+            {
+                return;
+            }
+
             OtherCharacterStats defander = enemyUnit.GetComponent<OtherCharacterStats>();
 
+            #region 可傷害敵人共通
             if (fireElement)
             {
                 characterStats.TakeDamage(characterStats, defander, ElementType.Fire);
@@ -211,7 +224,7 @@ public class Lia_NormalProjectile : MonoBehaviour
             }
             else if (iceElement)
             {
-                characterStats.TakeDamage(characterStats, defander, ElementType.Ice, isCritical: characterStats.isCritical) ;
+                characterStats.TakeDamage(characterStats, defander, ElementType.Ice, isCritical: characterStats.isCritical);
                 enemyUnit.SpawnDamageText(characterStats.currentDamage, ElementType.Ice, isCritical: characterStats.isCritical);
                 defander.characterElementCounter.AddElementCount(ElementType.Ice, 1);
             }
@@ -254,17 +267,64 @@ public class Lia_NormalProjectile : MonoBehaviour
 
             playerEffectSpawner.ballHitEffectPool.Spawn(collision.transform.position, playerEffectSpawner.effectParent);
 
-            EnemyUnitType1 enemyUnitType1 = enemyUnit as EnemyUnitType1;
-            //觸發敵人受擊狀態
-            enemyUnitType1.DamageByPlayer();
-            //敵人閃爍效果
-            enemyUnitType1.StartFlash();
-            //賦予敵人硬直值
-            characterStats.TakeStunValue(characterStats, defander);
+            #endregion
+            switch (enemyUnit.typeID)
+            {
+                case 1:
+                    enemyUnitType1 = enemyUnit as EnemyUnitType1;
+                    //觸發敵人受擊狀態
+                    enemyUnitType1.DamageByPlayer();
+                    //敵人閃爍效果
+                    enemyUnitType1.StartFlash();
+                    //賦予敵人硬直值
+                    if (enemyUnitType1.canStun)
+                        characterStats.TakeStunValue(characterStats, defander);
+                    break;
+                case 2:
+                    enemyUnitType2 = enemyUnit as EnemyUnitType2;
+                    //觸發敵人受擊狀態
+                    enemyUnitType2.DamageByPlayer();
+                    //敵人閃爍效果
+                    enemyUnitType2.StartFlash();
+                    //賦予敵人硬直值
+                    if (enemyUnitType2.canStun)
+                        characterStats.TakeStunValue(characterStats, defander);
+                    break;
+                case 1001:
+                    enemyBoss1Unit = enemyUnit as EnemyBoss1Unit;
+                    //觸發敵人受擊狀態
+                    enemyBoss1Unit.DamageByPlayer();
+                    //敵人閃爍效果
+                    //enemyBoss1Unit.StartFlash();
+                    //賦予敵人硬直值
+                    if (enemyBoss1Unit.canStun)
+                        characterStats.TakeStunValue(characterStats, defander);
+                    break;
+            }
+            Vector2 knockbackDirection;
+            float knockbackValue;
             //造成敵人擊退
-            Vector2 knockbackDirection = (enemyUnitType1.transform.position - transform.position).normalized;
-            float knockbackValue = characterStats.attackData[characterStats.currentCharacterID].knockbackValue;
-            enemyUnitType1.StartKnockback(knockbackDirection, knockbackValue -= 0.5f);
+            switch (enemyUnit.typeID)
+            {
+                case 1:
+                    enemyUnitType1 = enemyUnit as EnemyUnitType1;
+                    knockbackDirection = (enemyUnitType1.transform.position - transform.position).normalized;
+                     knockbackValue = characterStats.attackData[characterStats.currentCharacterID].knockbackValue;
+                    enemyUnitType1.StartKnockback(knockbackDirection, knockbackValue -= 0.5f);
+                    break;
+                case 2:
+                    enemyUnitType2 = enemyUnit as EnemyUnitType2;
+                    knockbackDirection = (enemyUnitType2.transform.position - transform.position).normalized;
+                    knockbackValue = characterStats.attackData[characterStats.currentCharacterID].knockbackValue;
+                    enemyUnitType2.StartKnockback(knockbackDirection, knockbackValue -= 0.5f);
+                    break;
+                case 1001:
+                    enemyBoss1Unit = enemyUnit as EnemyBoss1Unit;
+                    knockbackDirection = (enemyBoss1Unit.transform.position - transform.position).normalized;
+                    knockbackValue = characterStats.attackData[characterStats.currentCharacterID].knockbackValue;
+                    enemyBoss1Unit.StartKnockback(knockbackDirection, knockbackValue -= 0.5f);
+                    break;
+            }
         }
     }
 

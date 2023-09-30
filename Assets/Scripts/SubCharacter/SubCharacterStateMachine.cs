@@ -6,12 +6,18 @@ public class SubCharacterStateMachine : StateMachine
 {
     [SerializeField] private SubCharacterState[] states;
     [SerializeField] private PlayerInput playerInput;
+    [SerializeField] private PlayerCharacterStats characterStats;
+    [SerializeField] private PlayerCharacterSwitch characterSwitch;
 
     SubCharacterController subCharacterController;
     SubCharacterSwitch subCharacterSwitch;
 
     Animator animator;
 
+    private void OnDestroy()
+    {
+        
+    }
     private void Awake()
     {
         animator = GetComponentInChildren<Animator>();
@@ -23,7 +29,7 @@ public class SubCharacterStateMachine : StateMachine
 
         foreach (SubCharacterState state in states)
         {
-            state.Initialize(playerInput, subCharacterController, animator, this, subCharacterSwitch);
+            state.Initialize(playerInput, characterStats, characterSwitch, subCharacterController, animator, this, subCharacterSwitch);
             stateDic.Add(state.GetType(), state);
         }
     }
@@ -37,7 +43,7 @@ public class SubCharacterStateMachine : StateMachine
         stateDic.Clear();
         foreach (SubCharacterState state in states)
         {
-            state.Initialize(playerInput, subCharacterController, animator, this, subCharacterSwitch);
+            state.Initialize(playerInput, characterStats, characterSwitch,subCharacterController, animator, this, subCharacterSwitch);
             stateDic.Add(state.GetType(), state);
         }
     }

@@ -17,7 +17,7 @@ public class BallHitEffect : MonoBehaviour
     }
     public IEnumerator Recycle() //自己回收
     {
-        yield return Yielders.GetWaitForSeconds(1f);
+        yield return Yielders.GetWaitForSeconds(2f);
         BallHitEffectObjects[0].SetActive(false);
         ObjectPool<BallHitEffect>.Instance.Recycle(this);
     }

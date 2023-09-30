@@ -11,23 +11,19 @@ public class PlayerState_Damage : PlayerState
         base.Enter();
         isDamage = true;
 
-        switch (playerCharacterSwitch.currentControlCharacterNamesSB.ToString())
+        if (input.currentDirection == 1)
         {
-            case "Mo":
-                if (input.currentDirection == 1)
-                {
-                    animator.Play(playerCharacterSwitch.currentControlCharacterNamesSB.ToString() + "_SL_Damage");
-                }
-                else if (input.currentDirection == 3)
-                {
-                    animator.Play(playerCharacterSwitch.currentControlCharacterNamesSB.ToString() + "_SR_Damage");
-                }
-                else
-                {
-                    animator.Play(playerCharacterSwitch.currentControlCharacterNamesSB.ToString() + "_SL_Damage");
-                }
-                break;
+            animator.Play(playerCharacterSwitch.currentControlCharacterNamesSB.ToString() + "_SL_Damage");
         }
+        else if (input.currentDirection == 3)
+        {
+            animator.Play(playerCharacterSwitch.currentControlCharacterNamesSB.ToString() + "_SR_Damage");
+        }
+        else
+        {
+            animator.Play(playerCharacterSwitch.currentControlCharacterNamesSB.ToString() + "_SL_Damage");
+        }
+
         base.SwitchCharacterState(false);
     }
     public override void Exit()

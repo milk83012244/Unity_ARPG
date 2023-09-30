@@ -151,8 +151,9 @@ MonoBehaviour:
   damageType: 2
   attackType: 1
   PlayerNormalAttackCount: 2
+  isDown: 0
   mexHealth: 100
-  currentHealth: 100
+  currentHealth: 0
   baseDefence: 5
   currentDefence: 5
   currentUSkillValue: 0

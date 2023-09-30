@@ -16,8 +16,10 @@ public class MoSkill2Effect : MonoBehaviour
     {
         StartDamaging();
     }
-
-
+    private void OnDisable()
+    {
+        StopAllCoroutines();
+    }
     private void StartDamaging()
     {
         isDamaging = true;
@@ -34,23 +36,58 @@ public class MoSkill2Effect : MonoBehaviour
     {
         while (isDamaging)
         {
+            if (damageable == null)
+            {
+                yield break;
+            }
+
             moSkill2Attack.characterStats.isCritical = Random.value < moSkill2Attack.characterStats.attackData[moSkill2Attack.characterStats.currentCharacterID].criticalChance;
+ 
             if (damageable != null)
             {
                 Enemy enemyUnit = damageable as Enemy;
+                EnemyUnitType1 enemyUnitType1;
+                EnemyUnitType2 enemyUnitType2;
+                EnemyBoss1Unit enemyBoss1Unit;
+
+                if (enemyUnit ==null)
+                {
+                    yield break;
+                }
 
                 if (enemyUnit != null)
                 {
                     OtherCharacterStats defander = enemyUnit.GetComponent<OtherCharacterStats>();
 
+                    #region 可傷害敵人共通
                     moSkill2Attack.characterStats.TakeSubDamage(moSkill2Attack.characterStats, defander, moSkill2Attack.characterStats.isCritical);
                     enemyUnit.SpawnDamageText(moSkill2Attack.characterStats.currentDamage, moSkill2Attack.characterStats.isCritical, isSub: true);
+                    #endregion
 
-                    EnemyUnitType1 enemyUnitType1 = enemyUnit as EnemyUnitType1;
-                    //觸發敵人受擊狀態
-                    enemyUnitType1.DamageByPlayer();
-                    //敵人閃爍效果
-                    enemyUnitType1.StartFlash();
+                    switch (enemyUnit.typeID)
+                    {
+                        case 1:
+                            enemyUnitType1 = enemyUnit as EnemyUnitType1;
+                            //觸發敵人受擊狀態
+                            enemyUnitType1.DamageByPlayer();
+                            //敵人閃爍效果
+                            enemyUnitType1.StartFlash();
+                            break;
+                        case 2:
+                            enemyUnitType2 = enemyUnit as EnemyUnitType2;
+                            //觸發敵人受擊狀態
+                            enemyUnitType2.DamageByPlayer();
+                            //敵人閃爍效果
+                            enemyUnitType2.StartFlash();
+                            break;
+                        case 1001:
+                            enemyBoss1Unit = enemyUnit as EnemyBoss1Unit;
+                            //觸發敵人受擊狀態
+                            enemyBoss1Unit.DamageByPlayer();
+                            //敵人閃爍效果
+                            //enemyBoss1Unit.StartFlash();
+                            break;
+                    }
                 }
             }
 
@@ -95,4 +132,5 @@ public class MoSkill2Effect : MonoBehaviour
             }
         }
     }
+
 }
