@@ -47,6 +47,10 @@ public class PlayerState_Run : PlayerState
 
     public override void LogicUpdate()
     {
+        InPause();
+
+        DamageState();
+
         if (!input.MoveX && !input.MoveY)
         {
             stateMachine.SwitchState(typeof(PlayerState_Idle));

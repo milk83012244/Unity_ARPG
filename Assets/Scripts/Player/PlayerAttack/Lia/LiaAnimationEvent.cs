@@ -11,6 +11,7 @@ public class LiaAnimationEvent : MonoBehaviour
     public LiaSkill1Spawner liaSkill1Spawner;
     public LiaSkill2Spawner liaSkill2Spawner;
     public LiaSkill2RotateEffect liaSkill2RotateEffect;
+    public Collider2D playerCollider2D;
 
     public GameObject liaSkill2RotateEffectPrefab;
 
@@ -29,6 +30,7 @@ public class LiaAnimationEvent : MonoBehaviour
     }
     public void StartDodgeMove()
     {
+        playerCollider2D.enabled = false;
         characterStats.SetInvincible(true);
     }
     public void StartDownEvent()
@@ -37,6 +39,7 @@ public class LiaAnimationEvent : MonoBehaviour
     }
     public void EndDodgeMove()
     {
+        playerCollider2D.enabled = true;
         characterStats.SetInvincible(false);
         DodgeSmokeSpawn();
     }

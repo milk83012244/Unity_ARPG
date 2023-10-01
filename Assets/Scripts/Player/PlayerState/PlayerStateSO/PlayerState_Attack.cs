@@ -82,6 +82,8 @@ public class PlayerState_Attack : PlayerState
         player.SetVelocityY(currentSpeedy);
         player.SetVelocityXY(0, 0);
 
+        DamageState();
+
         if (CurrentStateTime >= 0.7f)
         {
             base.SwitchCharacterState(true);

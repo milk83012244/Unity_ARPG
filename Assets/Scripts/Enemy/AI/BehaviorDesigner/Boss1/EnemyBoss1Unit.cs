@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using BehaviorDesigner.Runtime;
+using Pathfinding;
 
 public class EnemyBoss1Unit : Enemy
 {
@@ -25,11 +26,12 @@ public class EnemyBoss1Unit : Enemy
     private Rigidbody2D rig2D;
     private OtherCharacterStats stats;
     private ElementStatusEffect elementStatusEffect;
-    private Collider2D selfcollider2D;
+    public Collider2D selfcollider2D;
     private BehaviorTree unitBossbehaviorTree;
     private CharacterElementCounter characterElementCounter;
+    private AIPath aIPath;
     public EnemyCurrentState currentState;
-    public Boss1AttackBehavior currentAttackBehavior { get; private set; }
+    public Boss1AttackBehavior currentAttackBehavior; /*{ get; private set; }*/
 
     public bool inAttackRange;
 
@@ -48,6 +50,7 @@ public class EnemyBoss1Unit : Enemy
     public bool isKeepRange;
 
     public bool isActive; //可用遊戲狀態控制啟動狀態
+    public bool isDown;//擊倒狀態
 
     //屬性2階效果作用中標示
     public Dictionary<ElementType, bool> status2ActiveDic = new Dictionary<ElementType, bool>();
@@ -82,9 +85,10 @@ public class EnemyBoss1Unit : Enemy
         InitFlag();
         currentState = EnemyCurrentState.Idle;
         rig2D = GetComponent<Rigidbody2D>();
-        selfcollider2D = GetComponent<CircleCollider2D>();
+        //selfcollider2D = GetComponent<CircleCollider2D>();
         stats = GetComponent<OtherCharacterStats>();
         elementStatusEffect = GetComponentInChildren<ElementStatusEffect>();
+        aIPath = GetComponent<AIPath>();
         //characterElementCounter = GetComponent<CharacterElementCounter>();
         unitBossbehaviorTree = GetComponent<BehaviorTree>();
     }
@@ -155,15 +159,17 @@ public class EnemyBoss1Unit : Enemy
     private IEnumerator Dead()
     {
         currentState = EnemyCurrentState.Dead;
+        isDown = true;
         stats.enabled = false;
         selfcollider2D.enabled = false;
         //StopAllCoroutines();
 
-        yield return Yielders.GetWaitForSeconds(1f);
+        yield return Yielders.GetWaitForSeconds(3f);
         //Boss擊敗事件在動畫事件觸發
         //this.gameObject.SetActive(false);
         //yield return Yielders.GetWaitForSeconds(0.5f);
         //Destroy(this.gameObject);
+        GameManager.Instance.SetState(GameState.GameOver); //遊戲結束
     }
     public void DamageByPlayer()
     {
@@ -184,7 +190,18 @@ public class EnemyBoss1Unit : Enemy
         }
 
         if (unitBossbehaviorTree != null)
-            unitBossbehaviorTree.enabled = newGameState == GameState.Normal || newGameState == GameState.Battle;
+        {
+            if (newGameState == GameState.Normal || newGameState == GameState.Battle)
+            {
+                unitBossbehaviorTree.enabled = true;
+                aIPath.canMove = true;
+            }
+            else if (newGameState == GameState.Paused || newGameState == GameState.GameOver)
+            {
+                unitBossbehaviorTree.enabled = false;
+                aIPath.canMove = false;
+            }
+        }
         if (GameManager.Instance.CurrentGameState == GameState.GameOver)
         {
             currentState = EnemyCurrentState.Stop;

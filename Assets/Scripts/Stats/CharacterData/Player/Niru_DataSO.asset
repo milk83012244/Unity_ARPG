@@ -161,8 +161,8 @@ MonoBehaviour:
   maxStunValue: 100
   currentStunValue: 0
   stunResistance: 0
-  stunRecovorTime: 0
-  stunCooldownTime: 0
+  stunRecovorTime: 1
+  stunCooldownTime: 2
   stunValueTime: 0
   currentLevel: 1
   maxLevel: 20

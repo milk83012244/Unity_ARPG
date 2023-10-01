@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 2922039994247908141}
   - component: {fileID: 6213370494572058004}
   - component: {fileID: 4850266986751434631}
+  - component: {fileID: 4671202799530292247}
   m_Layer: 0
   m_Name: Flower_Purple
   m_TagString: Untagged
@@ -105,3 +106,16 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!114 &4671202799530292247
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6522652173925682918}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 09e3f95ea517f1345879efba3b672a34, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  checkDistance: 0.15

@@ -11,7 +11,7 @@ namespace Sx.EnemyAI
     public class Boss1NormalMove : Boss1Action
     {
         private Transform targetPosition; //初始位置
-        private float moveDistance = 0.5f; //一次移動距離
+        private float moveDistance = 1f; //一次移動距離
         private float distanceMoved = 0f; //當前移動距離
         private Vector2 startPosition;
         private Vector2 lastPosition;

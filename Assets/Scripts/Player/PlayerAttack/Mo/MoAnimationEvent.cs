@@ -9,6 +9,7 @@ public class MoAnimationEvent : SerializedMonoBehaviour
     public MoCounterCheck counterCheck;
     public MoCounterAttack CounterAttack;
     public MoAnimationGlow animationGlow;
+    public Collider2D playerCollider2D;
     private PlayerCharacterSwitch characterSwitch;
     private PlayerCharacterStats characterStats;
     private int currentDirection;
@@ -87,6 +88,7 @@ public class MoAnimationEvent : SerializedMonoBehaviour
     public void DodgeEvent2()
     {
         characterStats.SetInvincible(true);
+        playerCollider2D.enabled = false;
     }
     public void StartAttack1AnimateEvent(string direction)
     {
@@ -164,7 +166,8 @@ public class MoAnimationEvent : SerializedMonoBehaviour
     }
     public void StartSkill2AnimateEvent(string direction)
     {
-        characterStats.SetInvincible(false);
+        playerCollider2D.enabled = false;
+        characterStats.SetInvincible(true);
 
         switch (direction)
         {
@@ -243,11 +246,13 @@ public class MoAnimationEvent : SerializedMonoBehaviour
     }
     public void EndSkill2AnimateEvent()
     {
-        characterStats.SetInvincible(true);
+        characterStats.SetInvincible(false);
+        playerCollider2D.enabled = true;
     }
     public void EndDodgeEvent()
     {
-        characterStats.SetInvincible(true);
+        characterStats.SetInvincible(false);
+        playerCollider2D.enabled = true;
     }
     public void EndCounterAttackEvent()
     {
@@ -255,7 +260,7 @@ public class MoAnimationEvent : SerializedMonoBehaviour
     }
     public void EndDownEvent()
     {
-        characterStats.SetInvincible(true);
+        characterStats.SetInvincible(false);
         characterSwitch.DownStateEnd();
     }
     #endregion

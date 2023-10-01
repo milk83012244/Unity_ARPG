@@ -6,6 +6,12 @@ using UnityEngine.Playables;
 public class DemoBossRoomTrigger : MonoBehaviour
 {
     public PlayableDirector playableBehaviour;
+    public EnemyBoss1Unit boss1Unit;
+
+    public void ActiveBoss1()
+    {
+        boss1Unit.isActive = true;
+    }
 
     private void OnTriggerEnter2D(Collider2D collision)
     {

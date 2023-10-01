@@ -29,7 +29,8 @@ RectTransform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children: []
+  m_Children:
+  - {fileID: 1504360716406495528}
   m_Father: {fileID: 1504360715414266812}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -105,7 +106,6 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1504360714826494291}
-  - {fileID: 1504360716406495528}
   - {fileID: 7043881515428922794}
   m_Father: {fileID: 23318930790936913}
   m_RootOrder: 0
@@ -145,8 +145,8 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 1504360715414266812}
-  m_RootOrder: 1
+  m_Father: {fileID: 1504360714826494291}
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -282,7 +282,7 @@ RectTransform:
   m_Children:
   - {fileID: 1403778285647770400}
   m_Father: {fileID: 1504360715414266812}
-  m_RootOrder: 2
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -340,7 +340,7 @@ GameObject:
   - component: {fileID: 1149536580921810616}
   - component: {fileID: 9032736351917550243}
   m_Layer: 0
-  m_Name: Canvas
+  m_Name: ButtonTextCanvas
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -476,6 +476,7 @@ MonoBehaviour:
   playerInteract: {fileID: 0}
   containerGameObject: {fileID: 3348464380353601305}
   tipText: {fileID: 3071643908993349019}
+  ButtonTextCanvasObject: {fileID: 3348464380353601305}
 --- !u!1 &9192443075003445010
 GameObject:
   m_ObjectHideFlags: 0

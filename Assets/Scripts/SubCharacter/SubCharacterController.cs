@@ -12,14 +12,17 @@ public class SubCharacterController : MonoBehaviour
     private EnemyBoss1Unit enemyBoss1Unit;
     [SerializeField] private PlayerController playerController;
 
-    [SerializeField] private float distance;
+    [SerializeField] private float distance; //與控制角色拉開的距離
+
+    private bool hasEnemy;
     public int currentDirection; //當前方向
     public int currentDirectionLeftRight; //當前方向(只有左右)
 
     public bool Moveing => currentDistance > distance;
 
-    public float currentDistance;
-    public float maskDistance;
+    public float checkEnemyRange;
+    [HideInInspector] public float currentDistance;
+    [HideInInspector] public float maskDistance;
 
     private void OnEnable()
     {
@@ -51,7 +54,8 @@ public class SubCharacterController : MonoBehaviour
     private void Update()
     {
         OrderLayerChange();
-        currentDistanceCheck();
+        CurrentDistanceCheck();
+        CheckEnemy();
         currentDirection = DriectionCheck();
         currentDirectionLeftRight = DriectionCheckLeftRight();
     }
@@ -84,7 +88,36 @@ public class SubCharacterController : MonoBehaviour
             }
         }
     }
-    private void currentDistanceCheck()
+
+    /// <summary>
+    /// 檢測敵人
+    /// </summary>
+    private void CheckEnemy()
+    {
+        Collider2D[] enemies = Physics2D.OverlapCircleAll(transform.position, checkEnemyRange);
+        OtherCharacterStats enemyStats;
+
+        foreach (Collider2D enemyCollider in enemies)
+        {
+            if (enemyCollider.GetComponent<IDamageable>() != null)
+            {
+                enemyStats = enemyCollider.GetComponent<OtherCharacterStats>();
+                if (enemyStats!=null)
+                {
+                    Enemy enemyUnit = enemyCollider.GetComponent<Enemy>();
+                    if (enemyUnit != null)
+                    {
+                        spriteRenderer.color = new(spriteRenderer.color.r, spriteRenderer.color.g, spriteRenderer.color.b, 0.6f);
+                    }
+                    else
+                    {
+                        spriteRenderer.color = new(spriteRenderer.color.r, spriteRenderer.color.g, spriteRenderer.color.b, 1f);
+                    }
+                }
+            }
+        }
+    }
+    private void CurrentDistanceCheck()
     {
         currentDistance = Vector2.Distance(this.transform.position, playerController.transform.position);
     }
@@ -135,9 +168,7 @@ public class SubCharacterController : MonoBehaviour
     /// </summary>
     public void Following(float speed)
     {
-        //currentDistance = Vector2.Distance(this.transform.position, playerController.transform.position);
-
-        if (currentDistance > distance)
+      if (currentDistance > distance)
         {
             this.transform.position = Vector2.MoveTowards(this.transform.position, playerController.transform.position, speed * Time.deltaTime);
         }
@@ -199,5 +230,11 @@ public class SubCharacterController : MonoBehaviour
     private void OnGameStateChanged(GameState newGameState)
     {
         enabled = newGameState == GameState.Normal || newGameState == GameState.Battle;
+    }
+
+    private void OnDrawGizmos()
+    {
+        Gizmos.color = UnityEngine.Color.yellow;
+        Gizmos.DrawWireSphere(transform.position, checkEnemyRange);
     }
 }

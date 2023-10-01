@@ -156,13 +156,13 @@ MonoBehaviour:
   currentHealth: 100
   baseDefence: 5
   currentDefence: 5
-  currentUSkillValue: 5
+  currentUSkillValue: 85
   knockbackResistance: 0
   maxStunValue: 100
   currentStunValue: 0
   stunResistance: 0
   stunRecovorTime: 1
-  stunCooldownTime: 0.5
+  stunCooldownTime: 2
   stunValueTime: 5
   currentLevel: 1
   maxLevel: 20

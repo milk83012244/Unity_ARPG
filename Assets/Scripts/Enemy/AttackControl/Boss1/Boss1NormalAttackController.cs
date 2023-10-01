@@ -57,8 +57,8 @@ public class Boss1NormalAttackController : MonoBehaviour
                 //    characterStats.TakeDamage(characterStats, defander, characterStats.isCritical);
                 //    PlayerController.GetInstance().uIDisplay.SpawnDamageText(characterStats.currentDamage, characterStats.isCritical);
                 //}
-                characterStats.TakeDamage(characterStats, playerCharacterStats, characterStats.isCritical);
-                PlayerController.GetInstance().uIDisplay.SpawnDamageText(characterStats.currentDamage, characterStats.isCritical);
+                //characterStats.TakeDamage(characterStats, playerCharacterStats, characterStats.isCritical);
+                //PlayerController.GetInstance().uIDisplay.SpawnDamageText(characterStats.currentDamage, characterStats.isCritical);
                 //½á¤©µwª½­È
                 if (playerCharacterStats.GetPlayerCanStun())
                     characterStats.TakeStunValue(characterStats, playerCharacterStats);

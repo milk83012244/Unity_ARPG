@@ -11,10 +11,12 @@ namespace Sx.EnemyAI
         {
             if (selfStats.CurrnetHealth <= 0)
             {
-                animator.Play(name + "_F_Down");
-                enemyBoss1Unit.StartDeadCor();
-
-                state = TaskStatus.Success;
+                if (!enemyBoss1Unit.isDown)
+                {
+                    animator.Play(name + "_F_Down");
+                    enemyBoss1Unit.StartDeadCor();
+                }
+                state = TaskStatus.Running;
                 return state;
             }
             else

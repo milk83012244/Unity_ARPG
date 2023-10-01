@@ -153,7 +153,7 @@ MonoBehaviour:
   PlayerNormalAttackCount: 2
   isDown: 0
   mexHealth: 100
-  currentHealth: 0
+  currentHealth: 100
   baseDefence: 5
   currentDefence: 5
   currentUSkillValue: 0
@@ -162,7 +162,7 @@ MonoBehaviour:
   currentStunValue: 0
   stunResistance: 0
   stunRecovorTime: 1
-  stunCooldownTime: 0.5
+  stunCooldownTime: 2
   stunValueTime: 5
   currentLevel: 1
   maxLevel: 20

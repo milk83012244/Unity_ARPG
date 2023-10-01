@@ -72,6 +72,8 @@ public class PlayerState_Skill2 : PlayerState
     }
     public override void LogicUpdate()
     {
+        DamageState();
+
         switch (playerCharacterSwitch.currentControlCharacterNamesSB.ToString())
         {
             case "Mo":

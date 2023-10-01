@@ -53,12 +53,12 @@ public class SavePoint : MonoBehaviour
             //按下存檔
             () =>
             {
-                OpenSaveSlot(true);
+                OpenSaveSlot(false);
             },
             //按下讀取
             () =>
             {
-                OpenSaveSlot(false);
+                OpenSaveSlot(true);
             }
             );
     }

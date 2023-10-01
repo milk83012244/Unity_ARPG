@@ -55,6 +55,9 @@ public class PlayerUnit : MonoBehaviour
     {
         StartCoroutine(Stunned(stunTime));
     }
+    /// <summary>
+    /// µw­È®ÄªG
+    /// </summary>
     private IEnumerator Stunned(float stunTime)
     {
         playerController.StartDamageState(true);

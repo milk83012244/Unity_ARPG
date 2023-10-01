@@ -13,7 +13,7 @@ namespace Sx.EnemyAI
 
         float distanceToTarget;
         float stoppingDistance = 0.4f;
-        float walkDistance = 0.2f; //一次移動距離
+        float walkDistance = 0.5f; //一次移動距離
         float nearDistance = 1f;
         float distanceMoved = 0f; //當前移動距離
         bool isMovingEnd;
@@ -22,6 +22,9 @@ namespace Sx.EnemyAI
 
         public override void OnStart()
         {
+            StartAIMove();
+            coroutine = null;
+
             initialPosition = transform.position;
             distanceMoved = 0;
 
@@ -48,7 +51,15 @@ namespace Sx.EnemyAI
                 state = TaskStatus.Failure;
                 return state;
             }
-            distanceToTarget = Vector2.Distance(transform.position, player.transform.position);
+            float dis = Vector3.Distance(transform.position, player.transform.position);
+            //if ( dis > enemyBoss1Unit.maxFovRange) //超過範圍退出
+            //{
+            //    enemyBoss1Unit.currentState = EnemyCurrentState.Idle;
+            //    state = TaskStatus.Failure;
+            //    return state;
+            //}
+
+                distanceToTarget = Vector2.Distance(transform.position, player.transform.position);
 
             //執行攻擊指令
             if (coroutine == null)
@@ -91,7 +102,7 @@ namespace Sx.EnemyAI
                         body.velocity = Vector2.left * 0.7f;
                         yield return null;
                     }
-                    yield return Yielders.GetWaitForSeconds(0.5f);
+                    yield return Yielders.GetWaitForSeconds(2f);
                     break;
                 case EnemyBoss1Unit.Boss1AttackBehavior.WalkR:
                     currentDirection = facePlayer.DirectionCheck(transform.position, player.transform.position);
@@ -104,7 +115,7 @@ namespace Sx.EnemyAI
                         body.velocity = Vector2.right * 0.7f;
                         yield return null;
                     }
-                    yield return Yielders.GetWaitForSeconds(0.5f);
+                    yield return Yielders.GetWaitForSeconds(2f);
                     break;
                 case EnemyBoss1Unit.Boss1AttackBehavior.Near:
                     body.velocity = moveDirection * enemyBoss1Unit.moveSpeed * 3.5f;
@@ -113,6 +124,7 @@ namespace Sx.EnemyAI
                     break;
             }
             body.velocity = Vector2.zero;
+            enemyBoss1Unit.currentState = EnemyCurrentState.Idle;
             currentDirection = facePlayer.DirectionCheck(transform.position, player.transform.position);
             facePlayer.Boss1AnimationDirCheck(currentDirection, "Idle", animator);
             StartAIMove();

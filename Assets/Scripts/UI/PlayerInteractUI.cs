@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
+using UnityEngine.UI;
 
 /// <summary>
 /// 玩家可交互顯示UI
@@ -15,6 +16,10 @@ public class PlayerInteractUI : MonoBehaviour
     private NPCInteractable npcInteractable;
     private string npcObjectName;
 
+    private void Start()
+    {
+
+    }
     private void Update()
     {
         if (playerInteract.GetInteractableObject()!=null && GameManager.Instance.GetCurrentPlayerBehaviourState() == PlayerBehaviourState.None)

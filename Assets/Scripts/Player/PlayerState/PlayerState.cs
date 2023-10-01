@@ -83,7 +83,6 @@ public class PlayerState : SerializedScriptableObject, IState
     {
         //animator.CrossFade(stateName, transitionDuration);
         stateStartTime = Time.time; //動畫持續時間開始計時
-
     }
 
     public virtual void Exit()
@@ -152,6 +151,15 @@ public class PlayerState : SerializedScriptableObject, IState
             stateMachine.SwitchState(typeof(PlayerState_USkill));
         }
     }
+    public virtual void DamageState()
+    {
+        if (player.isDamageing)
+        {
+            SwitchCharacterState(false);
+
+            stateMachine.SwitchState(typeof(PlayerState_Damage));
+        }
+    }
     /// <summary>
     /// 狀態進行時角色切換開關
     /// </summary>
@@ -201,6 +209,13 @@ public class PlayerState : SerializedScriptableObject, IState
         //{
         //    stateMachine.SwitchState(typeof(PlayerState_Function));
         //}
+    }
+    public virtual void InPause()
+    {
+        if (GameManager.Instance.CurrentGameState == GameState.Paused)
+        {
+            stateMachine.SwitchState(typeof(PlayerState_Idle));
+        }
     }
     /// <summary>
     /// HP為0狀態

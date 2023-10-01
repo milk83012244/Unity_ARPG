@@ -528,6 +528,8 @@ GameObject:
   - component: {fileID: 3545081107580790488}
   - component: {fileID: 3545081107580790489}
   - component: {fileID: 3545081107580790490}
+  - component: {fileID: 7817748434831258235}
+  - component: {fileID: 7840612181349654792}
   m_Layer: 5
   m_Name: SaveSlotsPanel
   m_TagString: Untagged
@@ -580,7 +582,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 0.392}
+  m_Color: {r: 0.46226418, g: 0.46226418, b: 0.46226418, a: 0.392}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -614,6 +616,38 @@ MonoBehaviour:
   startPanelMenu: {fileID: 0}
   backButton: {fileID: 3545081107859955291}
   confirmationPopupMenuPrefab: {fileID: 7313011945572398062, guid: bb7d866256c3f434480f44a6dbb699f2, type: 3}
+--- !u!225 &7817748434831258235
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3545081107580790492}
+  m_Enabled: 1
+  m_Alpha: 0
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0
+--- !u!95 &7840612181349654792
+Animator:
+  serializedVersion: 4
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3545081107580790492}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: c59b55ed987bc7b4d8b4ee5ffd534946, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!1 &3545081107859955293
 GameObject:
   m_ObjectHideFlags: 0

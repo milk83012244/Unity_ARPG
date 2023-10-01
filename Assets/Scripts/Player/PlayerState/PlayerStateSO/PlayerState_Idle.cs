@@ -17,11 +17,11 @@ public class PlayerState_Idle : PlayerState
         }
         else
         {
-            if (GameManager.Instance.GetCurrentState() == (int)GameState.Normal) //一般待機
+            if (GameManager.Instance.CurrentGameState == GameState.Normal || GameManager.Instance.CurrentGameState == GameState.Paused) //一般待機
             {
                 animator.Play(playerCharacterSwitch.currentControlCharacterNamesSB.ToString() + "_FrontIdle");
             }
-            else if (GameManager.Instance.GetCurrentState() == (int)GameState.Battle) //戰鬥待機
+            else if (GameManager.Instance.CurrentGameState == GameState.Battle) //戰鬥待機
             {
                 if (input.currentDirection == 1)
                 {
@@ -47,10 +47,7 @@ public class PlayerState_Idle : PlayerState
     }
     public override void LogicUpdate()
     {
-        if (player.isDamageing)
-        {
-            stateMachine.SwitchState(typeof(PlayerState_Damage));
-        }
+        DamageState();
 
         if (input.MoveX || input.MoveY)
         {

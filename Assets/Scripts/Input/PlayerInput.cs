@@ -39,9 +39,35 @@ public class PlayerInput : MonoBehaviour
     private ControlMode currentControlMode = ControlMode.KeyboardMouse;
 
     #region 輸入相關變數
-    public float AxisX => Axes.x;
+    public float AxisX 
+    {
+        get
+        {
+            if (isEnable)
+            {
+                return Axes.x;
+            }
+            else
+            {
+                return 0;
+            }
+        }
+    }
 
-    public float AxisY => Axes.y;
+    public float AxisY
+    {
+        get
+        {
+            if (isEnable)
+            {
+                return Axes.y;
+            }
+            else
+            {
+                return 0;
+            }
+        }
+    }
 
     Vector2 Axes => playerInputActions.Gameplay.Axes.ReadValue<Vector2>();
 

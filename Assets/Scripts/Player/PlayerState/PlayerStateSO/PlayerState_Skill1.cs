@@ -82,6 +82,8 @@ public class PlayerState_Skill1 : PlayerState
     }
     public override void LogicUpdate()
     {
+        DamageState();
+
         player.SetVelocityX(currentSpeedx);
         player.SetVelocityY(currentSpeedy);
         player.SetVelocityXY(0, 0);

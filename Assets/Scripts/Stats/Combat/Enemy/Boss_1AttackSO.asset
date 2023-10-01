@@ -123,9 +123,9 @@ MonoBehaviour:
   attackRange: 1
   coolDown: 1
   minDamage: 12
-  maxDamage: 48
+  maxDamage: 26
   attackSpeed: 0
-  stunValue: 20
+  stunValue: 40
   knockbackValue: 0
   USkillAddValue: 0
   skill1Multplier: 0

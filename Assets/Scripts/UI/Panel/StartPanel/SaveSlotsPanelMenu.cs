@@ -57,10 +57,11 @@ public class SaveSlotsPanelMenu : PanelMenu
             }
             else if (saveSlot.HasData)//創建新遊戲但是儲存槽有資料的情況
             {
-                confirmationPopupMenu.ActiveteMenu("將會讀取存檔,未保存的進度會消失,要繼續嗎?",
+                confirmationPopupMenu.ActiveteMenu("將會覆蓋此存檔,要繼續嗎?",
                     //按下Yes
                     () =>
                     {
+                        GameManager.Instance.MenuStartGame();
                         DataPersistenceManager.Instance.LoadChangeSelectedProfileID(saveSlot.GetProfileId());
                         DataPersistenceManager.Instance.NewGame();
                         GameManager.Instance.isNewGame = true;
@@ -90,7 +91,8 @@ public class SaveSlotsPanelMenu : PanelMenu
               //按下Yes
              () =>
              {
-             DataPersistenceManager.Instance.SaveChangeSelectedProfileID(saveSlot.GetProfileId());
+                 GameManager.Instance.MenuStartGame();
+                 DataPersistenceManager.Instance.SaveChangeSelectedProfileID(saveSlot.GetProfileId());
              DataPersistenceManager.Instance.SaveGame();
               },
             //按下Cancel
@@ -110,8 +112,6 @@ public class SaveSlotsPanelMenu : PanelMenu
             //Destroy(this.gameObject);
             this.gameObject.SetActive(false);
         }
-
-        GameManager.Instance.MenuStartGame();
     }
     private void SaveGameAndLoadScene()
     {
@@ -204,6 +204,10 @@ public class SaveSlotsPanelMenu : PanelMenu
         if (GameManager.Instance.CurrentGameState == GameState.InMenu)
         {
             startPanelMenu.ActivateMenu();
+        }
+        if (GameManager.Instance.CurrentGameState == GameState.Paused)
+        {
+            GameManager.Instance.SetState(GameState.Normal);
         }
 
         DeactivateMenu();

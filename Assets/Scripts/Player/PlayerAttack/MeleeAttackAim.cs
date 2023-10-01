@@ -8,13 +8,33 @@ using UnityEngine;
 public class MeleeAttackAim : MonoBehaviour
 {
     private PlayerInput playerInput;
+    private bool isEnable = true;
 
     private void Awake()
     {
         playerInput = GetComponentInParent<PlayerInput>();
     }
+    private void Start()
+    {
+        GameManager.Instance.onNormalGameStateChanged += OnGameStateChanged;
+        GameManager.Instance.onBattleGameStateChanged += OnGameStateChanged;
+        GameManager.Instance.onPasueGameStateChanged += OnGameStateChanged;
+        GameManager.Instance.onGameOverGameStateChanged += OnGameStateChanged;
+    }
+    private void OnDestroy()
+    {
+        GameManager.Instance.onNormalGameStateChanged -= OnGameStateChanged;
+        GameManager.Instance.onBattleGameStateChanged -= OnGameStateChanged;
+        GameManager.Instance.onPasueGameStateChanged -= OnGameStateChanged;
+        GameManager.Instance.onGameOverGameStateChanged -= OnGameStateChanged;
+    }
     private void Update()
     {
+        if (!isEnable)
+        {
+            return;
+        }
+
         switch (playerInput.currentDirection)
         {
             case 1: //ек
@@ -38,5 +58,9 @@ public class MeleeAttackAim : MonoBehaviour
                 this.transform.localPosition = new Vector3(0, 0.65f, this.transform.localPosition.z);
                 break;
         }
+    }
+    private void OnGameStateChanged(GameState newGameState)
+    {
+        isEnable = newGameState == GameState.Normal || newGameState == GameState.Battle;
     }
 }

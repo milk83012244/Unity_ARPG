@@ -26,7 +26,7 @@ public class TeleportPoint : MonoBehaviour
         Animator blackMaskAnimator = blackMask.GetComponent<Animator>();
         blackMaskAnimator.Play("BlackMaskFadeIn");
         blackMaskAnimator.speed = 2;
-        yield return Yielders.GetWaitForSeconds(0.7f);
+        yield return Yielders.GetWaitForSeconds(1f);
         mainCameraConfiner.m_BoundingShape2D = cameraColider;
 
         playerPos.position = destinationPos.position;

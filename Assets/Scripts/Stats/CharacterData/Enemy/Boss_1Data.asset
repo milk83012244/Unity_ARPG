@@ -136,8 +136,9 @@ MonoBehaviour:
   damageType: 4
   attackType: 2
   PlayerNormalAttackCount: 0
-  mexHealth: 2000
-  currentHealth: 2000
+  isDown: 0
+  mexHealth: 1000
+  currentHealth: 1000
   baseDefence: 0
   currentDefence: 0
   currentUSkillValue: 0
@@ -146,8 +147,8 @@ MonoBehaviour:
   currentStunValue: 0
   stunResistance: 0
   stunRecovorTime: 2
-  stunCooldownTime: 30
-  stunValueTime: 1
+  stunCooldownTime: 15
+  stunValueTime: 10
   currentLevel: 0
   maxLevel: 0
   baseExp: 0

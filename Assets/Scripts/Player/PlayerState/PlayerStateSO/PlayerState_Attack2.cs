@@ -78,6 +78,8 @@ public class PlayerState_Attack2 : PlayerState
     }
     public override void LogicUpdate()
     {
+        DamageState();
+
         if (CurrentStateTime >= 0.7f)
         {
             base.SwitchCharacterState(true);
