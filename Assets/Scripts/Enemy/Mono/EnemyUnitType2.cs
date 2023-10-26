@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using BehaviorDesigner.Runtime;
+using Pathfinding;
 
 /// <summary>
 /// 通用敵人2 負責接收狀態與觸發效果
@@ -10,6 +11,7 @@ public class EnemyUnitType2 : Enemy,ICharacterElement2Effect
 {
     private Rigidbody2D rig2D;
     private OtherCharacterStats stats;
+    private AIPath aIPath;
     private ElementStatusEffect elementStatusEffect;
     private Collider2D selfcollider2D;
     private BehaviorTree unitType2behaviorTree;
@@ -68,6 +70,7 @@ public class EnemyUnitType2 : Enemy,ICharacterElement2Effect
         elementStatusEffect = GetComponentInChildren<ElementStatusEffect>();
         //characterElementCounter = GetComponent<CharacterElementCounter>();
         unitType2behaviorTree = GetComponent<BehaviorTree>();
+        aIPath = GetComponent<AIPath>();
     }
     private void InitFlag()
     {
@@ -87,11 +90,13 @@ public class EnemyUnitType2 : Enemy,ICharacterElement2Effect
     private IEnumerator ApplyKnockback(Vector2 direction, float knockbackValue)
     {
         isKnockbackActive = true;
+        aIPath.canMove = false;
         rig2D.velocity = direction * (knockbackValue - stats.enemyBattleData.knockbackResistance);
 
         yield return Yielders.GetWaitForSeconds(knockbackDuration);
 
         rig2D.velocity = Vector2.zero;
+        aIPath.canMove = true;
         isKnockbackActive = false;
     }
     public void StartStunned(float stunTime)

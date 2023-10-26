@@ -45,9 +45,10 @@ public class PlayerCharacterSwitch : SerializedMonoBehaviour, IDataPersistence
 
     public event PlayerSwitchHander onNormalToBattleMode;
     public event PlayerSwitchHander onBattleToNormalMode;
-    public event PlayerSwitchHander onCharacterSwitch;
+    public event PlayerSwitchHander onCharacterSwitch; //切換指定角色所做的事件
     public event PlayerSwitchHander onAwake;
 
+    [HideInInspector] public UnityAction onAnyCharacterSwitch; //通用角色切換事件
     [HideInInspector]public UnityAction DownSwitchEnd;
     [HideInInspector] public UnityAction SwitchGameOverEvent;
 
@@ -77,6 +78,9 @@ public class PlayerCharacterSwitch : SerializedMonoBehaviour, IDataPersistence
     {
         GameManager.Instance.onGameOverGameStateChanged += OnGameOver;
         characterStats.hpZeroEvent += StartNormalModeHPZeroCor;
+
+        onCharacterSwitch?.Invoke(currentControlCharacterNamesSB.ToString());
+        characterSwitchButtons.SetCurrnetUseCharacter("");
     }
     private void Update()
     {
@@ -190,7 +194,7 @@ public class PlayerCharacterSwitch : SerializedMonoBehaviour, IDataPersistence
         characterSwitchButtons.SetCurrnetUseCharacter(characterName);
 
         currentSkillManager = characterDic[characterName].GetComponent<PlayerSkillManager>();
-        characterStats.ResetData();
+        characterStats.SwitchReset();
         controller.SetCharacterStats(characterStats);
 
         //獲取當前控制角色名稱
@@ -205,6 +209,7 @@ public class PlayerCharacterSwitch : SerializedMonoBehaviour, IDataPersistence
         }
         //角色切換時啟動訂閱的事件
         onCharacterSwitch?.Invoke(currentControlCharacterNamesSB.ToString());
+        onAnyCharacterSwitch?.Invoke();
 
         levelSystem.SetLevelSystemData();
 

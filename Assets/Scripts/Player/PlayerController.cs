@@ -52,6 +52,31 @@ public class PlayerController : MonoBehaviour, IDataPersistence
 
     public Vector2 targetPosition;
 
+    [HideInInspector] public bool canSlowDownSpeed = true;
+    private float slowDownRate = 1;
+    public float SlowDownRate //絯硉瞯 程0.5
+    {
+        get
+        {
+            //if (canSlowDownSpeed && SlowDownRate>=0.5f) //砆絯硉
+            //    return SlowDownRate;
+            //else if(SlowDownRate <= 0.5f)
+            //    return 0.5f;
+            //else
+                return slowDownRate;
+        }
+        set
+        {
+            if (canSlowDownSpeed && slowDownRate >= 0.5f) //砆絯硉
+                slowDownRate = value;
+            else if (slowDownRate <= 0.5f)
+                slowDownRate = 0.5f;
+            else
+                slowDownRate = 1;
+        }
+    }
+    [HideInInspector] public float accelerateRate = 1; //硉瞯
+
     //环祘非み北
     public float aimRotationSpeed = 5f;  // 非み臂锣硉
     public float aimDistance = 0.25f;
@@ -243,25 +268,25 @@ public class PlayerController : MonoBehaviour, IDataPersistence
 
         SetVelocityXY(speedx * input.AxisX, speedy * input.AxisY);
     }
-    public void SetVelocity(Vector3 velocity)
-    {
-        if (!isEnable)
-            return;
+    //public void SetVelocity(Vector3 velocity)
+    //{
+    //    if (!isEnable)
+    //        return;
 
-        rig2D.velocity = velocity;
-    }
+    //    rig2D.velocity = velocity * accelerateRate * SlowDownRate;
+    //}
     public void SetVelocityX(float velocityX)
     {
         if (!isEnable)
             return;
 
-        rig2D.velocity = new Vector3(velocityX, rig2D.velocity.y);
+        rig2D.velocity = new Vector3(velocityX, rig2D.velocity.y) * accelerateRate * SlowDownRate;
     }
     public void SetVelocityY(float velocityY)
     {
         if (!isEnable)
             return;
-        rig2D.velocity = new Vector3(rig2D.velocity.x, velocityY);
+        rig2D.velocity = new Vector3(rig2D.velocity.x, velocityY) * accelerateRate * SlowDownRate;
     }
     public void SetVelocityXY(float speedX, float speedY)
     {
@@ -269,16 +294,8 @@ public class PlayerController : MonoBehaviour, IDataPersistence
             return;
 
         float XY = Mathf.Sqrt(speedX * speedX + speedY * speedY);
-        rig2D.velocity = new Vector3(speedX * Mathf.Sqrt(0.5f), speedY * Mathf.Sqrt(0.5f));
+        rig2D.velocity = new Vector3(speedX * Mathf.Sqrt(0.5f), speedY * Mathf.Sqrt(0.5f)) * accelerateRate * SlowDownRate;
     }
-    //public void DodgeMove(Vector2 dodgeDir, float speed)
-    //{
-    //    rig2D.velocity = dodgeDir * speed * 1;
-    //}
-    //public void DodgeMoveXY(Vector2 dodgeDir, float speedX, float speedY)
-    //{
-    //    rig2D.velocity = new Vector3(speedX * Mathf.Sqrt(0.5f), speedY * Mathf.Sqrt(0.5f)) * dodgeDir;
-    //}
     public void StartDodgeMoveCor(Vector2 dodgeDir, float speed, float moveDuration)
     {
         if (!isEnable)
@@ -305,14 +322,14 @@ public class PlayerController : MonoBehaviour, IDataPersistence
     }
     private IEnumerator DodgeMove(Vector2 dodgeDir, float speed, float moveDuration)
     {
-        rig2D.velocity = dodgeDir * speed * 1;
+        rig2D.velocity = dodgeDir * speed * 1 * accelerateRate * SlowDownRate;
         yield return Yielders.GetWaitForSeconds(moveDuration);
         rig2D.velocity = dodgeDir * 0;
         DodgeMoveCor = null;
     }
     private IEnumerator DodgeMoveXY(Vector2 dodgeDir, float speedX, float speedY, float moveDuration)
     {
-        rig2D.velocity = new Vector3(speedX * Mathf.Sqrt(0.5f), speedY * Mathf.Sqrt(0.5f)) * dodgeDir;
+        rig2D.velocity = new Vector3(speedX * Mathf.Sqrt(0.5f), speedY * Mathf.Sqrt(0.5f)) * dodgeDir * accelerateRate * SlowDownRate;
         yield return Yielders.GetWaitForSeconds(moveDuration);
         rig2D.velocity = dodgeDir * 0;
         DodgeMoveCor = null;
@@ -339,16 +356,16 @@ public class PlayerController : MonoBehaviour, IDataPersistence
         }
         MoSkill2MoveCor = StartCoroutine(MoSkill2MoveXY(Dir, speedX, speedY, moveDuration));
     }
-    private IEnumerator MoSkill2Move(Vector2 Dir, float speed,float moveDuration)
+    private IEnumerator MoSkill2Move(Vector2 Dir, float speed, float moveDuration)
     {
-        rig2D.velocity = Dir * speed * 1;
+        rig2D.velocity = Dir * speed * 1 * accelerateRate * SlowDownRate;
         yield return Yielders.GetWaitForSeconds(moveDuration);
         rig2D.velocity = Dir * 0;
         MoSkill2MoveCor = null;
     }
     private IEnumerator MoSkill2MoveXY(Vector2 Dir, float speedX, float speedY, float moveDuration)
     {
-        rig2D.velocity = new Vector3(speedX * Mathf.Sqrt(0.5f), speedY * Mathf.Sqrt(0.5f)) * Dir;
+        rig2D.velocity = new Vector3(speedX * Mathf.Sqrt(0.5f), speedY * Mathf.Sqrt(0.5f)) * Dir * accelerateRate * SlowDownRate;
         yield return Yielders.GetWaitForSeconds(moveDuration);
         rig2D.velocity = Dir * 0;
         MoSkill2MoveCor = null;

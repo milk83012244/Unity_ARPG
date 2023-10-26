@@ -40,10 +40,12 @@ public class MoNormalAttack : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        characterStats.isCritical = UnityEngine.Random.value < characterStats.attackData[characterStats.currentCharacterID].criticalChance;
         IDamageable damageable = collision.GetComponent<IDamageable>();
+
         if (damageable != null)
         {
+            characterStats.isCritical = UnityEngine.Random.value < characterStats.attackData[characterStats.currentCharacterID].criticalChance;
+
             OtherCharacterStats defander = collision.GetComponent<OtherCharacterStats>();
             if (defander != null)
             {

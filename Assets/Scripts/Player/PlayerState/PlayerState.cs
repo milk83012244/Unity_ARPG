@@ -148,6 +148,11 @@ public class PlayerState : SerializedScriptableObject, IState
         }
         if (input.PressUSkill && characterStats.CurrnetUSkillValue==100)
         {
+            //啟動大招CD與動畫
+            playerCooldownController.USkillCooldownTrigger.Invoke(playerCharacterSwitch.currentControlCharacterNamesSB.ToString());
+        }
+        if (/*input.PressUSkill &&*/ /*characterStats.CurrnetUSkillValue==100*/Live2DAnimationManager.Instance.MoUSkillAnimationEnd)
+        {
             stateMachine.SwitchState(typeof(PlayerState_USkill));
         }
     }

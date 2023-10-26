@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using BehaviorDesigner.Runtime;
+using Pathfinding;
 
 /// <summary>
 /// 通用敵人1 負責接收狀態與觸發效果
@@ -9,6 +10,7 @@ using BehaviorDesigner.Runtime;
 public class EnemyUnitType1 : Enemy
 {
     private Rigidbody2D rig2D;
+    private AIPath aIPath;
     private OtherCharacterStats stats;
     private ElementStatusEffect elementStatusEffect;
     private Collider2D selfcollider2D;
@@ -19,8 +21,8 @@ public class EnemyUnitType1 : Enemy
 
     public bool isAttackState;
     //擊退效果
-    private float knockbackDuration = 0.1f;
-    private bool isKnockbackActive;
+    public float knockbackDuration = 0.1f;
+    public bool isKnockbackActive;
 
     [Header("閃爍效果區")]
     public float flashDuration = 0.2f; // 閃爍持續時間
@@ -87,6 +89,7 @@ public class EnemyUnitType1 : Enemy
         elementStatusEffect = GetComponentInChildren<ElementStatusEffect>();
         characterElementCounter = GetComponent<CharacterElementCounter>();
         unitType1behaviorTree = GetComponent<BehaviorTree>();
+        aIPath = GetComponent<AIPath>();
     }
     public override void Start()
     {
@@ -116,7 +119,8 @@ public class EnemyUnitType1 : Enemy
     /// </summary>
     public void StartKnockback(Vector2 direction, float knockbackValue)
     {
-        StartCoroutine(ApplyKnockback(direction, knockbackValue));
+        if (isKnockbackActive == false)
+            StartCoroutine(ApplyKnockback(direction, knockbackValue));
     }
     /// <summary>
     /// 擊退方向
@@ -124,11 +128,13 @@ public class EnemyUnitType1 : Enemy
     private IEnumerator ApplyKnockback(Vector2 direction, float knockbackValue)
     {
         isKnockbackActive = true;
+        aIPath.canMove = false;
         rig2D.velocity = direction * (knockbackValue - stats.enemyBattleData.knockbackResistance);
 
         yield return Yielders.GetWaitForSeconds(knockbackDuration);
 
         rig2D.velocity = Vector2.zero;
+        aIPath.canMove = true;
         isKnockbackActive = false;
     }
 

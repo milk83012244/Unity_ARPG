@@ -53,11 +53,12 @@ public class SaveSlotsPanelMenu : PanelMenu
             if (isLoadingGame)
             {
                 DataPersistenceManager.Instance.LoadChangeSelectedProfileID(saveSlot.GetProfileId());
+                GameManager.Instance.MenuStartGame();
                 SaveGameAndLoadScene();
             }
-            else if (saveSlot.HasData)//創建新遊戲但是儲存槽有資料的情況
+            else if (saveSlot.HasData)//儲存槽有資料的情況
             {
-                confirmationPopupMenu.ActiveteMenu("將會覆蓋此存檔,要繼續嗎?",
+                confirmationPopupMenu.ActiveteMenu("將會讀取此存檔,要繼續嗎?",
                     //按下Yes
                     () =>
                     {
@@ -78,6 +79,7 @@ public class SaveSlotsPanelMenu : PanelMenu
             {
                 DataPersistenceManager.Instance.LoadChangeSelectedProfileID(saveSlot.GetProfileId());
                 DataPersistenceManager.Instance.NewGame();
+                GameManager.Instance.MenuStartGame();
                 GameManager.Instance.isNewGame = true;
                 SaveGameAndLoadScene();
             }
@@ -91,7 +93,9 @@ public class SaveSlotsPanelMenu : PanelMenu
               //按下Yes
              () =>
              {
-                 GameManager.Instance.MenuStartGame();
+                 if (GameManager.Instance.inMenu)
+                     GameManager.Instance.MenuStartGame();
+
                  DataPersistenceManager.Instance.SaveChangeSelectedProfileID(saveSlot.GetProfileId());
              DataPersistenceManager.Instance.SaveGame();
               },

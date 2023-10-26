@@ -31,6 +31,12 @@ namespace Sx.EnemyAI
                 state = TaskStatus.Failure;
                 return state;
             }
+            if (enemyUnitType1.isKnockbackActive)
+            {
+                StopAIPath();
+                state = TaskStatus.Failure;
+                return state;
+            }
             //尋路插件設定追逐目標
             aiDestinationSetter.target = player.transform;
             float dis = Vector3.Distance(transform.position, player.transform.position);

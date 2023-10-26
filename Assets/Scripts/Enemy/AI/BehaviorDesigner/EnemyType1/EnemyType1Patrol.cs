@@ -30,6 +30,12 @@ namespace Sx.EnemyAI
                 state = TaskStatus.Failure;
                 return state;
             }
+            if (enemyUnitType1.isKnockbackActive)
+            {
+                StopAIPath();
+                state = TaskStatus.Failure;
+                return state;
+            }
             //AStar´¡¥ó¨µÅÞ
             if (patrolAI.reachPath) //«Ý¾÷
             {

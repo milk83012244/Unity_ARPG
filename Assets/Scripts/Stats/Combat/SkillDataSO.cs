@@ -10,7 +10,7 @@ public class SkillDataSO : ScriptableObject
 
     public int skillLevel;
     public int skillUseCount;
-    public float skillDuration;
+    public float skillDuration; //長效型技能持續時間
     public float skillCoolDown;
 
 }

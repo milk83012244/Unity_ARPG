@@ -2,6 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// Mo技能1效果 接收玩家數值並造成傷害
+/// </summary>
 public class MoSkill1Effect : MonoBehaviour
 {
     public MoSkill1Attack moSkill1Attack;

@@ -3,11 +3,12 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
+using Sirenix.OdinInspector;
 
 /// <summary>
 /// 獲取角色資料 可造成傷害(可切換角色)
 /// </summary>
-public class PlayerCharacterStats : MonoBehaviour
+public class PlayerCharacterStats : SerializedMonoBehaviour
 {
     private PlayerUnit playerUnit;
     public AttackButtons attackButtons;
@@ -20,15 +21,50 @@ public class PlayerCharacterStats : MonoBehaviour
     public List<CharacterAttackDataSO> attackData = new List<CharacterAttackDataSO>();
     public List<CharacterElementCountSO> elementCountData = new List<CharacterElementCountSO>();
 
-
     [HideInInspector] public int currentDamage;
     [HideInInspector] public bool isCritical;
+
+    [HideInInspector] public bool canDownAttack =true; //共用攻擊力倍率:傷害計算完後才加算
+    private float attackDownRate = 1;
+    public float AttackDownRate //攻擊下降倍率 最低0.5倍
+    {
+        get
+        {
+            return attackDownRate;
+        }
+        set
+        {
+            if (canDownAttack && attackDownRate >= 0.5f) //可被降低攻擊
+                attackDownRate = value;
+            else if (attackDownRate <= 0.5f)
+                attackDownRate = 0.5f;
+            else
+                attackDownRate = 1;
+        }
+    }
+    private float attackRaiseRate = 1;
+    public float AttackRaiseRate //攻擊上升倍率
+    {
+        get
+        {
+            return attackRaiseRate;
+        }
+        set
+        {
+            if ( attackRaiseRate >= 4f) //提升上限
+                attackRaiseRate = 4;
+            else if (attackRaiseRate < 1)
+                attackRaiseRate = 1;
+            else
+                attackRaiseRate = value;
+        }
+    }
 
     public bool isInvincible;
 
     public Action<float> stunValueChangedAction;
     public Action<float> stunValueIsMaxAction;
-    public Action USkillValueIsMaxAction;
+    public UnityAction USkillValueMaxAction; //必殺技槽滿時觸發
 
     [HideInInspector] public UnityAction hpZeroEvent; //當前角色HP歸0事件
 
@@ -159,7 +195,7 @@ public class PlayerCharacterStats : MonoBehaviour
             {
                 characterData[currentCharacterID].currentUSkillValue = 100;
                 Debug.Log(string.Format("<color=red>{0}</color>", characterData[currentCharacterID].characterName + "可以使用必殺技"));
-                USkillValueIsMaxAction?.Invoke();
+                USkillValueMaxAction?.Invoke();
             }
         }
     }
@@ -186,6 +222,7 @@ public class PlayerCharacterStats : MonoBehaviour
     #region 傷害計算
     /// <summary>
     /// 造成傷害(獲得敵方腳本扣生命值)
+    /// freeMul = 獨立倍率例如技能1,2倍率以外的單獨倍率傷害
     /// </summary>
     public void TakeDamage(PlayerCharacterStats attacker, OtherCharacterStats defender, bool isCritical = false, bool isSkill1 = false, bool isSkill2 = false, bool isCounter = false, float freeMul = 0)
     {
@@ -199,6 +236,7 @@ public class PlayerCharacterStats : MonoBehaviour
 
         float damagefloat = Mathf.Max(damageCalculator.CalculateDamage(attacker, isCritical, isSkill1, isSkill2, isCounter, freeMul) - defender.CurrentDefence, 0);
 
+        damagefloat *= attackRaiseRate *= AttackDownRate;
         currentDamage = (int)Mathf.Round(damagefloat);
 
         #region 調試
@@ -246,6 +284,7 @@ public class PlayerCharacterStats : MonoBehaviour
 
         float damagefloat = Mathf.Max(damageCalculator.CalculateMarkDamage(attacker, isCritical, freeMul) - (defender.CurrentDefence), 0);
 
+        damagefloat *= attackRaiseRate *= AttackDownRate;
         currentDamage = (int)Mathf.Round(damagefloat);
 
         if (freeMul != 0)
@@ -277,6 +316,7 @@ public class PlayerCharacterStats : MonoBehaviour
 
         float damagefloat = Mathf.Max(damageCalculator.CalculateSubDamage(attacker, attackData[currentCharacterID].subMultplier, isCritical, freeMul) - (defender.CurrentDefence), 0);
 
+        damagefloat *= attackRaiseRate *= AttackDownRate;
         currentDamage = (int)Mathf.Round(damagefloat);
 
         if (freeMul != 0)
@@ -311,6 +351,7 @@ public class PlayerCharacterStats : MonoBehaviour
         float damagefloat = Mathf.Max(damageCalculator.CalculateDamage(attacker, elementType, isCritical, isSkill1, isSkill2, freeMul) -
             (defender.CurrentDefence + (currentDefence *= defender.GetElementDefence(elementType))), 0);
 
+        damagefloat *= attackRaiseRate *= AttackDownRate;
         currentDamage = (int)Mathf.Round(damagefloat);
         #region 調試
         if (isSkill1)
@@ -363,6 +404,7 @@ public class PlayerCharacterStats : MonoBehaviour
         float damagefloat = Mathf.Max(damageCalculator.CalculateSubDamage(attacker, attackData[currentCharacterID].subMultplier, elementType) -
             (defender.CurrentDefence + (currentDefence *= defender.GetElementDefence(elementType))), 0);
 
+        damagefloat *= attackRaiseRate *= AttackDownRate;
         currentDamage = (int)Mathf.Round(damagefloat);
         if (FromOthersName != "")
         {
@@ -459,7 +501,7 @@ public class PlayerCharacterStats : MonoBehaviour
     /// <summary>
     /// 切換角色時重設數值
     /// </summary>
-    public void ResetData()
+    public void SwitchReset()
     {
 
     }
@@ -486,7 +528,7 @@ public class PlayerCharacterStats : MonoBehaviour
     {
         attackData[currentCharacterID].elementType = elementType;
     }
-    public void SetInvincible(bool active )
+    public void SetInvincible(bool active)
     {
         isInvincible = active;
     }
@@ -499,6 +541,17 @@ public class PlayerCharacterStats : MonoBehaviour
         isInvincible = true;
         yield return Yielders.GetWaitForSeconds(time);
         isInvincible = false;
+    }
+    public void SetAttackRate(bool isRaise,float rate)
+    {
+        if (isRaise)
+        {
+            attackRaiseRate += rate;
+        }
+        else
+        {
+            attackDownRate -= rate;
+        }
     }
 
     public bool GetPlayerCanStun()

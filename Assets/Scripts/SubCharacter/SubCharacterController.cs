@@ -7,6 +7,28 @@ using UnityEngine;
 /// </summary>
 public class SubCharacterController : MonoBehaviour
 {
+    #region 單例
+    private SubCharacterController()
+    {
+        instance = this;
+    }
+
+    private static SubCharacterController instance; 
+
+    public static SubCharacterController GetInstance()
+    {
+        if (instance == null)
+        {
+            Debug.LogError("沒有PlayerController實例");
+            return instance;
+        }
+        else
+        {
+            return instance;
+        }
+    }
+    #endregion
+
     private Rigidbody2D rig2D;
     private SpriteRenderer spriteRenderer;
     private EnemyBoss1Unit enemyBoss1Unit;

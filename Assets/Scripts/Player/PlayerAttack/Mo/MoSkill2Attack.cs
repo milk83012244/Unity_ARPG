@@ -13,6 +13,8 @@ public class MoSkill2Attack : MonoBehaviour
     public AttackButtons attackButtons;
     public LiaSkill2RotateEffect liaSkill2RotateEffect;
 
+    private PlayerEffectSpawner playerEffectSpawner;
+
     [SerializeField] private Transform effectParent;
     [SerializeField] private GameObject skill2EffectPrefeb;
     private ObjectPool<MoSkill2Effect> skill2EffectPool;
@@ -35,6 +37,7 @@ public class MoSkill2Attack : MonoBehaviour
     {
         playerInput = GetComponentInParent<PlayerInput>();
         skillManager = GetComponentInParent<PlayerSkillManager>();
+        playerEffectSpawner = GetComponentInParent<PlayerEffectSpawner>();
     }
 
     private void Start()
@@ -154,6 +157,9 @@ public class MoSkill2Attack : MonoBehaviour
                     characterStats.TakeDamage(characterStats, defander, characterStats.isCritical, isSkill2: true);
                 }
                 enemyUnit.SpawnDamageText(characterStats.currentDamage, characterStats.isCritical);
+                CinemachineShake.GetInstance().ShakeCamera(0.3f, 0.18f);//攝影機震動
+                //生成擊中特效
+                SlashHitEffect slashHitEffect = playerEffectSpawner.SlashHitEffectPool.Spawn(collision.transform.position, playerEffectSpawner.effectParent);
                 #endregion
 
                 switch (enemyUnit.typeID)

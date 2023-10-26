@@ -153,10 +153,10 @@ MonoBehaviour:
   PlayerNormalAttackCount: 3
   isDown: 0
   mexHealth: 100
-  currentHealth: 100
+  currentHealth: 74
   baseDefence: 5
   currentDefence: 5
-  currentUSkillValue: 85
+  currentUSkillValue: 0
   knockbackResistance: 0
   maxStunValue: 100
   currentStunValue: 0

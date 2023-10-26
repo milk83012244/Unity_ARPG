@@ -127,7 +127,7 @@ MonoBehaviour:
   attackSpeed: 0
   stunValue: 10
   knockbackValue: 1.5
-  USkillAddValue: 5
+  USkillAddValue: 50
   skill1Multplier: 2
   skill1StunValueMultplier: 1.5
   skill1knockbackValueMultplier: 2

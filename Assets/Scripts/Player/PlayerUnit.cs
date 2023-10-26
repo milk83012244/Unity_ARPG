@@ -1,18 +1,23 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Sirenix.OdinInspector;
 
 /// <summary>
-/// 玩家狀態效果演出相關
+/// 玩家狀態效果相關
 /// </summary>
-public class PlayerUnit : MonoBehaviour
+public class PlayerUnit : SerializedMonoBehaviour
 {
     private Rigidbody2D rig2D;
     private PlayerCharacterStats characterStats;
     private PlayerController playerController;
+    private PlayerCharacterSwitch characterSwitch;
+    private PlayerSkillManager skillManager;
 
     private float knockbackDuration = 0.1f;
     private bool isKnockbackActive;
+
+    public Dictionary<string, bool> powerUpUSkillActive = new Dictionary<string, bool>(); //各角色持續型必殺技開啟狀態
 
     //硬直效果
     public bool canStun;
@@ -20,11 +25,13 @@ public class PlayerUnit : MonoBehaviour
     private void OnEnable()
     {
         characterStats.stunValueIsMaxAction += StartStunned;
+        characterSwitch.onAnyCharacterSwitch += USkillEnd;
     }
     private void OnDisable()
     {
         StopAllCoroutines();
         characterStats.stunValueIsMaxAction -= StartStunned;
+        characterSwitch.onAnyCharacterSwitch -= USkillEnd;
     }
     private void Awake()
     {
@@ -33,7 +40,12 @@ public class PlayerUnit : MonoBehaviour
         characterStats = GetComponent<PlayerCharacterStats>();
         playerController = GetComponent<PlayerController>();
     }
+    public void SetPlayerSkillManager(PlayerSkillManager skillManager)
+    {
+        this.skillManager = skillManager;
+    }
 
+    #region 負面狀態
     /// <summary>
     /// 擊退效果
     /// </summary>
@@ -56,7 +68,7 @@ public class PlayerUnit : MonoBehaviour
         StartCoroutine(Stunned(stunTime));
     }
     /// <summary>
-    /// 硬值效果
+    /// 硬直效果
     /// </summary>
     private IEnumerator Stunned(float stunTime)
     {
@@ -72,4 +84,44 @@ public class PlayerUnit : MonoBehaviour
         yield return Yielders.GetWaitForSeconds(characterStats.characterData[characterStats.currentCharacterID].stunCooldownTime);
         canStun = true;
     }
+    #endregion
+
+    #region 強化狀態
+    public void StartMoUSkillStartBuff()
+    {
+        StartCoroutine(MoUSkillStartBuff());
+    }
+    private IEnumerator MoUSkillStartBuff()
+    {
+        if (skillManager == null || skillManager.currentCharacterName != "Mo")
+        {
+            yield break;
+        }
+        //改變狀態
+        powerUpUSkillActive["Mo"] = true;
+        //強化數值
+        characterStats.SetAttackRate(true, 0.5f);
+        //開啟相關特效
+
+        yield return Yielders.GetWaitForSeconds(skillManager.skills[2].skillDuration);
+        //時間到停止
+        USkillEnd();
+    }
+    /// <summary>
+    /// 必殺技結束
+    /// </summary>
+    public void USkillEnd()
+    {
+        StopAllCoroutines();
+        switch (skillManager.currentCharacterName)
+        {
+            case "Mo":
+                powerUpUSkillActive["Mo"] = false;
+                characterStats.SetAttackRate(false, 0.5f);
+                //關閉相關特效
+                //取消Buff狀態
+                break;
+        }
+    }
+    #endregion
 }

@@ -214,14 +214,288 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   serializationData:
-    SerializedFormat: 0
-    SerializedBytes: 01011000000073007400610074007500730032004100630074006900760065004400690063002f00000000016c000000530079007300740065006d002e0043006f006c006c0065006300740069006f006e0073002e00470065006e0065007200690063002e00440069006300740069006f006e00610072007900600032005b005b0045006c0065006d0065006e00740054007900700065002c00200041007300730065006d0062006c0079002d004300530068006100720070005d002c005b00530079007300740065006d002e0042006f006f006c00650061006e002c0020006d00730063006f0072006c00690062005d005d002c0020006d00730063006f0072006c00690062000000000001010800000063006f006d00700061007200650072002f01000000015b000000530079007300740065006d002e0043006f006c006c0065006300740069006f006e0073002e00470065006e0065007200690063002e0045006e0075006d0045007100750061006c0069007400790043006f006d0070006100720065007200600031005b005b0045006c0065006d0065006e00740054007900700065002c00200041007300730065006d0062006c0079002d004300530068006100720070005d005d002c0020006d00730063006f0072006c0069006200010000000600000000000000000705060600000000000000042e1d010200000024006b0000000000000000002b0102000000240076000005042e1d010200000024006b0001000000000000002b0102000000240076000005042e1d010200000024006b0002000000000000002b0102000000240076000005042e1d010200000024006b0003000000000000002b0102000000240076000005042e1d010200000024006b0004000000000000002b0102000000240076000005042e1d010200000024006b0005000000000000002b0102000000240076000005070501010f00000073007400610074007500730032004400750072006100740069006f006e002f02000000016b000000530079007300740065006d002e0043006f006c006c0065006300740069006f006e0073002e00470065006e0065007200690063002e00440069006300740069006f006e00610072007900600032005b005b0045006c0065006d0065006e00740054007900700065002c00200041007300730065006d0062006c0079002d004300530068006100720070005d002c005b00530079007300740065006d002e00530069006e0067006c0065002c0020006d00730063006f0072006c00690062005d005d002c0020006d00730063006f0072006c00690062000200000009010800000063006f006d007000610072006500720001000000060600000000000000042e1d010200000024006b0000000000000000001f0102000000240076000000a04005042e1d010200000024006b0001000000000000001f0102000000240076000000a04005042e1d010200000024006b0002000000000000001f0102000000240076000000a04005042e1d010200000024006b0003000000000000001f0102000000240076000000a04005042e1d010200000024006b0004000000000000001f0102000000240076000000000005042e1d010200000024006b0005000000000000001f01020000002400760000000000050705010110000000730074006100740075007300320041006300740069007600650043006f0072002f030000000181000000530079007300740065006d002e0043006f006c006c0065006300740069006f006e0073002e00470065006e0065007200690063002e00440069006300740069006f006e00610072007900600032005b005b0045006c0065006d0065006e00740054007900700065002c00200041007300730065006d0062006c0079002d004300530068006100720070005d002c005b0055006e0069007400790045006e00670069006e0065002e0043006f0072006f007500740069006e0065002c00200055006e0069007400790045006e00670069006e0065002e0043006f00720065004d006f00640075006c0065005d005d002c0020006d00730063006f0072006c00690062000300000009010800000063006f006d007000610072006500720001000000060600000000000000042e1d010200000024006b0000000000000000002d01020000002400760005042e1d010200000024006b0001000000000000002d01020000002400760005042e1d010200000024006b0002000000000000002d01020000002400760005042e1d010200000024006b0003000000000000002d01020000002400760005042e1d010200000024006b0004000000000000002d01020000002400760005042e1d010200000024006b0005000000000000002d010200000024007600050705
+    SerializedFormat: 2
+    SerializedBytes: 
     ReferencedUnityObjects: []
     SerializedBytesString: 
     Prefab: {fileID: 0}
     PrefabModificationsReferencedUnityObjects: []
     PrefabModifications: []
-    SerializationNodes: []
+    SerializationNodes:
+    - Name: status2ActiveDic
+      Entry: 7
+      Data: 0|System.Collections.Generic.Dictionary`2[[ElementType, Assembly-CSharp],[System.Boolean,
+        mscorlib]], mscorlib
+    - Name: comparer
+      Entry: 7
+      Data: 1|System.Collections.Generic.EnumEqualityComparer`1[[ElementType, Assembly-CSharp]],
+        mscorlib
+    - Name: 
+      Entry: 12
+      Data: 0
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 12
+      Data: 6
+    - Name: 
+      Entry: 7
+      Data: 
+    - Name: $k
+      Entry: 3
+      Data: 0
+    - Name: $v
+      Entry: 5
+      Data: false
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 
+    - Name: $k
+      Entry: 3
+      Data: 1
+    - Name: $v
+      Entry: 5
+      Data: false
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 
+    - Name: $k
+      Entry: 3
+      Data: 2
+    - Name: $v
+      Entry: 5
+      Data: false
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 
+    - Name: $k
+      Entry: 3
+      Data: 3
+    - Name: $v
+      Entry: 5
+      Data: false
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 
+    - Name: $k
+      Entry: 3
+      Data: 4
+    - Name: $v
+      Entry: 5
+      Data: false
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 
+    - Name: $k
+      Entry: 3
+      Data: 5
+    - Name: $v
+      Entry: 5
+      Data: false
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: status2Duration
+      Entry: 7
+      Data: 2|System.Collections.Generic.Dictionary`2[[ElementType, Assembly-CSharp],[System.Single,
+        mscorlib]], mscorlib
+    - Name: comparer
+      Entry: 9
+      Data: 1
+    - Name: 
+      Entry: 12
+      Data: 6
+    - Name: 
+      Entry: 7
+      Data: 
+    - Name: $k
+      Entry: 3
+      Data: 0
+    - Name: $v
+      Entry: 4
+      Data: 5
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 
+    - Name: $k
+      Entry: 3
+      Data: 1
+    - Name: $v
+      Entry: 4
+      Data: 5
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 
+    - Name: $k
+      Entry: 3
+      Data: 2
+    - Name: $v
+      Entry: 4
+      Data: 5
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 
+    - Name: $k
+      Entry: 3
+      Data: 3
+    - Name: $v
+      Entry: 4
+      Data: 5
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 
+    - Name: $k
+      Entry: 3
+      Data: 4
+    - Name: $v
+      Entry: 4
+      Data: 0
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 
+    - Name: $k
+      Entry: 3
+      Data: 5
+    - Name: $v
+      Entry: 4
+      Data: 0
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: status2ActiveCor
+      Entry: 7
+      Data: 3|System.Collections.Generic.Dictionary`2[[ElementType, Assembly-CSharp],[UnityEngine.Coroutine,
+        UnityEngine.CoreModule]], mscorlib
+    - Name: comparer
+      Entry: 9
+      Data: 1
+    - Name: 
+      Entry: 12
+      Data: 6
+    - Name: 
+      Entry: 7
+      Data: 
+    - Name: $k
+      Entry: 3
+      Data: 0
+    - Name: $v
+      Entry: 6
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 
+    - Name: $k
+      Entry: 3
+      Data: 1
+    - Name: $v
+      Entry: 6
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 
+    - Name: $k
+      Entry: 3
+      Data: 2
+    - Name: $v
+      Entry: 6
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 
+    - Name: $k
+      Entry: 3
+      Data: 3
+    - Name: $v
+      Entry: 6
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 
+    - Name: $k
+      Entry: 3
+      Data: 4
+    - Name: $v
+      Entry: 6
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 
+    - Name: $k
+      Entry: 3
+      Data: 5
+    - Name: $v
+      Entry: 6
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
   enemySpawner: {fileID: 0}
   waypoints: []
   moveSpeed: 0.8
@@ -237,6 +511,8 @@ MonoBehaviour:
   isMarked: 0
   currentState: 0
   isAttackState: 0
+  knockbackDuration: 0.1
+  isKnockbackActive: 0
   flashDuration: 0.3
   flashInterval: 0.075
   flashColor: {r: 1, g: 1, b: 1, a: 0}
@@ -1716,18 +1992,18 @@ PrefabInstance:
     - target: {fileID: 239291050015099169, guid: 2505c3815b4f53f4492ae806a7f57dd6, type: 3}
       propertyPath: serializationData.Prefab
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 239291050015099169, guid: 2505c3815b4f53f4492ae806a7f57dd6, type: 3}
     - target: {fileID: 239291050015099169, guid: 2505c3815b4f53f4492ae806a7f57dd6, type: 3}
       propertyPath: serializationData.SerializedFormat
-      value: 0
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 239291050015099169, guid: 2505c3815b4f53f4492ae806a7f57dd6, type: 3}
       propertyPath: serializationData.SerializedBytes.Array.size
-      value: 1058
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 239291050015099169, guid: 2505c3815b4f53f4492ae806a7f57dd6, type: 3}
       propertyPath: serializationData.SerializationNodes.Array.size
-      value: 0
+      value: 64
       objectReference: {fileID: 0}
     - target: {fileID: 239291050015099169, guid: 2505c3815b4f53f4492ae806a7f57dd6, type: 3}
       propertyPath: serializationData.SerializedBytes.Array.data[0]

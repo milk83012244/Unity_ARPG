@@ -29,7 +29,6 @@ public class EnemySpawner : MonoBehaviour
     {
         GameObject enemysInstance = Instantiate(enemyPrefab, spawnPoints[pointIndex]);
 
-
         //³]©w¨µÅÞÂI
         EnemyUnitType1 enemyUnitType1 = enemysInstance.GetComponent<EnemyUnitType1>();
         enemyUnitType1.SetEnemySpawner(this);
@@ -67,8 +66,8 @@ public class EnemySpawner : MonoBehaviour
     }
     public void SpawnEnemyDebug1()
     {
-        //SpawnEnemyType1(enemyTypePrefabs[0], 0);
-        SpawnEnemyType2(enemyTypePrefabs[0], 0);
+        SpawnEnemyType1(enemyTypePrefabs[0], 0);
+        //SpawnEnemyType2(enemyTypePrefabs[0], 0);
     }
     public void SpawnEnemyDebug2()
     {

@@ -120,11 +120,13 @@ public class EnemyBoss1Unit : Enemy
     private IEnumerator ApplyKnockback(Vector2 direction, float knockbackValue)
     {
         isKnockbackActive = true;
+        aIPath.canMove = false;
         rig2D.velocity = direction * (knockbackValue - stats.enemyBattleData.knockbackResistance);
 
         yield return Yielders.GetWaitForSeconds(knockbackDuration);
 
         rig2D.velocity = Vector2.zero;
+        aIPath.canMove = true;
         isKnockbackActive = false;
     }
     public void StartStunned(float stunTime)

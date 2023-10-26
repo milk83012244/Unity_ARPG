@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Sirenix.OdinInspector;
+using UnityEngine.Events;
 
 /// <summary>
 /// CD計算 完全在這裡計算
@@ -15,7 +16,9 @@ public class PlayerCooldownController : SerializedMonoBehaviour
 
     [HideInInspector] public Action<string> Skill1CooldownTrigger;
     [HideInInspector] public Action<string> Skill2CooldownTrigger;
-    [HideInInspector] public Action<string> USkillCooldownTrigger;
+    [HideInInspector] public Action<string> USkillCooldownTrigger; //各角色的CD觸發
+    [HideInInspector] public UnityAction moUSkillTriggerEvent;  //各角色觸發大招時執行事件(播放動畫 特效等)
+    [HideInInspector] public UnityAction liaUSkillTriggerEvent;
 
     [HideInInspector] public Action<string> CharacterSwitchCooldownTrigger;
 
@@ -33,7 +36,7 @@ public class PlayerCooldownController : SerializedMonoBehaviour
     //各角色技能腳本
     public MoSkill1Attack moSkill1;
     public MoSkill2Attack moSkill2;
-    public MoUSkillEffect moUSkill;
+    public MoUSkillEffectSpawner moUSkill;
     public LiaSkill1Spawner liaSkill1;
     public LiaSkill2Spawner liaSkill2;
 
@@ -158,6 +161,8 @@ public class PlayerCooldownController : SerializedMonoBehaviour
         switch (characterName)
         {
             case "Mo":
+                moUSkillTriggerEvent?.Invoke();
+                Live2DAnimationManager.Instance.StartMoUSkillAnimation();
                 StartMoUSkillCoolDown();
                 attackButtons.StartUSkillCount(characterName);
                 break;

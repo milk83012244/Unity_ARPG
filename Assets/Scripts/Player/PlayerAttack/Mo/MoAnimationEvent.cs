@@ -6,18 +6,30 @@ using Sirenix.OdinInspector;
 public class MoAnimationEvent : SerializedMonoBehaviour
 {
     public MoSkill1Attack skill1Attack;
+    public MoUSkillEffectSpawner moUSkillEffectSpawner;
     public MoCounterCheck counterCheck;
     public MoCounterAttack CounterAttack;
     public MoAnimationGlow animationGlow;
+    [Space(5)]
     public Collider2D playerCollider2D;
+    [Space(5)]
+    public GameObject uSkillSymbolEffectObj;
+    public GameObject uSkillBodyEffectObj;
+
     private PlayerCharacterSwitch characterSwitch;
     private PlayerCharacterStats characterStats;
+    private PlayerUnit playerUnit;
+    private PlayerSkillManager skillManager;
+
     private int currentDirection;
 
     private void Awake()
     {
         characterStats = GetComponentInParent<PlayerCharacterStats>();
         characterSwitch = GetComponentInParent<PlayerCharacterSwitch>();
+        playerUnit = GetComponentInParent<PlayerUnit>();
+
+        skillManager = GetComponent<PlayerSkillManager>();
     }
     #region 動畫開始事件
     public void StartIdleAnimateEvent()
@@ -75,6 +87,9 @@ public class MoAnimationEvent : SerializedMonoBehaviour
     }
     public void StartDodgeAnimateEvent(string direction)
     {
+        characterStats.SetInvincible(true);
+        playerCollider2D.enabled = false;
+
         switch (direction)
         {
             case "L":
@@ -84,11 +99,6 @@ public class MoAnimationEvent : SerializedMonoBehaviour
                 animationGlow.SwitchGlowTex("DodgeR");
                 break;
         }
-    }
-    public void DodgeEvent2()
-    {
-        characterStats.SetInvincible(true);
-        playerCollider2D.enabled = false;
     }
     public void StartAttack1AnimateEvent(string direction)
     {
@@ -233,10 +243,20 @@ public class MoAnimationEvent : SerializedMonoBehaviour
                 break;
         }
     }
+    public void StartUSkillEvent()
+    {
+        playerCollider2D.enabled = false;
+        characterStats.SetInvincible(true);
+        playerUnit.SetPlayerSkillManager(skillManager);
+        //開啟強化能力
+        playerUnit.StartMoUSkillStartBuff();
+    }
+
     public void StartDownEvent()
     {
         characterStats.SetInvincible(true);
     }
+
     #endregion
 
     #region 動畫結束事件
@@ -248,6 +268,12 @@ public class MoAnimationEvent : SerializedMonoBehaviour
     {
         characterStats.SetInvincible(false);
         playerCollider2D.enabled = true;
+    }
+    public void EndUSkillAnimateEvent()
+    {
+
+        playerCollider2D.enabled = true;
+        characterStats.SetInvincible(false);
     }
     public void EndDodgeEvent()
     {
@@ -265,16 +291,20 @@ public class MoAnimationEvent : SerializedMonoBehaviour
     }
     #endregion
 
-    #region 其他動畫事件
+    #region 生成物件動畫事件
+    public void StartSpawnSkillEffect()
+    {
+        skill1Attack.SpawnSkillEffect(currentDirection);
+    }
+    public void StartSpawnUSkillEvent()
+    {
+        moUSkillEffectSpawner.SpawnStartEffect1();
+    }
     #endregion
-
 
     public void GetCurrentDirection()
     {
         currentDirection = skill1Attack.playerInput.currentDirection;
     }
-    public void StartSpawnSkillEffect()
-    {
-        skill1Attack.SpawnSkillEffect(currentDirection);
-    }
+
 }

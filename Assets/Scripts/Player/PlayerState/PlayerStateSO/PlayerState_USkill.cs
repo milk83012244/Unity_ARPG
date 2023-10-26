@@ -22,16 +22,15 @@ public class PlayerState_USkill : PlayerState
         switch (playerCharacterSwitch.currentControlCharacterNamesSB.ToString())
         {
             case "Mo":
-                if (input.PressUSkill)
+                if (Live2DAnimationManager.Instance.MoUSkillAnimationEnd)
                 {
                     animator.Play(playerCharacterSwitch.currentControlCharacterNamesSB.ToString() + "_F_USkill");
+                    Live2DAnimationManager.Instance.MoUSkillAnimationEnd = false;
                 }
                 break;
         }
 
         base.SwitchCharacterState(false);
-        //ßﬁØ‡CD
-        playerCooldownController.USkillCooldownTrigger.Invoke(playerCharacterSwitch.currentControlCharacterNamesSB.ToString());
     }
 
     public override void Exit()

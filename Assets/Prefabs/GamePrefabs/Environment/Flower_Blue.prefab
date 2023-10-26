@@ -12,7 +12,8 @@ GameObject:
   - component: {fileID: 80539530236819438}
   - component: {fileID: 3209814694385327650}
   - component: {fileID: 5438396453737836815}
-  m_Layer: 0
+  - component: {fileID: 3554182909049388135}
+  m_Layer: 13
   m_Name: Flower_Blue
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -119,3 +120,29 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   checkDistance: 0.15
+--- !u!61 &3554182909049388135
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1885742603819007055}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0.0007996261, y: 0.085696444}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0.5, y: 0}
+    oldSize: {x: 0.25, y: 0.25}
+    newSize: {x: 0.25, y: 0.25}
+    adaptiveTilingThreshold: 0.5
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  serializedVersion: 2
+  m_Size: {x: 0.109250754, y: 0.15699804}
+  m_EdgeRadius: 0
